@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward — Forward Deployed Engineering for AI · DWG FWD-0001</title>
+<meta name="description" content="Forward AB. Senior engineers embedded in your company, building AI into production in weeks. Specification sheet FWD-0001, Rev A.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e2f6e;
+  --bg-deep:#0a2455;
+  --ink:#e9f0ff;
+  --ink-2:rgba(233,240,255,.62);
+  --line:rgba(233,240,255,.92);
+  --line-2:rgba(233,240,255,.42);
+  --grid:rgba(233,240,255,.065);
+  --grid-major:rgba(233,240,255,.13);
+  --mark:#ffb454;
+  --mono:"Share Tech Mono","Courier New",Courier,monospace;
+  --sans:"Barlow","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(var(--grid-major) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-major) 1px,transparent 1px),
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:120px 120px,120px 120px,24px 24px,24px 24px;
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:17px;
+  line-height:1.55;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--bg)}
+
+.sheet{
+  margin:14px;
+  border:1px solid var(--line-2);
+  outline:1px solid var(--line-2);
+  outline-offset:4px;
+  min-height:calc(100vh - 28px);
+}
+
+.bar{
+  position:sticky;top:0;z-index:10;
+  background:var(--bg);
+  border-bottom:1px solid var(--line-2);
+  display:flex;align-items:center;gap:28px;
+  padding:12px 24px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+}
+.brand{display:flex;align-items:baseline;gap:6px;font-size:16px;letter-spacing:.18em}
+.brand .ab{font-size:10px;color:var(--ink-2)}
+.meta{display:flex;gap:22px;color:var(--ink-2)}
+.meta span:before{content:"";display:inline-block;width:1px;height:10px;background:var(--line-2);margin-right:22px;vertical-align:-1px}
+.meta span:first-child:before{display:none}
+.compass{width:34px;height:34px;flex:none;margin-left:auto;animation:spin 60s linear infinite}
+.compass *{fill:none;stroke:var(--line);stroke-width:1.2}
+.compass .n{fill:var(--line);stroke:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bar nav{display:flex;gap:18px}
+.bar nav a{text-decoration:none;color:var(--ink-2);padding:2px 0;border-bottom:1px solid transparent}
+.bar nav a:hover{color:var(--ink);border-bottom-color:var(--line)}
+.ruler{
+  height:9px;position:relative;overflow:hidden;
+  border-bottom:1px solid var(--line-2);
+  background:
+    repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 120px),
+    repeating-linear-gradient(90deg,var(--line-2) 0 1px,transparent 1px 12px) bottom/100% 4px no-repeat;
+}
+.ruler i{position:absolute;top:0;bottom:0;left:0;width:2px;background:var(--mark);animation:sweep 18s linear infinite alternate}
+@keyframes sweep{to{left:calc(100% - 2px)}}
+
+.wrap{max-width:1400px;margin:0 auto}
+section{padding:72px 48px;border-top:1px solid var(--line-2)}
+.hero{border-top:0;padding-top:56px}
+
+.label{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 18px;
+  display:flex;align-items:center;gap:14px;
+}
+.label:before{content:"";width:28px;border-top:1px solid var(--line)}
+
+.hero-head{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:end;margin-bottom:40px}
+h1{
+  font-family:var(--mono);font-weight:400;
+  font-size:clamp(44px,7.4vw,112px);line-height:.92;letter-spacing:-.005em;margin:0;
+  text-transform:uppercase;
+}
+h1 small{display:block;font-size:.34em;letter-spacing:.14em;color:var(--ink-2);margin-top:14px;line-height:1.2}
+.lede{font-size:clamp(17px,1.35vw,20px);margin:0 0 26px;max-width:38em}
+.lede b{font-weight:500}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);text-transform:uppercase;letter-spacing:.12em;font-size:12px;
+  border:1px solid var(--line);padding:13px 20px;color:var(--ink);text-decoration:none;display:inline-block;background:transparent;
+  transition:background .15s,color .15s;
+}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn.ghost{border-color:var(--line-2);color:var(--ink-2)}
+.btn.ghost:hover{background:transparent;color:var(--ink);border-color:var(--line)}
+
+.hdims{
+  display:flex;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:30px;
+}
+.hdims div{flex:1;padding:12px 16px;border-right:1px solid var(--line-2);text-align:center}
+.hdims div:last-child{border-right:0}
+.hdims b{display:block;font-weight:400;font-size:22px;color:var(--ink);letter-spacing:.02em;margin-bottom:2px}
+
+.dwg-wrap{overflow-x:auto;border:1px solid var(--line-2);background:rgba(4,16,44,.28);position:relative}
+.dwg-wrap:after{
+  content:"SECTION A–A · GENERAL ARRANGEMENT · UNITS: WEEKS";
+  position:absolute;left:14px;top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink-2);
+}
+svg.dwg{display:block;width:100%;height:auto;fill:none;stroke:var(--line);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.dwg-wrap svg.dwg{min-width:980px}
+svg.dwg text{font-family:var(--mono);font-size:13px;fill:var(--ink);stroke:none;letter-spacing:.06em}
+svg.dwg .sm{font-size:10.5px;fill:var(--ink-2)}
+svg.dwg .lg{font-size:15px}
+svg.dwg .heavy{stroke-width:1.8}
+svg.dwg .dim{stroke:var(--line-2);stroke-width:1}
+svg.dwg .ext{stroke:var(--line-2);stroke-width:.8}
+svg.dwg .dot{fill:var(--line);stroke:none}
+svg.dwg .chip{fill:var(--bg);stroke:var(--line)}
+svg.dwg .hatch-line{stroke:rgba(233,240,255,.5);stroke-width:1}
+svg.dwg .hatched{fill:url(#hatch)}
+svg.dwg .hatched2{fill:url(#hatch2)}
+svg.dwg marker path{fill:var(--line);stroke:none}
+svg.dwg .mark{stroke:var(--mark)}
+svg.dwg .mark-t{fill:var(--mark)}
+svg.dwg .ghost{stroke:var(--line-2)}
+
+.hero-foot{display:grid;grid-template-columns:1fr auto;gap:32px;margin-top:28px;align-items:start}
+.legend{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);display:grid;gap:8px;max-width:640px}
+.legend li{display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start}
+.legend i{
+  font-style:normal;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;display:inline-grid;place-items:center;
+  color:var(--ink);font-size:11px;
+}
+
+.tb{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--line);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));min-width:440px;background:var(--bg);
+}
+.tb div{padding:7px 12px;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);white-space:nowrap}
+.tb div:nth-child(3n),.tb .s3,.tb .s2:nth-child(3n-1){border-right:0}
+.tb .s2{grid-column:span 2}
+.tb .s3{grid-column:span 3}
+.tb .last{border-bottom:0}
+.tb small{display:block;font-size:9px;color:var(--ink-2);letter-spacing:.12em;margin-bottom:1px}
+.tb .rev{color:var(--mark);border-color:var(--mark)}
+
+h2{
+  font-family:var(--mono);font-weight:400;font-size:clamp(22px,2.3vw,30px);letter-spacing:.08em;text-transform:uppercase;
+  margin:0 0 40px;display:flex;align-items:center;gap:22px;
+}
+h2 .num{border:1px solid var(--line);padding:2px 12px;font-size:.8em}
+h2:after{content:"";flex:1;border-top:1px solid var(--line-2)}
+h2 .zone{font-size:12px;letter-spacing:.14em;color:var(--ink-2);border:1px solid var(--line-2);padding:4px 10px}
+
+.clauses{list-style:none;padding:0;margin:0;display:grid;gap:0;max-width:980px}
+.clauses li{display:grid;grid-template-columns:72px 1fr;gap:20px;padding:16px 0;border-top:1px dashed var(--line-2)}
+.clauses li:last-child{border-bottom:1px dashed var(--line-2)}
+.cn{font-family:var(--mono);color:var(--ink-2);letter-spacing:.06em;padding-top:2px}
+.clauses p{margin:0}
+.clauses .q{font-family:var(--mono);letter-spacing:.02em}
+.clauses .def{font-weight:500}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.two .clauses{max-width:none}
+.aside{
+  border:1px solid var(--line-2);padding:24px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);
+}
+.aside h4{margin:0 0 14px;font-weight:400;color:var(--ink);font-size:13px;letter-spacing:.14em}
+.aside dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 20px}
+.aside dt{color:var(--ink-2)}
+.aside dd{margin:0;color:var(--ink)}
+
+.details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.detail{border:1px solid var(--line);display:flex;flex-direction:column;background:rgba(4,16,44,.18)}
+.detail header{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 20px;border-bottom:1px solid var(--line-2);
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);
+}
+.detail header b{font-weight:400;color:var(--ink);font-size:13px}
+.detail .glyph{width:44px;height:44px;flex:none}
+.detail .body{padding:22px 20px 20px;flex:1}
+.detail h3{font-family:var(--mono);font-weight:400;font-size:24px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 14px}
+.detail .body p{margin:0 0 10px}
+.detail .body p:last-child{margin:0}
+.detail .body .cl{color:var(--ink-2);font-family:var(--mono);font-size:13px;letter-spacing:.04em;margin-right:8px}
+.detail footer{
+  padding:10px 20px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  display:flex;gap:22px;flex-wrap:wrap;
+}
+.detail footer b{font-weight:400;color:var(--ink)}
+.detail.pending{border-style:dashed}
+.stamp{
+  color:var(--mark);border:1.5px solid var(--mark);padding:3px 9px;transform:rotate(-3deg);display:inline-block;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-top:12px;
+}
+
+.tl-wrap{overflow-x:auto;border:1px solid var(--line-2);background:rgba(4,16,44,.28);margin-bottom:40px}
+.tl-wrap svg.dwg{min-width:980px}
+
+.parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.part{border:1px solid var(--line);display:flex;flex-direction:column;background:rgba(4,16,44,.18)}
+.part header{
+  display:flex;justify-content:space-between;gap:12px;padding:10px 18px;border-bottom:1px solid var(--line-2);
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);
+}
+.part header b{color:var(--ink);font-weight:400}
+.fig{display:grid;grid-template-columns:24px 1fr;grid-template-rows:auto 24px;gap:8px;padding:18px 18px 10px}
+.dimv,.dimh{position:relative;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-2)}
+.dimv{background:
+  linear-gradient(var(--line-2),var(--line-2)) center/1px 100% no-repeat,
+  linear-gradient(var(--line-2),var(--line-2)) top center/14px 1px no-repeat,
+  linear-gradient(var(--line-2),var(--line-2)) bottom center/14px 1px no-repeat}
+.dimh{grid-column:2;background:
+  linear-gradient(var(--line-2),var(--line-2)) center/100% 1px no-repeat,
+  linear-gradient(var(--line-2),var(--line-2)) left center/1px 14px no-repeat,
+  linear-gradient(var(--line-2),var(--line-2)) right center/1px 14px no-repeat}
+.dimv span,.dimh span{position:absolute;left:50%;top:50%;background:var(--bg);padding:0 6px;white-space:nowrap}
+.dimv span{transform:translate(-50%,-50%) rotate(-90deg)}
+.dimh span{transform:translate(-50%,-50%)}
+.frame{
+  aspect-ratio:3/4;border:1px solid var(--line);position:relative;overflow:hidden;
+  background:repeating-linear-gradient(45deg,transparent 0 7px,rgba(233,240,255,.16) 7px 8px);
+  display:grid;place-items:center;
+}
+.frame:before,.frame:after{content:"";position:absolute;inset:0;pointer-events:none}
+.frame:before{background:linear-gradient(to top right,transparent calc(50% - .5px),var(--line-2) calc(50% - .5px),var(--line-2) calc(50% + .5px),transparent calc(50% + .5px))}
+.frame:after{background:linear-gradient(to bottom right,transparent calc(50% - .5px),var(--line-2) calc(50% - .5px),var(--line-2) calc(50% + .5px),transparent calc(50% + .5px))}
+.frame .ph{
+  position:relative;z-index:1;background:var(--bg);border:1px solid var(--line);padding:10px 14px;text-align:center;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);line-height:1.6;
+}
+.frame .ph b{display:block;color:var(--ink);font-weight:400;font-size:12px}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.part .id{padding:8px 18px 18px}
+.part h3{font-family:var(--mono);font-weight:400;font-size:22px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 4px}
+.part .role{font-family:var(--mono);font-size:13px;color:var(--mark);letter-spacing:.04em;margin:0 0 14px}
+.part .bio{margin:0;color:var(--ink-2);font-size:15.5px}
+.part .bio em{font-style:normal;color:var(--ink)}
+.part table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--line-2)}
+.part td{padding:7px 18px;border-bottom:1px solid var(--line-2)}
+.part tr:last-child td{border-bottom:0}
+.part td:first-child{color:var(--ink-2);width:42%;border-right:1px solid var(--line-2)}
+
+.rfi{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.mail{
+  font-family:var(--mono);font-size:clamp(22px,2.9vw,42px);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);
+  word-break:break-all;display:inline-block;line-height:1.2;padding-bottom:6px;transition:color .15s,border-color .15s;
+}
+.mail:hover{color:var(--mark);border-color:var(--mark)}
+.rfi .note{margin:20px 0 0;color:var(--ink-2);max-width:32em}
+
+.foot{
+  border-top:1px solid var(--line);padding:32px 48px 40px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end;
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);
+}
+.foot p{margin:0 0 6px}
+.foot .wink{color:var(--ink)}
+
+@media (max-width:1100px){
+  .bar .meta{display:none}
+}
+@media (max-width:900px){
+  .sheet{margin:8px;outline-offset:3px}
+  section{padding:56px 22px}
+  .hero{padding-top:36px}
+  .bar{flex-wrap:wrap;gap:12px 20px;padding:10px 16px}
+  .bar nav{width:100%;gap:14px;flex-wrap:wrap;font-size:11px}
+  .compass{margin-left:auto}
+  .hero-head,.two,.rfi,.hero-foot,.foot{grid-template-columns:1fr;gap:28px}
+  .details,.parts{grid-template-columns:1fr}
+  .hdims{flex-wrap:wrap}
+  .hdims div{flex:1 1 40%;border-bottom:1px solid var(--line-2)}
+  .hdims div:nth-child(2){border-right:0}
+  .hdims div:nth-child(n+3){border-bottom:0}
+  .tb{min-width:0;width:100%}
+  .tb div{white-space:normal}
+  .clauses li{grid-template-columns:52px 1fr;gap:14px}
+  h2{flex-wrap:wrap;gap:14px}
+  h2 .zone{display:none}
+  .dwg-wrap:after{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*:before,*:after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="bar">
+  <div class="brand"><span>FORWARD</span><span class="ab">AB</span></div>
+  <div class="meta"><span>DWG NO. FWD-0001</span><span>REV A</span><span>SHEET 1 OF 1</span><span>2026-09-11</span></div>
+  <svg class="compass" viewBox="0 0 40 40" aria-hidden="true">
+    <circle cx="20" cy="20" r="17"/>
+    <circle cx="20" cy="20" r="2"/>
+    <path d="M20 3v6M20 31v6M3 20h6M31 20h6"/>
+    <path d="M8 8l3 3M32 8l-3 3M8 32l3-3M32 32l-3-3"/>
+    <path class="n" d="M20 9l3 11h-6z"/>
+  </svg>
+  <nav>
+    <a href="#s1">1 Scope</a>
+    <a href="#s2">2 Services</a>
+    <a href="#s3">3 Sequence</a>
+    <a href="#s4">4 Notes</a>
+    <a href="#s5">5 Components</a>
+    <a href="#s6">6 RFI</a>
+  </nav>
+</header>
+<div class="ruler" aria-hidden="true"><i></i></div>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-head">
+      <div>
+        <p class="label">General arrangement · AI engagement, typical · Rev A</p>
+        <h1>Forward<br>Deployed<br>Engineering
+          <small>for AI · Sweden · three engineers, no account managers</small>
+        </h1>
+      </div>
+      <div>
+        <p class="lede">Forward AB supplies senior engineers who <b>embed in the Client's organisation</b>, locate the workflows where AI actually pays for itself, and build them into production: agents, retrieval, copilots, integrations. Evaluated, permissioned, monitored. <b>Handed over in weeks</b>, with documentation, to the Client's own team. Refer to General Notes for tolerances.</p>
+        <div class="cta">
+          <a class="btn" href="#s6">Submit RFI →</a>
+          <a class="btn ghost" href="#s1">Read specification</a>
+        </div>
+        <div class="hdims">
+          <div><b>3</b>engineers</div>
+          <div><b>0</b>slide decks</div>
+          <div><b>≤ 8 wk</b>to production</div>
+          <div><b>100 %</b>handed over</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dwg-wrap">
+      <svg class="dwg" viewBox="0 0 1200 570" role="img" aria-label="General arrangement drawing: existing client systems feed a Forward agent layer, which serves client users under human-in-the-loop review.">
+        <defs>
+          <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="hatch-line" x1="0" y1="0" x2="0" y2="8"/></pattern>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker>
+        </defs>
+
+        <rect class="ghost" x="40" y="100" width="210" height="300" stroke-dasharray="6 4"/>
+        <text x="50" y="393" class="sm">CLIENT SYSTEMS (EXISTING) — RETAIN</text>
+        <rect x="60" y="120" width="170" height="48"/><text x="145" y="149" text-anchor="middle">CRM</text>
+        <rect x="60" y="190" width="170" height="48"/><text x="145" y="219" text-anchor="middle">ERP</text>
+        <rect x="60" y="260" width="170" height="48"/><text x="145" y="289" text-anchor="middle">MAIL</text>
+        <rect x="60" y="330" width="170" height="48"/><text x="145" y="359" text-anchor="middle">DOCS</text>
+        <path d="M230 144H320M230 214H320M230 284H320M230 354H320"/>
+        <path d="M320 144V354"/>
+        <path d="M320 250H396" marker-end="url(#ah)"/>
+        <text x="358" y="240" class="sm" text-anchor="middle">DATA · EVENTS</text>
+
+        <text x="400" y="70" class="sm">FORWARD AGENT LAYER (NEW) — SUPPLIED BY CONSULTANT, RUNS ON CLIENT INFRA</text>
+        <rect class="heavy" x="400" y="80" width="440" height="380"/>
+        <rect x="420" y="110" width="190" height="60"/><text x="515" y="145" text-anchor="middle">RETRIEVAL / RAG</text>
+        <rect x="630" y="110" width="190" height="60"/><text x="725" y="145" text-anchor="middle">MODEL ROUTER</text>
+        <path d="M515 170V196" marker-end="url(#ah)"/>
+        <path d="M725 170V196" marker-end="url(#ah)"/>
+        <rect x="420" y="200" width="400" height="60"/><text x="620" y="235" text-anchor="middle" class="lg">AGENTS + TOOLS</text>
+        <path d="M620 260V286" marker-end="url(#ah)"/>
+        <rect x="420" y="290" width="125" height="50"/><text x="482" y="320" text-anchor="middle">EVALS</text>
+        <rect x="557" y="290" width="126" height="50"/><text x="620" y="320" text-anchor="middle">GUARDRAILS</text>
+        <rect x="695" y="290" width="125" height="50"/><text x="757" y="320" text-anchor="middle">OBSERVABILITY</text>
+        <path d="M620 340V366" marker-end="url(#ah)"/>
+        <rect class="hatched" x="420" y="370" width="400" height="60"/>
+        <rect class="chip" x="510" y="388" width="220" height="24"/>
+        <text x="620" y="405" text-anchor="middle">HUMAN-IN-THE-LOOP REVIEW</text>
+
+        <path d="M840 250H986" marker-end="url(#ah)"/>
+        <text x="913" y="240" class="sm" text-anchor="middle">ANSWERS · ACTIONS</text>
+        <text x="990" y="190" class="sm">CLIENT USERS</text>
+        <rect x="990" y="200" width="170" height="100"/>
+        <circle cx="1030" cy="238" r="8"/><path d="M1013 274a17 17 0 0 1 34 0"/>
+        <circle cx="1075" cy="238" r="8"/><path d="M1058 274a17 17 0 0 1 34 0"/>
+        <circle cx="1120" cy="238" r="8"/><path d="M1103 274a17 17 0 0 1 34 0"/>
+        <path d="M1075 300V420H844" marker-end="url(#ah)"/>
+        <text x="960" y="412" class="sm" text-anchor="middle">FEEDBACK · CORRECTIONS</text>
+
+        <path class="ext" d="M400 460V512M840 460V512"/>
+        <path class="dim" d="M400 502H840" marker-start="url(#ah)" marker-end="url(#ah)"/>
+        <text x="620" y="494" class="sm" text-anchor="middle">8 WK (TYP.)</text>
+        <path class="ext" d="M40 400V512M250 400V512"/>
+        <path class="dim" d="M40 502H250" marker-start="url(#ah)" marker-end="url(#ah)"/>
+        <text x="145" y="494" class="sm" text-anchor="middle">AS-IS</text>
+        <path class="ext" d="M990 300V512M1160 300V512"/>
+        <path class="dim" d="M990 502H1160" marker-start="url(#ah)" marker-end="url(#ah)"/>
+        <text x="1075" y="494" class="sm" text-anchor="middle">USERS, ALL</text>
+        <path class="ext" d="M40 512V552M1160 512V552"/>
+        <path class="dim" d="M40 546H1160" marker-start="url(#ah)" marker-end="url(#ah)"/>
+        <text x="600" y="538" class="sm" text-anchor="middle">ENGAGEMENT, OVERALL — NTS — DO NOT SCALE FROM DRAWING</text>
+
+        <circle cx="150" cy="45" r="13"/><text x="150" y="50" text-anchor="middle">1</text>
+        <path class="ext" d="M150 58V100"/><circle class="dot" cx="150" cy="100" r="2.2"/>
+        <circle cx="900" cy="45" r="13"/><text x="900" y="50" text-anchor="middle">2</text>
+        <path class="ext" d="M889 52L840 80"/><circle class="dot" cx="840" cy="80" r="2.2"/>
+        <circle cx="1182" cy="150" r="13"/><text x="1182" y="155" text-anchor="middle">3</text>
+        <path class="ext" d="M1174 161L1160 200"/><circle class="dot" cx="1160" cy="200" r="2.2"/>
+        <circle cx="362" cy="400" r="13"/><text x="362" y="405" text-anchor="middle">4</text>
+        <path class="ext" d="M375 400H420"/><circle class="dot" cx="420" cy="400" r="2.2"/>
+      </svg>
+    </div>
+
+    <div class="hero-foot">
+      <ul class="legend">
+        <li><i>1</i><span>Client systems, existing. Not to be replaced. Consultant shall connect to them, not around them.</span></li>
+        <li><i>2</i><span>Agent layer, supplied by Consultant. Runs on Client infrastructure, under Client's accounts, from week 1.</span></li>
+        <li><i>3</i><span>Client users. The people who do the work. Consulted before, during and after.</span></li>
+        <li><i>4</i><span>Human review, mandatory where actions are irreversible. See General Note 4.6.</span></li>
+      </ul>
+      <div class="tb" aria-label="Title block">
+        <div class="s2"><small>Company</small>Forward AB · Sweden</div>
+        <div class="rev"><small>Revision</small>A</div>
+        <div class="s3"><small>Title</small>General arrangement — FDE engagement, typical</div>
+        <div><small>Dwg no.</small>FWD-0001</div>
+        <div><small>Sheet</small>1 / 1</div>
+        <div><small>Scale</small>NTS</div>
+        <div class="last"><small>Drawn</small>J.L. · 2026-09-11</div>
+        <div class="last"><small>Checked</small>P.J.</div>
+        <div class="last"><small>Approved</small>V.S.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s1">
+  <div class="wrap">
+    <h2><span class="num">1</span>Scope<span class="zone">Zone A</span></h2>
+    <div class="two">
+      <ol class="clauses">
+        <li><span class="cn">1.1</span><p>This specification covers the supply of <span class="def">forward deployed engineering (FDE)</span> for applied AI by Forward AB ("Consultant") to the purchasing organisation ("Client").</p></li>
+        <li><span class="cn">1.2</span><p><span class="def">"Forward deployed"</span> shall mean that the Consultant works inside the Client's organisation, with the Client's data, systems and people. Not from a remote office. Not from a slide.</p></li>
+        <li><span class="cn">1.3</span><p>Scope includes: agents, retrieval (RAG), copilots, workflow automation, and integrations with CRM, ERP, mail and document systems. Evaluation, guardrails, observability and human-in-the-loop controls are <span class="def">included by default</span> and shall not be sold as options.</p></li>
+        <li><span class="cn">1.4</span><p>Scope excludes: strategy decks, AI roadmaps not attached to a build, and any system the Consultant would be embarrassed to see running in production.</p></li>
+        <li><span class="cn">1.5</span><p>All deliverables shall run on the Client's infrastructure, under the Client's accounts, prior to acceptance. Screenshots do not constitute delivery.</p></li>
+        <li><span class="cn">1.6</span><p>Where a workflow can be improved without AI, the Consultant shall say so, in writing, and shall propose the simpler tool. Spreadsheets are acceptable tools.</p></li>
+      </ol>
+      <div class="aside">
+        <h4>Definitions</h4>
+        <dl>
+          <dt>Working software</dt><dd>A system that runs on real data, for real users, and can be turned off by the Client.</dd>
+          <dt>Week</dt><dd>Five working days. Swedish public holidays excluded. Estimates given in quarters are not weeks.</dd>
+          <dt>Handover</dt><dd>The moment the Client's engineers can operate, extend and delete the system without calling us.</dd>
+          <dt>Slide deck</dt><dd>See 4.3.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="wrap">
+    <h2><span class="num">2</span>Services · Details A–D<span class="zone">Zone B</span></h2>
+    <div class="details">
+
+      <article class="detail">
+        <header><span><b>Detail A</b> · FWD-D-A · Scale 1:1</span>
+          <svg class="dwg glyph" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16"/><path d="M24 3v9M24 36v9M3 24h9M36 24h9"/><path d="M13 28c4-7 18-7 22 0"/><path d="M16 21c3-4 13-4 16 0"/><circle class="dot" cx="24" cy="24" r="1.8"/></svg>
+        </header>
+        <div class="body">
+          <h3>Mapping</h3>
+          <p><span class="cl">2.1.1</span>Survey of existing workflows, as-built. Consultant shall interview the operators, read the tickets, and measure the process as it is actually performed, not as documented.</p>
+          <p><span class="cl">2.1.2</span>Output: a ranked list of three to five candidate workflows with estimated payoff, risk, and data readiness, each with a proposed first build.</p>
+          <p><span class="cl">2.1.3</span>Where no candidate exceeds the payoff threshold, the list shall say so. "None" is a valid finding and is invoiced at the same rate.</p>
+        </div>
+        <footer><span>Duration <b>1–2 wk</b></span><span>Crew <b>1–2 engineers</b></span><span>Deliverable <b>ranked list, first build spec</b></span></footer>
+      </article>
+
+      <article class="detail">
+        <header><span><b>Detail B</b> · FWD-D-B · Scale 1:1</span>
+          <svg class="dwg glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5l17 8.5v17L24 39 7 30.5v-17z"/><path d="M7 13.5l17 8.5 17-8.5M24 22v17"/><path d="M15.5 9.5l17 8.5"/></svg>
+        </header>
+        <div class="body">
+          <h3>Build &amp; integrate</h3>
+          <p><span class="cl">2.2.1</span>Production implementation of the selected candidate(s). Includes retrieval over Client data, agent tooling, model routing, and integrations with CRM, ERP, mail and document systems.</p>
+          <p><span class="cl">2.2.2</span>Includes an evaluation suite, a permission model matching the Client's existing roles, audit logging, monitoring, fallbacks, and human review points at every irreversible action.</p>
+          <p><span class="cl">2.2.3</span>Prototype on real data by end of week 2. Hardened by end of week 8. Model vendor shall be swappable; Consultant shall demonstrate the swap.</p>
+        </div>
+        <footer><span>Duration <b>3–8 wk</b></span><span>Crew <b>2–3 engineers</b></span><span>Deliverable <b>running system, repo, evals</b></span></footer>
+      </article>
+
+      <article class="detail pending">
+        <header><span><b>Detail C</b> · FWD-D-C · Scale TBD</span>
+          <svg class="dwg glyph" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="5" width="30" height="38"/><path d="M9 15h30M9 25h30"/><circle class="dot" cx="33" cy="10" r="1.6"/><circle class="dot" cx="33" cy="20" r="1.6"/><rect x="18" y="31" width="12" height="8"/><path d="M20.5 31v-3a3.5 3.5 0 0 1 7 0v3"/></svg>
+        </header>
+        <div class="body">
+          <h3>Private / on-prem inference</h3>
+          <p><span class="cl">2.3.1</span>For Clients whose data shall not leave the building. Consultant shall size, install and operate local inference hardware with open-weight models on Client premises or in a Swedish datacentre.</p>
+          <p><span class="cl">2.3.2</span>No prompts, documents or logs shall transit a third-party API. Consultant shall demonstrate this with the network cable unplugged.</p>
+          <p><span class="cl">2.3.3</span>Status: available on request. Detail drawing pending.</p>
+          <span class="stamp">Preliminary — not for construction</span>
+        </div>
+        <footer><span>Duration <b>on request</b></span><span>Crew <b>TBD</b></span><span>Deliverable <b>rack, models, runbook</b></span></footer>
+      </article>
+
+      <article class="detail">
+        <header><span><b>Detail D</b> · FWD-D-D · Scale 1:1</span>
+          <svg class="dwg glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M11 5h18l9 9v29H11z"/><path d="M29 5v9h9"/><path d="M17 24h14M17 30h10M17 36h12"/><path d="M38 24h7M45 24l-3-3M45 24l-3 3"/></svg>
+        </header>
+        <div class="body">
+          <h3>Enablement</h3>
+          <p><span class="cl">2.4.1</span>Handover. Consultant shall document the system such that the Client's engineers can operate, extend and delete it without the Consultant present.</p>
+          <p><span class="cl">2.4.2</span>Includes pairing sessions, runbooks, an evaluation playbook, and a written list of known limitations, ranked by how embarrassing they are.</p>
+          <p><span class="cl">2.4.3</span>Vendor lock-in to Consultant shall be zero (0). Tolerance: none. Consultant remains on call thereafter; retainer optional.</p>
+        </div>
+        <footer><span>Duration <b>1–2 wk</b></span><span>Crew <b>whoever built it</b></span><span>Deliverable <b>docs, training, on-call</b></span></footer>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="wrap">
+    <h2><span class="num">3</span>Sequence of operations<span class="zone">Zone C</span></h2>
+    <div class="tl-wrap">
+      <svg class="dwg" viewBox="0 0 1200 250" role="img" aria-label="Timeline: embed in week 0, prototype on real data in weeks 1 to 2, harden in weeks 3 to 8, hand over from week 8 and stay on call.">
+        <defs>
+          <pattern id="hatch2" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="hatch-line" x1="0" y1="0" x2="0" y2="8"/></pattern>
+          <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker>
+        </defs>
+        <text x="1160" y="30" class="sm" text-anchor="end">TIME AXIS NTS · UNITS: WEEKS</text>
+
+        <path class="ext" d="M40 112V52M170 112V52M420 112V52M920 112V52M1090 112V52"/>
+        <path class="dim" d="M40 62H170" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+        <path class="dim" d="M170 62H420" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+        <path class="dim" d="M420 62H920" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+        <path class="dim" d="M920 62H1090" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+        <text x="105" y="52" class="sm" text-anchor="middle">WK 0</text>
+        <text x="295" y="52" class="sm" text-anchor="middle">WK 1–2</text>
+        <text x="670" y="52" class="sm" text-anchor="middle">WK 3–8</text>
+        <text x="1005" y="52" class="sm" text-anchor="middle">WK 8+</text>
+
+        <path class="heavy" d="M40 172H1150" marker-end="url(#ah2)"/>
+        <rect x="40" y="112" width="130" height="60"/><text x="105" y="147" text-anchor="middle">EMBED</text>
+        <rect x="170" y="112" width="250" height="60"/><text x="295" y="147" text-anchor="middle">PROTOTYPE</text>
+        <rect x="420" y="112" width="500" height="60"/><text x="670" y="147" text-anchor="middle" class="lg">HARDEN</text>
+        <rect class="hatched2" x="420" y="160" width="500" height="12"/>
+        <rect x="920" y="112" width="170" height="60"/><text x="1005" y="147" text-anchor="middle">HAND OVER</text>
+        <rect class="ghost" x="1090" y="112" width="60" height="60" stroke-dasharray="5 4"/>
+        <text x="1120" y="140" class="sm" text-anchor="middle">ON</text>
+        <text x="1120" y="154" class="sm" text-anchor="middle">CALL</text>
+
+        <path class="dot" d="M420 164l7 8-7 8-7-8z"/>
+        <text x="420" y="197" class="sm" text-anchor="middle">FIRST RUNNING DEMO, REAL DATA</text>
+        <path class="dot" d="M920 164l7 8-7 8-7-8z"/>
+        <text x="920" y="197" class="sm" text-anchor="middle">ACCEPTANCE</text>
+
+        <text x="105" y="228" class="sm" text-anchor="middle">ACCESS · DESKS · SLACK</text>
+        <text x="295" y="228" class="sm" text-anchor="middle">REAL DATA · NO MOCKS</text>
+        <text x="670" y="228" class="sm" text-anchor="middle">EVALS · PERMISSIONS · MONITORING · FALLBACKS · REVIEW</text>
+        <text x="1035" y="228" class="sm" text-anchor="middle">CODE · DOCS · TRAINING</text>
+      </svg>
+    </div>
+    <div class="two">
+      <ol class="clauses">
+        <li><span class="cn">3.1</span><p><span class="def">Embed, week 0.</span> Access, desks, laptops, Slack. Consultant sits with the people who do the work, and does some of it.</p></li>
+        <li><span class="cn">3.2</span><p><span class="def">Prototype, weeks 1–2.</span> First working version against real Client data. The demo shall be a running system. A video of a running system is not a running system.</p></li>
+      </ol>
+      <ol class="clauses">
+        <li><span class="cn">3.3</span><p><span class="def">Harden, weeks 3–8.</span> Evaluation suite, permission model, audit logging, monitoring, fallbacks, human review. Failure modes shall be documented before the Client discovers them.</p></li>
+        <li><span class="cn">3.4</span><p><span class="def">Hand over, week 8+.</span> Code, documentation, training. Consultant remains on call. Consultant shall not be a load-bearing member of the Client's architecture.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="wrap">
+    <h2><span class="num">4</span>General notes<span class="zone">Zone D</span></h2>
+    <ol class="clauses">
+      <li><span class="cn">4.1</span><p>All personnel supplied shall be senior engineers who write the code they talk about. No account managers, engagement leads or "AI strategists" shall be supplied, nor invoiced.</p></li>
+      <li><span class="cn">4.2</span><p>Progress shall be measured in working software. Progress reports in other units (slides, dashboards of dashboards, "alignment") are not accepted.</p></li>
+      <li><span class="cn">4.3</span><p>Consultant shall not produce slide decks unless explicitly requested in writing, and shall register a mild objection when so requested.</p></li>
+      <li><span class="cn">4.4</span><p>Where AI is the wrong tool for a given workflow, Consultant shall state this in writing during Detail A, together with the correct tool. This clause has been invoked before and will be again.</p></li>
+      <li><span class="cn">4.5</span><p>All deliverables shall be handed over: source, infrastructure definitions, evaluation data, documentation. Consultant retains no keys, no secrets, and no leverage.</p></li>
+      <li><span class="cn">4.6</span><p>Personal data shall be processed in accordance with GDPR. Data residency EU/EEA unless otherwise specified by Client. Prompts, retrieved documents and logs containing personal data shall be treated as personal data, because they are. Any action a system cannot undo shall pass a human first.</p></li>
+      <li><span class="cn">4.7</span><p>Estimates are given in weeks. Estimates given in quarters shall be considered a warning sign, including when given by Consultant.</p></li>
+      <li><span class="cn">4.8</span><p>Dimensions in weeks unless otherwise noted. Do not scale from drawing. Do not scale from hype either.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="s5">
+  <div class="wrap">
+    <h2><span class="num">5</span>Components · Bill of materials<span class="zone">Zone E</span></h2>
+    <div class="parts">
+
+      <article class="part">
+        <header><span>Item <b>1</b></span><span>Part no. <b>FWD-P-001</b></span><span>Qty <b>1</b></span></header>
+        <div class="fig">
+          <div class="dimv"><span>4 units</span></div>
+          <div class="frame">
+            <div class="ph"><b>Portrait</b>3 : 4 · team/jesper.jpg<br>no image fitted</div>
+            <!-- <img src="team/jesper.jpg" alt="Jesper Lugner"> -->
+          </div>
+          <div class="dimh"><span>3 units</span></div>
+        </div>
+        <div class="id">
+          <h3>Jesper Lugner</h3>
+          <p class="role">CEO &amp; God King</p>
+          <p class="bio"><em>Placeholder bio.</em> What he has built, what he obsesses over, one human detail. Two sentences maximum, per 4.2.</p>
+        </div>
+        <table>
+          <tr><td>Material</td><td>Engineer, senior</td></tr>
+          <tr><td>Finish</td><td>Opinionated</td></tr>
+          <tr><td>Load rating</td><td>Production</td></tr>
+        </table>
+      </article>
+
+      <article class="part">
+        <header><span>Item <b>2</b></span><span>Part no. <b>FWD-P-002</b></span><span>Qty <b>1</b></span></header>
+        <div class="fig">
+          <div class="dimv"><span>4 units</span></div>
+          <div class="frame">
+            <div class="ph"><b>Portrait</b>3 : 4 · team/patrik.jpg<br>no image fitted</div>
+            <!-- <img src="team/patrik.jpg" alt="Patrik Jungmalm"> -->
+          </div>
+          <div class="dimh"><span>3 units</span></div>
+        </div>
+        <div class="id">
+          <h3>Patrik Jungmalm</h3>
+          <p class="role">Cheerleader</p>
+          <p class="bio"><em>Placeholder bio.</em> What he has built, what he obsesses over, one human detail. Two sentences maximum, per 4.2.</p>
+        </div>
+        <table>
+          <tr><td>Material</td><td>Engineer, senior</td></tr>
+          <tr><td>Finish</td><td>Encouraging</td></tr>
+          <tr><td>Load rating</td><td>Production</td></tr>
+        </table>
+      </article>
+
+      <article class="part">
+        <header><span>Item <b>3</b></span><span>Part no. <b>FWD-P-003</b></span><span>Qty <b>1</b></span></header>
+        <div class="fig">
+          <div class="dimv"><span>4 units</span></div>
+          <div class="frame">
+            <div class="ph"><b>Portrait</b>3 : 4 · team/viktor.jpg<br>no image fitted</div>
+            <!-- <img src="team/viktor.jpg" alt="Viktor Svirins"> -->
+          </div>
+          <div class="dimh"><span>3 units</span></div>
+        </div>
+        <div class="id">
+          <h3>Viktor Svirins</h3>
+          <p class="role">"Gift med en designer vi behöver"</p>
+          <p class="bio"><em>Placeholder bio.</em> What he has built, what he obsesses over, one human detail. Two sentences maximum, per 4.2.</p>
+        </div>
+        <table>
+          <tr><td>Material</td><td>Engineer, senior</td></tr>
+          <tr><td>Finish</td><td>Designed, by proxy</td></tr>
+          <tr><td>Load rating</td><td>Production</td></tr>
+        </table>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="s6">
+  <div class="wrap">
+    <h2><span class="num">6</span>Request for information<span class="zone">Zone F</span></h2>
+    <div class="rfi">
+      <div>
+        <p class="label">Submit RFI to</p>
+        <a class="mail" href="mailto:hello@forward.example">hello@forward.example</a>
+        <p class="note">Describe the workflow, the systems it touches, and what "better" would mean in numbers. Attachments welcome. Slides tolerated, in this direction only.</p>
+      </div>
+      <ol class="clauses">
+        <li><span class="cn">6.1</span><p>Requests for information shall be answered within one (1) working day by an engineer, not an autoresponder.</p></li>
+        <li><span class="cn">6.2</span><p>The first conversation is free of charge and free of slides. Bring the person who actually does the work.</p></li>
+        <li><span class="cn">6.3</span><p>Location: Sweden. Remote is acceptable. Embedded is preferred. See 1.2.</p></li>
+        <li><span class="cn">6.4</span><p>Consultant shall respond honestly to the question "do we need this at all". See 4.4.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div>
+    <p>© 2026 Forward AB · Sweden · DWG FWD-0001 · Rev A · Sheet 1 of 1</p>
+    <p class="wink">Drawn by humans. Checked by humans. Assisted by: a lot.</p>
+    <p>This drawing is not to scale. Neither is the company, yet.</p>
+  </div>
+  <div class="tb" aria-label="Title block">
+    <div class="s2"><small>Company</small>Forward AB · Sweden</div>
+    <div class="rev"><small>Revision</small>A</div>
+    <div class="s3"><small>Title</small>Specification — Forward deployed engineering for AI</div>
+    <div class="last"><small>Drawn</small>J.L. · 2026-09-11</div>
+    <div class="last"><small>Checked</small>P.J.</div>
+    <div class="last"><small>Approved</small>V.S.</div>
+  </div>
+</footer>
+
+</div>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  var sel = 'path,line,polyline,polygon,rect,circle';
+  var svgs = Array.prototype.slice.call(document.querySelectorAll('svg.dwg'));
+  svgs.forEach(function(svg){
+    var i = 0;
+    svg.querySelectorAll(sel).forEach(function(el){
+      if (el.closest('defs')) return;
+      if (el.hasAttribute('stroke-dasharray') || el.classList.contains('dot') || el.classList.contains('chip')) {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity .5s ease ' + Math.min(500 + i * 25, 1800) + 'ms';
+        i++;
+        return;
+      }
+      var len;
+      try { len = el.getTotalLength(); } catch (e) { return; }
+      if (!len) return;
+      el.style.strokeDasharray = len + ' ' + len;
+      el.style.strokeDashoffset = len;
+      el.style.transition = 'stroke-dashoffset 1.1s ease ' + Math.min(i * 25, 1500) + 'ms';
+      i++;
+    });
+    svg.querySelectorAll('text').forEach(function(t, k){
+      t.style.opacity = '0';
+      t.style.transition = 'opacity .5s ease ' + Math.min(700 + k * 30, 2100) + 'ms';
+    });
+  });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      var svg = e.target;
+      svg.querySelectorAll(sel).forEach(function(el){
+        el.style.strokeDashoffset = '0';
+        el.style.opacity = '1';
+      });
+      svg.querySelectorAll('text').forEach(function(t){ t.style.opacity = '1'; });
+      io.unobserve(svg);
+    });
+  }, { threshold: 0.15 });
+  svgs.forEach(function(s){ io.observe(s); });
+})();
+</script>
+</body>
+</html>

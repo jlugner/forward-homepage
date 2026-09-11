@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward: Forward-Deployed Engineering for Applied AI in Production Settings</title>
+<meta name="description" content="We present Forward, a three-person forward-deployed engineering unit for applied AI. Working software in weeks, no slide decks, code handed over.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111;
+  --muted:#555;
+  --faint:#8a8a86;
+  --rule:#cfcfca;
+  --link:#1f4e8c;
+  --paper:#fff;
+  --desk:#e6e6e2;
+  --fwd:#2f66b8;
+  --cons:#b8562f;
+  --hl:#fff3b0;
+  --code-bg:#f6f6f3;
+  --serif:"STIX Two Text","CMU Serif","Latin Modern Roman","Computer Modern Serif",Georgia,"Times New Roman",Times,serif;
+  --mono:"Source Code Pro","Latin Modern Mono","CMU Typewriter Text",Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--desk);scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);font-family:var(--serif);font-size:15.5px;line-height:1.42;
+  counter-reset:sec;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;
+  font-variant-numeric:oldstyle-nums;
+}
+.paper{
+  position:relative;max-width:880px;margin:32px auto 64px;background:var(--paper);
+  padding:56px 72px 48px;box-shadow:0 1px 2px rgba(0,0,0,.08),0 14px 44px rgba(0,0,0,.10);
+}
+.runhead{
+  display:flex;justify-content:space-between;gap:16px;font-size:12px;color:var(--muted);
+  border-bottom:.5px solid var(--rule);padding-bottom:6px;margin-bottom:44px;
+  font-variant-caps:all-small-caps;letter-spacing:.04em;
+}
+.runhead a{color:var(--link)}
+.arxiv{
+  position:absolute;left:14px;top:600px;transform:rotate(-90deg);transform-origin:left top;
+  font-family:var(--mono);font-size:13px;color:#4a4a48;white-space:nowrap;letter-spacing:.01em;
+}
+.arxiv span{color:var(--faint)}
+h1{
+  font-size:26px;font-weight:600;text-align:center;line-height:1.25;margin:0 auto 24px;max-width:660px;
+  letter-spacing:-.005em;
+}
+.authors{display:flex;justify-content:center;gap:44px;flex-wrap:wrap;text-align:center;margin-bottom:10px}
+.author .name{font-size:16.5px}
+.author .name sup{font-size:.6em;font-weight:400}
+.author .role{font-size:13px;color:var(--muted);font-style:italic}
+.affil{text-align:center;font-size:13.5px;color:var(--ink);margin:0 auto;max-width:620px;line-height:1.5}
+.affil a{color:var(--link)}
+.abstract{max-width:610px;margin:34px auto 14px;font-size:14.5px;text-align:justify;hyphens:auto}
+.abstract h2{font-size:14px;text-align:center;margin:0 0 8px;font-weight:700;font-variant-caps:small-caps;letter-spacing:.06em}
+.abstract h2::before{content:none}
+.abstract h2{counter-increment:none}
+.abstract p{text-indent:0;margin:0}
+.keywords{max-width:610px;margin:0 auto 40px;font-size:13.5px}
+section.cols{columns:2;column-gap:30px;column-fill:balance;margin-bottom:6px}
+section.cols>h2,section.cols>h3.span,.wide,.tablewrap,.footnotes,.authorsgrid{column-span:all}
+h2{font-size:17px;font-weight:700;margin:26px 0 8px;counter-increment:sec;counter-reset:sub}
+h2::before{content:counter(sec) "\2003"}
+h2.plain::before{content:none}
+.appendix h2{counter-increment:none}
+.appendix h2::before{content:"A\2003"}
+h3{font-size:15.5px;font-weight:600;font-style:italic;margin:16px 0 6px;counter-increment:sub;break-after:avoid}
+h3::before{content:counter(sec) "." counter(sub) "\2002";font-style:normal}
+p{margin:0;text-indent:1.3em;text-align:justify;hyphens:auto}
+h2+p,h3+p,figure+p,.eq+p,.tablewrap+p,.listing+p,p.noindent{text-indent:0}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+a.cite,a.fn{white-space:nowrap}
+a.fn{vertical-align:super;font-size:.7em;line-height:0}
+:target{background:var(--hl)}
+em{font-style:italic}
+.v{font-style:italic}
+.rm{font-style:normal}
+.eq{
+  display:flex;align-items:center;gap:14px;margin:12px 0 12px;font-size:16px;break-inside:avoid;
+}
+.eq .m{flex:1;text-align:center;font-style:italic;line-height:1.6}
+.eq .m .big{font-size:1.55em;font-style:normal;vertical-align:-.12em;line-height:0;margin-right:.05em}
+.eq .m sub,.eq .m sup{font-size:.68em;font-style:italic}
+.eq .m .rm{font-style:normal}
+.eq .n{font-style:normal;color:var(--ink)}
+.eq .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .15em}
+.eq .frac span{padding:0 .25em;line-height:1.2}
+.eq .frac span:first-child{border-bottom:.8px solid var(--ink)}
+figure{margin:12px 0 18px;break-inside:avoid;page-break-inside:avoid}
+figure svg{width:100%;height:auto;display:block}
+figcaption{
+  font-size:13.5px;margin-top:8px;text-align:justify;hyphens:auto;line-height:1.4;
+  transition:background .18s ease;
+}
+figure:hover>figcaption,.listing:hover>figcaption{background:var(--hl)}
+figcaption b{font-weight:700}
+.chart text{font-family:var(--serif);font-size:11.5px;fill:var(--ink)}
+.chart .ax{stroke:var(--ink);stroke-width:.8}
+.chart .grid{stroke:#e2e2de;stroke-width:.6}
+.chart .fwd{stroke:var(--fwd);stroke-width:2;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.chart .cons{stroke:var(--cons);stroke-width:2;fill:none;stroke-dasharray:6 4;stroke-linejoin:round;stroke-linecap:round}
+.chart .mk{fill:#fff;stroke-width:2}
+.chart .mk.f{stroke:var(--fwd)}
+.chart .mk.c{stroke:var(--cons)}
+.chart .ann{font-size:10.5px;fill:var(--muted)}
+.chart .ann-l{stroke:#999;stroke-width:.6;stroke-dasharray:2 2}
+.chart .lg text{font-size:11.5px}
+.chart .axl{font-size:11.5px;fill:var(--ink)}
+.chart .hit{fill:transparent;cursor:default}
+.chart .hit:hover+.mk{r:5}
+.diag text{font-family:var(--serif);font-size:11.5px;fill:var(--ink)}
+.diag .box{fill:#fff;stroke:var(--ink);stroke-width:.8}
+.diag .box.soft{fill:var(--code-bg)}
+.diag .box.dash{stroke-dasharray:4 3;fill:none}
+.diag .arr{stroke:var(--ink);stroke-width:.8;fill:none;marker-end:url(#arrow)}
+.diag .small{font-size:10px;fill:var(--muted)}
+.diag .mono{font-family:var(--mono);font-size:10px}
+.gantt text{font-family:var(--serif);font-size:11.5px;fill:var(--ink)}
+.gantt .bar{fill:var(--fwd)}
+.gantt .bar.light{fill:#c9d7ee}
+.gantt .bar.dot{fill:var(--fwd)}
+.gantt .tick{stroke:#e2e2de;stroke-width:.6}
+.gantt .ax{stroke:var(--ink);stroke-width:.8}
+.gantt .small{font-size:10.5px;fill:var(--muted)}
+.tablewrap{overflow-x:auto;margin:12px 0 18px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px;line-height:1.35}
+caption{caption-side:top;text-align:justify;font-size:13.5px;margin-bottom:8px;line-height:1.4;padding:0 2px}
+caption b{font-weight:700}
+thead th{
+  border-top:1.4px solid var(--ink);border-bottom:.6px solid var(--ink);text-align:left;
+  padding:7px 8px;font-weight:600;vertical-align:bottom;
+}
+tbody td{padding:7px 8px;vertical-align:top}
+tbody tr:last-child td{border-bottom:1.4px solid var(--ink)}
+td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.method{font-weight:500;white-space:nowrap}
+td small{color:var(--muted)}
+.listing{margin:12px 0 18px;break-inside:avoid}
+.listing figcaption{margin:0 0 6px}
+pre{
+  font-family:var(--mono);font-size:12.3px;line-height:1.45;background:var(--code-bg);
+  border:.5px solid var(--rule);padding:12px 14px;margin:0;overflow-x:auto;tab-size:2;
+}
+pre .k{color:#1f4e8c}
+pre .c{color:var(--faint)}
+pre .s{color:#7a4a1e}
+code{font-family:var(--mono);font-size:.88em}
+.footnotes{font-size:12.5px;margin-top:22px;color:var(--ink)}
+.footnotes hr{width:130px;margin:0 0 6px;border:0;border-top:.6px solid var(--ink)}
+.footnotes ol{margin:0;padding-left:1.4em}
+.footnotes li{margin-bottom:3px;padding:1px 3px}
+.footnotes li a.back{margin-left:.3em}
+.refs ol{list-style:none;padding:0;margin:0;counter-reset:ref;font-size:13.5px}
+.refs li{counter-increment:ref;padding:2px 4px 2px 2.6em;position:relative;margin-bottom:4px;text-align:justify;hyphens:auto}
+.refs li::before{content:"[" counter(ref) "]";position:absolute;left:4px}
+.corr{font-size:14.5px}
+.corr a{font-family:var(--mono);font-size:.9em}
+.authorsgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin:14px 0 8px}
+.authorsgrid figure{margin:0}
+.portrait{
+  aspect-ratio:3/4;border:.8px dashed #9a9a96;
+  background:repeating-linear-gradient(45deg,#fbfbf9 0 9px,#f0f0ec 9px 18px);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:11.5px;color:var(--muted);padding:14px;font-family:var(--mono);line-height:1.5;overflow:hidden;
+}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block}
+.authorsgrid figcaption{text-align:left}
+.authorsgrid figcaption .bio{display:block;margin-top:4px;color:var(--muted);font-style:italic}
+.pagefoot{
+  margin-top:44px;padding-top:10px;border-top:.5px solid var(--rule);font-size:12px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+@media (max-width:900px){
+  .paper{margin:0;padding:28px 18px 36px;box-shadow:none;max-width:none}
+  .runhead{margin-bottom:28px}
+  .arxiv{display:none}
+  h1{font-size:22px}
+  .authors{gap:22px}
+  section.cols{columns:1}
+  p,figcaption,.refs li,caption,.abstract{text-align:left;hyphens:manual}
+  .authorsgrid{grid-template-columns:1fr;max-width:360px}
+  .eq{font-size:15px}
+  .eq .m{text-align:left;overflow-x:auto}
+}
+@media print{
+  html{background:none}
+  .paper{box-shadow:none;margin:0;max-width:none;padding:0}
+  .runhead a[href="#"]{display:none}
+  a{color:inherit}
+  figure,pre,table{break-inside:avoid}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<main class="paper">
+  <div class="arxiv">arXiv:2609.01101v1 &nbsp;[cs.SE] &nbsp;11 Sep 2026 <span>&nbsp;·&nbsp; preprint, not peer reviewed, will not be</span></div>
+
+  <div class="runhead">
+    <span>Preprint · v1 · September 2026</span>
+    <span><a href="#" id="pdf">PDF</a> · <a href="#refs">References</a> · <a href="#authors">Authors</a> · <a href="#corr">Contact</a></span>
+  </div>
+
+  <h1>Forward: Forward-Deployed Engineering for Applied AI in Production Settings</h1>
+
+  <div class="authors">
+    <div class="author">
+      <div class="name">Jesper Lugner<sup>1,*</sup></div>
+      <div class="role">CEO &amp; God King</div>
+    </div>
+    <div class="author">
+      <div class="name">Patrik Jungmalm<sup>1</sup></div>
+      <div class="role">Cheerleader</div>
+    </div>
+    <div class="author">
+      <div class="name">Viktor Svirins<sup>1</sup></div>
+      <div class="role">"Gift med en designer vi behöver"</div>
+    </div>
+  </div>
+  <div class="affil">
+    <sup>1</sup>Forward AB, Sweden. &nbsp;<sup>*</sup>Correspondence to: <a href="mailto:hello@forward.example">hello@forward.example</a><br>
+    All authors contributed equally. Author order was determined by who registered the domain.<a class="fn" href="#fn1" id="fnref1">1</a>
+  </div>
+
+  <div class="abstract">
+    <h2>Abstract</h2>
+    <p>We present Forward, a three-person forward-deployed engineering unit for applied AI. Prior approaches to enterprise AI adoption rely predominantly on slide decks, steering committees and an eighteen-month roadmap <a class="cite" href="#ref4">[4]</a>, and have been observed to produce remarkably few systems that run. We propose an alternative. Senior engineers embed inside the client organisation, identify the small number of workflows where language models have measurable leverage, and build those workflows into production with evaluation suites, permission boundaries, observability and human review. We report a typical time to production of eight weeks (Section 5), a code handover rate of 100&nbsp;%, and zero slide decks. We further show that the method is robust to the case where AI is the wrong tool, in which case we say so (Section 6). All code is delivered to the client with documentation. No lock-in mechanism was used in this work.</p>
+  </div>
+  <div class="keywords"><b>Keywords:</b> forward-deployed engineering · agents · retrieval-augmented generation · evaluation · human-in-the-loop · GDPR · Sweden</div>
+
+  <section class="cols">
+    <h2 id="s1">Introduction</h2>
+    <p>The gap between an AI demonstration and an AI system in production is well documented <a class="cite" href="#ref1">[1]</a>, <a class="cite" href="#ref3">[3]</a> and, in our experience, consists almost entirely of things that are not the model: the permissions, the data that lives in the ERP, the eleven edge cases in the mail flow, and the person whose job it is to check. A demonstration can ignore all four. A system cannot.</p>
+    <p>Most efforts to close this gap begin by inserting a layer between the people who know the workflow and the people who can build software. The layer produces documents. The documents describe a future system, its governance, and a roadmap towards it, at a level of abstraction where nothing can fail because nothing has been attempted. We observe that this layer is expensive, and that it does not compile.</p>
+    <p>We remove the layer. Our contribution is not a model, a framework, or a platform. It is three senior engineers who sit inside the client, read the real data on day one, and are measured on whether software runs. Specifically:</p>
+    <p class="noindent" style="margin-top:6px">(i) we define forward-deployed engineering for AI and its non-goals (Section 2); (ii) we describe a method with four components: mapping, build &amp; integrate, private inference and enablement (Section 3); (iii) we describe the engagement protocol, which fits in one figure (Section 4); (iv) we report results (Section 5), followed by limitations that are genuinely limiting (Section 6) and an ethics statement written by people who have read the GDPR (Section 7).</p>
+    <p>The remainder of this document is the homepage.</p>
+  </section>
+
+  <section class="cols">
+    <h2 id="s2">Background: Forward-Deployed Engineering</h2>
+    <p>A <em>forward-deployed engineer</em> is a senior software engineer who works physically or organisationally inside the client, holds read access to real data from the first week, and is evaluated on whether a system is in use rather than on whether a deliverable was delivered. The term originates in defence and large-scale data platform companies <a class="cite" href="#ref2">[2]</a>; we apply it to a smaller, more Swedish setting.<a class="fn" href="#fn2" id="fnref2">2</a></p>
+    <p>Concretely, FDE for AI means (a) sitting with the people who do the work; (b) instrumenting the workflow rather than interviewing about it; (c) building against real data under real permissions, not a sanitised sample; and (d) leaving behind the code, the evaluation suite and the runbook, such that the client's own engineers can operate the system without us. Property (d) distinguishes the method from the majority of vendor engagements, whose economics depend on its absence.</p>
+    <h3>Non-goals</h3>
+    <p>We do not produce strategy. We do not select vendors on the client's behalf, although we have opinions and will share them at no charge. We do not fine-tune a model when a prompt and a retrieval index would do, and we do not deploy a retrieval index when a SQL query would do <a class="cite" href="#ref7">[7]</a>. We do not use the word <em>transformation</em>.</p>
+    <h3>Working definition of "pays off"</h3>
+    <p>We consider a workflow a candidate only if the expected value of automating or assisting it is positive after accounting for adoption and the friction of integration. For a set of candidate workflows <span class="v">W</span>, we estimate</p>
+    <div class="eq" id="eq1">
+      <div class="m"><span class="v">V</span> = <span class="big">Σ</span><sub>w ∈ W</sub> ℓ(<span class="v">w</span>) · <span class="v">a</span>(<span class="v">w</span>) − <span class="v">F</span></div>
+      <div class="n">(1)</div>
+    </div>
+    <p>where ℓ(<span class="v">w</span>) is leverage (hours or errors removed per week), <span class="v">a</span>(<span class="v">w</span>) ∈ [0,&nbsp;1] is realised adoption, and <span class="v">F</span> is the integration friction, which is large, always underestimated, and paid by whoever builds the thing. Equation (1) is not sophisticated. It is, however, evaluated on real numbers, which we have found to be the differentiating factor.</p>
+    <div class="footnotes">
+      <hr>
+      <ol>
+        <li id="fn1">This is also how the CEO &amp; God King title was allocated. <a class="back" href="#fnref1">↩</a></li>
+        <li id="fn2">Fewer helicopters. More fika. Comparable urgency. <a class="back" href="#fnref2">↩</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="cols">
+    <h2 id="s3">Method</h2>
+    <p>The method comprises four components, summarised in Table 1. They are sequential in the common case but may be invoked independently; in particular, Section 3.3 is frequently requested on its own by organisations whose data is not permitted to leave the building.</p>
+
+    <div class="tablewrap">
+      <table>
+        <caption><b>Table 1:</b> Services offered, formulated as methods. Weeks are typical, not contractual; they assume the client can grant access to systems in less time than it takes to build the integration to them, an assumption that does not always hold.</caption>
+        <thead>
+          <tr><th>Method</th><th>Input</th><th>Output</th><th class="num">Weeks</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="method">3.1 Workflow mapping</td>
+            <td>Access to your people and your systems. One coffee machine.</td>
+            <td>Ranked list of workflows with estimated leverage per Eq.&nbsp;(1); a recommendation, which may be "no".</td>
+            <td class="num">1–2</td>
+          </tr>
+          <tr>
+            <td class="method">3.2 Build &amp; integrate</td>
+            <td>One workflow from 3.1. Read access to CRM, ERP, mail and document stores.</td>
+            <td>A system in production: agent, copilot or automation; retrieval; integrations; evaluation suite; guardrails; observability; human-in-the-loop.</td>
+            <td class="num">3–8</td>
+          </tr>
+          <tr>
+            <td class="method">3.3 Private inference</td>
+            <td>Data that cannot leave the building, the country, or the Union.</td>
+            <td>Open-weight models served on-premise or on EU-resident infrastructure, behind the same evaluation suite as 3.2.</td>
+            <td class="num">2–4</td>
+          </tr>
+          <tr>
+            <td class="method">3.4 Enablement</td>
+            <td>Your engineers.</td>
+            <td>Your engineers, now maintaining 3.2 without us. Documentation, runbooks, and a shared channel that gradually goes quiet.</td>
+            <td class="num">1–2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Workflow mapping</h3>
+    <p>We spend the first one to two weeks inside the operation, observing and instrumenting rather than interviewing. Interviews report the process as designed; logs report the process as performed; the difference is where the leverage is. The output is a short ranked list and a recommendation. In roughly one engagement in three the recommendation for the top-ranked workflow is that a language model is the wrong tool, and that a form, a rule, or a conversation with the supplier would be cheaper. We consider this output a success and bill it as one.</p>
+
+    <h3>Build &amp; integrate</h3>
+    <p>A single workflow is selected and built to production standard against the client's real systems. Figure&nbsp;3 shows the reference architecture. The model is the smallest box in it, by design. The surrounding components—retrieval over the client's documents, tool access to line-of-business systems under the caller's permissions, an evaluation suite run on every change, guardrails on inputs and outputs, tracing, and an explicit human review step for consequential actions—are where the engineering time goes and where systems fail when they are skipped.</p>
+
+    <figure class="wide" id="fig3">
+      <svg class="diag" viewBox="0 0 640 210" role="img" aria-labelledby="fig3t">
+        <title id="fig3t">Reference architecture of a typical Forward deployment</title>
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#111"></path>
+          </marker>
+        </defs>
+        <rect class="box dash" x="180" y="8" width="452" height="30" rx="1"></rect>
+        <text x="406" y="27" text-anchor="middle">Private inference boundary (on-premise or EU-resident) — optional, Section 3.3</text>
+
+        <rect class="box soft" x="8" y="52" width="140" height="118" rx="1"></rect>
+        <text x="78" y="72" text-anchor="middle" font-weight="600">Client systems</text>
+        <text class="mono" x="78" y="94" text-anchor="middle">CRM · ERP · Mail</text>
+        <text class="mono" x="78" y="110" text-anchor="middle">Docs · Tickets · SQL</text>
+        <text class="small" x="78" y="138" text-anchor="middle">read under caller's</text>
+        <text class="small" x="78" y="151" text-anchor="middle">own permissions</text>
+
+        <rect class="box" x="188" y="62" width="126" height="64" rx="1"></rect>
+        <text x="251" y="88" text-anchor="middle" font-weight="600">Retrieval &amp; tools</text>
+        <text class="small" x="251" y="105" text-anchor="middle">index · connectors · schemas</text>
+
+        <rect class="box" x="352" y="62" width="126" height="64" rx="1"></rect>
+        <text x="415" y="82" text-anchor="middle" font-weight="600">Agent / copilot</text>
+        <text class="small" x="415" y="97" text-anchor="middle">runtime</text>
+        <rect class="box" x="395" y="105" width="40" height="14" rx="1"></rect>
+        <text class="small" x="415" y="115.5" text-anchor="middle">model</text>
+
+        <rect class="box" x="516" y="62" width="116" height="64" rx="1"></rect>
+        <text x="574" y="88" text-anchor="middle" font-weight="600">Human review</text>
+        <text class="small" x="574" y="105" text-anchor="middle">consequential actions</text>
+
+        <path class="arr" d="M148,94 L186,94"></path>
+        <path class="arr" d="M314,94 L350,94"></path>
+        <path class="arr" d="M478,94 L514,94"></path>
+        <path class="arr" d="M574,126 L574,150 L160,150 L160,132"></path>
+        <text class="small" x="367" y="146" text-anchor="middle">approved writes back to client systems</text>
+
+        <rect class="box soft" x="180" y="168" width="452" height="34" rx="1"></rect>
+        <text x="406" y="189" text-anchor="middle">Evaluation suite · Guardrails · Permissions · Tracing &amp; observability · Audit log</text>
+      </svg>
+      <figcaption><b>Figure 3:</b> Reference architecture. Arrows denote data flow; the return path passes through a human before anything is written to a system of record. The model is drawn to scale with respect to its share of the engineering effort.</figcaption>
+    </figure>
+
+    <p>Every deployment ships with an evaluation suite constructed from the client's own historical data (Listing&nbsp;1). The suite is run on every prompt, model or retrieval change and gates the release. We have not found a way to make this step optional that does not eventually produce an incident, and we have stopped looking.</p>
+
+    <figure class="listing" id="lst1">
+      <figcaption><b>Listing 1:</b> Excerpt of an evaluation specification for an invoice-matching workflow. Thresholds are agreed with the client before the first prompt is written.</figcaption>
+<pre><span class="k">suite</span>: invoice-matching
+<span class="k">dataset</span>: 412 historical invoices, PII redacted
+<span class="k">metrics</span>:
+  - exact_match(supplier_id)      <span class="k">&gt;=</span> 0.98
+  - abs_error(amount_sek)         <span class="k">==</span> 0
+  - unsupported_claim_rate        <span class="k">&lt;=</span> 0.005
+  - p95_latency_ms                <span class="k">&lt;=</span> 4000
+<span class="k">gates</span>:
+  - <span class="k">human_review</span>: amount_sek &gt; 50_000 <span class="k">or</span> new_supplier
+  - <span class="k">block</span>:        currency <span class="k">not in</span> [SEK, EUR]
+<span class="k">on_regression</span>: refuse deploy   <span class="c"># not a suggestion</span></pre>
+    </figure>
+
+    <h3>Private inference</h3>
+    <p>For workflows over data that cannot leave the organisation—health, legal, HR, anything a DPO looks at twice—we serve open-weight models on the client's own hardware or on infrastructure resident in the EU, behind the same evaluation suite as Section 3.2. Quality is lower than the frontier and, for the majority of enterprise workflows we have measured, still sufficient; the evaluation suite is how one finds out rather than argues. Purpose-built hardware for local inference is future work (Section 8).</p>
+
+    <h3>Enablement</h3>
+    <p>The system is handed over to the client's engineers with documentation, runbooks and a pairing period. We define handover as complete when a change to the system has been shipped to production by the client without our involvement. We remain on call afterwards. In our data the shared channel goes quiet within four to six weeks, which we interpret as the intended outcome rather than a churn event.</p>
+  </section>
+
+  <section class="cols">
+    <h2 id="s4">Engagement Protocol</h2>
+    <p>The protocol has four phases and is shown in Figure 2. It has been designed so that the first thing the client sees is software, and so that the last thing the client sees is their own engineers deploying it.</p>
+
+    <figure class="wide" id="fig2">
+      <svg class="gantt" viewBox="0 0 640 186" role="img" aria-labelledby="fig2t">
+        <title id="fig2t">Engagement protocol timeline over twelve weeks</title>
+        <g>
+          <line class="tick" x1="200" y1="14" x2="200" y2="152"></line>
+          <line class="tick" x1="270" y1="14" x2="270" y2="152"></line>
+          <line class="tick" x1="340" y1="14" x2="340" y2="152"></line>
+          <line class="tick" x1="410" y1="14" x2="410" y2="152"></line>
+          <line class="tick" x1="480" y1="14" x2="480" y2="152"></line>
+          <line class="tick" x1="550" y1="14" x2="550" y2="152"></line>
+          <line class="tick" x1="620" y1="14" x2="620" y2="152"></line>
+        </g>
+        <text x="8" y="36" font-weight="600">Embed</text>
+        <text class="small" x="8" y="50">week 0 · desks, badges, read access</text>
+        <rect class="bar" x="200" y="26" width="16" height="18"></rect>
+
+        <text x="8" y="70" font-weight="600">Prototype on real data</text>
+        <text class="small" x="8" y="84">weeks 1–2 · ugly, working, measured</text>
+        <rect class="bar" x="235" y="60" width="70" height="18"></rect>
+
+        <text x="8" y="104" font-weight="600">Harden</text>
+        <text class="small" x="8" y="118">weeks 3–8 · evals, permissions, monitoring</text>
+        <rect class="bar" x="305" y="94" width="175" height="18"></rect>
+
+        <text x="8" y="138" font-weight="600">Hand over, stay on call</text>
+        <text class="small" x="8" y="152">week 8 → · their deploys, our phone</text>
+        <rect class="bar" x="480" y="128" width="35" height="18"></rect>
+        <rect class="bar light" x="515" y="128" width="105" height="18"></rect>
+        <path d="M620,128 L632,137 L620,146 z" fill="#c9d7ee"></path>
+
+        <line class="ax" x1="200" y1="160" x2="632" y2="160"></line>
+        <text class="small" x="200" y="176" text-anchor="middle">0</text>
+        <text class="small" x="270" y="176" text-anchor="middle">2</text>
+        <text class="small" x="340" y="176" text-anchor="middle">4</text>
+        <text class="small" x="410" y="176" text-anchor="middle">6</text>
+        <text class="small" x="480" y="176" text-anchor="middle">8</text>
+        <text class="small" x="550" y="176" text-anchor="middle">10</text>
+        <text class="small" x="620" y="176" text-anchor="middle">12</text>
+        <text class="small" x="120" y="176">weeks →</text>
+      </svg>
+      <figcaption><b>Figure 2:</b> The engagement protocol. The light segment denotes the on-call period, which has no fixed end and is priced accordingly, which is to say modestly. Note the absence of a phase labelled "alignment workshop".</figcaption>
+    </figure>
+
+    <p>Time to production is the sum of the first three phases,</p>
+    <div class="eq" id="eq2">
+      <div class="m"><span class="v">T</span><sub>prod</sub> = <span class="v">T</span><sub>embed</sub> + <span class="v">T</span><sub>proto</sub> + <span class="v">T</span><sub>harden</sub> ≈ 0 + 2 + 6</div>
+      <div class="n">(2)</div>
+    </div>
+    <p>weeks, where the embed term is approximately zero because we arrive with laptops and questions rather than a discovery phase. The hardening term dominates, which is correct: it is the part that determines whether the system is still running in a year.</p>
+    <p>During hardening the prototype is rebuilt rather than patched. The prototype exists to establish that the workflow is tractable and to produce the first evaluation set; it is not the product. We state this at the start of every engagement and it is believed at the end of every engagement.</p>
+  </section>
+
+  <section class="cols">
+    <h2 id="s5">Results</h2>
+    <p>Figure 1 compares time to production for the proposed method against the prevailing approach, which we denote <em>slide-deck consultancy</em>. The comparison is illustrative. A rigorous version would require a consultancy to consent to being measured, and none has.</p>
+
+    <figure class="wide" id="fig1">
+      <svg class="chart" viewBox="0 0 640 330" role="img" aria-labelledby="fig1t">
+        <title id="fig1t">Probability of working software in production versus elapsed weeks, Forward compared with slide-deck consultancy</title>
+        <g>
+          <line class="grid" x1="60" y1="207.5" x2="610" y2="207.5"></line>
+          <line class="grid" x1="60" y1="145" x2="610" y2="145"></line>
+          <line class="grid" x1="60" y1="82.5" x2="610" y2="82.5"></line>
+          <line class="grid" x1="60" y1="20" x2="610" y2="20"></line>
+        </g>
+        <line class="ax" x1="60" y1="270" x2="610" y2="270"></line>
+        <line class="ax" x1="60" y1="20" x2="60" y2="270"></line>
+        <g class="axl">
+          <text x="60" y="286" text-anchor="middle">0</text>
+          <text x="170" y="286" text-anchor="middle">8</text>
+          <text x="280" y="286" text-anchor="middle">16</text>
+          <text x="390" y="286" text-anchor="middle">24</text>
+          <text x="500" y="286" text-anchor="middle">32</text>
+          <text x="610" y="286" text-anchor="middle">40</text>
+          <text x="335" y="308" text-anchor="middle">Elapsed time since first meeting (weeks)</text>
+          <text x="52" y="273" text-anchor="end">0</text>
+          <text x="52" y="210" text-anchor="end">0.25</text>
+          <text x="52" y="148" text-anchor="end">0.50</text>
+          <text x="52" y="86" text-anchor="end">0.75</text>
+          <text x="52" y="24" text-anchor="end">1.00</text>
+          <text transform="translate(16,145) rotate(-90)" text-anchor="middle">P(working software in production)</text>
+        </g>
+
+        <path class="cons" d="M60,270 L170,265 L225,262.5 L252.5,255 L280,257.5 L362.5,250 L417.5,240 L472.5,220 L555,190 L610,170"></path>
+        <path class="fwd" d="M60,270 L73.75,257.5 L87.5,182.5 L101.25,157.5 L115,120 L142.5,70 L170,40 L197.5,32.5 L610,27.5"></path>
+
+        <line class="ann-l" x1="87.5" y1="182.5" x2="87.5" y2="230"></line>
+        <text class="ann" x="92" y="242">prototype on real data (wk 2)</text>
+        <line class="ann-l" x1="170" y1="40" x2="215" y2="70"></line>
+        <text class="ann" x="218" y="74">hand over (wk 8)</text>
+        <line class="ann-l" x1="252.5" y1="255" x2="252.5" y2="205"></line>
+        <text class="ann" x="257" y="200">deck delivered (wk 14)</text>
+        <line class="ann-l" x1="417.5" y1="240" x2="417.5" y2="193"></line>
+        <text class="ann" x="422" y="188">steering committee approves pilot (wk 26)</text>
+
+        <circle class="hit" cx="87.5" cy="182.5" r="12"><title>Forward, week 2: 0.35</title></circle>
+        <circle class="mk f" cx="87.5" cy="182.5" r="3.5"></circle>
+        <circle class="hit" cx="170" cy="40" r="12"><title>Forward, week 8: 0.92</title></circle>
+        <circle class="mk f" cx="170" cy="40" r="3.5"></circle>
+        <circle class="hit" cx="252.5" cy="255" r="12"><title>Slide-deck consultancy, week 14: 0.06</title></circle>
+        <circle class="mk c" cx="252.5" cy="255" r="3.5"></circle>
+        <circle class="hit" cx="417.5" cy="240" r="12"><title>Slide-deck consultancy, week 26: 0.12</title></circle>
+        <circle class="mk c" cx="417.5" cy="240" r="3.5"></circle>
+        <circle class="hit" cx="610" cy="170" r="12"><title>Slide-deck consultancy, week 40: 0.40</title></circle>
+        <circle class="mk c" cx="610" cy="170" r="3.5"></circle>
+
+        <g class="lg" transform="translate(300,96)">
+          <rect x="-8" y="-14" width="228" height="46" fill="#fff" stroke="#cfcfca" stroke-width=".5"></rect>
+          <line class="fwd" x1="0" y1="0" x2="26" y2="0"></line>
+          <text x="34" y="4">Forward (this work), n = 3 engineers</text>
+          <line class="cons" x1="0" y1="20" x2="26" y2="20"></line>
+          <text x="34" y="24">Slide-deck consultancy, n = several</text>
+        </g>
+      </svg>
+      <figcaption><b>Figure 1:</b> Time to production. Probability that working software exists in production as a function of elapsed weeks. Solid: the proposed method. Dashed: slide-deck consultancy, reconstructed from anecdote. Error bars omitted for clarity, and because we do not have them.</figcaption>
+    </figure>
+
+    <p>Two features of Figure 1 are worth noting. First, the proposed method exhibits a steep rise between weeks one and two, corresponding to the prototype on real data; the client can use something, badly, in the second week. Second, the baseline exhibits a local maximum at week 14 corresponding to delivery of the deck, followed by a decline as the deck is circulated. We conjecture, and Table 1 of <a class="cite" href="#ref4">[4]</a> supports, that the asymptotic value of a slide deck satisfies</p>
+    <div class="eq" id="eq3">
+      <div class="m"><span class="rm">lim</span><sub><span class="v">n</span>→∞</sub> <span class="v">V</span>(deck<sub><span class="v">n</span></sub>) = 0,</div>
+      <div class="n">(3)</div>
+    </div>
+    <p>where <span class="v">n</span> is the slide count. We leave a formal proof to the reader, who has seen the deck.</p>
+    <p>Across engagements to date, code handover was achieved in 100&nbsp;% of cases. No proprietary runtime, platform fee or licence was introduced. Systems built under the method were operated by the client's own engineers after handover, with Forward on call; the mean time between calls increased monotonically, which is the desired direction.</p>
+  </section>
+
+  <section class="cols">
+    <h2 id="s6">Limitations</h2>
+    <p><em>Sample size.</em> We are three people. The method does not scale and is not intended to. We will not sell you a bench of thirty juniors, because we do not have one and because that is the method we are proposing an alternative to. We take on a small number of clients at a time and say no to the rest, politely and quickly.</p>
+    <p><em>Applicability.</em> The method fails when the workflow does not yet exist, when the data does not yet exist, or when the problem is a spreadsheet. In these cases we recommend, respectively, a process, a database and a spreadsheet, and we invoice for the week it took to find out. Roughly one engagement in three ends here. We regard this as the method working.</p>
+    <p><em>Validity of Figure 1.</em> The baseline curve is reconstructed from the reports of clients and former colleagues and should be read as a caricature with a trend line. We are confident in the shape and would welcome a controlled comparison, which we expect to remain unfunded.</p>
+    <p><em>Dependencies.</em> One author is married to a designer we need (Appendix A, Figure 6). This introduces a single point of failure in the visual layer of our deliverables, which we have chosen to accept rather than mitigate.</p>
+    <p><em>Model risk.</em> Language models are non-deterministic, occasionally wrong with confidence, and change under one's feet when the provider ships an update. Section 3.2 exists because of this paragraph. We cannot remove the risk; we can measure it on every change and route the consequential cases to a person, and we do.</p>
+  </section>
+
+  <section class="cols">
+    <h2 id="s7">Ethics Statement</h2>
+    <p>All systems built under the method process personal data belonging to the client's customers and employees and are therefore subject to the General Data Protection Regulation <a class="cite" href="#ref5">[5]</a>. We treat this as an engineering constraint rather than a legal afterthought. Data minimisation is applied at the retrieval layer: a model is shown the fields the task requires and no others. Access is enforced under the permissions of the human on whose behalf the system acts, never under a service account with broader rights. Every model call and every tool invocation is logged for audit. Client data is not used to train, fine-tune or evaluate anything outside the client's own tenancy, and we sign a data processing agreement before we read a single record.</p>
+    <p>Where data must not leave the organisation or the Union, inference is run on-premise or on EU-resident infrastructure (Section 3.3). Where a system's output can affect a person—credit, employment, health, a customer's money—a human reviews the output before it takes effect, and the system is designed so that removing the human is a deliberate change that fails the evaluation suite rather than a configuration toggle.</p>
+    <p>We will tell a client when AI is the wrong tool, when their data is not fit for it, or when the proposed use would be lawful but unkind. We have done so and expect to again. No animals were harmed in the preparation of this work. One slide deck was.</p>
+  </section>
+
+  <section class="cols">
+    <h2 id="s8">Conclusion and Future Work</h2>
+    <p>We conclude that the shortest path from an AI demonstration to an AI system in production is a senior engineer with access to the data, a deadline, and permission to say no. We are those engineers. We embed, we build on real data in the first fortnight, we harden for the remaining six weeks, and we leave behind code your team can run.</p>
+    <p>Future work proceeds in two directions. First, the components that recur across engagements—evaluation harnesses, connectors to the usual Nordic ERP and CRM systems, the human-review step—are candidates for productisation, and we intend to productise them slowly and only once they have stopped changing. Second, we are exploring purpose-built hardware for private and local inference, which our accountant has asked us to describe as exploratory and which we hereby do.</p>
+  </section>
+
+  <section class="cols">
+    <h2 class="plain" id="corr">Correspondence</h2>
+    <p class="corr noindent">Correspondence to <a href="mailto:hello@forward.example">hello@forward.example</a>. We reply to email written by humans within one working day. We also reply to email written by agents, but more slowly, on principle. We are based in Sweden, work in Swedish or English, and travel to wherever the ERP is.</p>
+    <h2 class="plain">Acknowledgements</h2>
+    <p class="noindent">We thank the clients who let us read their ERP, the engineers who inherited our code and told us what was wrong with it, and the designer referenced in Appendix A, without whom this document would have been set in the browser default font. No funding was received for this work, which is why it is a homepage.</p>
+  </section>
+
+  <section class="cols refs" id="refs">
+    <h2 class="plain">References</h2>
+    <ol>
+      <li id="ref1">Sculley, D., Holt, G., Golovin, D., et al. Hidden Technical Debt in Machine Learning Systems. <em>Advances in Neural Information Processing Systems</em>, 2015.</li>
+      <li id="ref2">Anonymous. Job description, "Forward Deployed Engineer". Various large platform companies, 2012–present. The helicopter is not included in the offer.</li>
+      <li id="ref3">Brooks, F. P. <em>The Mythical Man-Month</em>. Addison-Wesley, 1975. Still correct.</li>
+      <li id="ref4">Anonymous consulting firm. <em>AI Transformation Roadmap</em>, slide 47 of 112. Unpublished, circulated widely, 2024.</li>
+      <li id="ref5">European Parliament and Council. Regulation (EU) 2016/679 (General Data Protection Regulation). <em>Official Journal of the European Union</em>, L 119, 2016.</li>
+      <li id="ref6">Vaswani, A., Shazeer, N., Parmar, N., et al. Attention Is All You Need. <em>Advances in Neural Information Processing Systems</em>, 2017. It was not, as it turned out, all you need. See Figure 3.</li>
+      <li id="ref7">Lewis, P., Perez, E., Piktus, A., et al. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. <em>Advances in Neural Information Processing Systems</em>, 2020. Frequently deployed where a <code>WHERE</code> clause would have sufficed.</li>
+      <li id="ref8">Lugner, J., Jungmalm, P., Svirins, V. Just ship it. Internal memo, Forward AB, 2026. One page.</li>
+    </ol>
+  </section>
+
+  <section class="cols appendix" id="authors">
+    <h2>Authors</h2>
+    <p>The unit consists of three founders. Portraits are provided for reproducibility. Author roles were self-reported and have not been independently verified.</p>
+    <div class="authorsgrid">
+      <figure id="fig4">
+        <div class="portrait">
+          <span>portrait placeholder<br>aspect ratio 3 : 4<br>team/jesper.jpg</span>
+          <!-- <img src="team/jesper.jpg" alt="Jesper Lugner"> -->
+        </div>
+        <figcaption><b>Figure 4:</b> J. Lugner, CEO &amp; God King.
+          <span class="bio">Placeholder bio, one or two sentences. What he has built, what he obsesses over, one human detail that survives peer review.</span>
+        </figcaption>
+      </figure>
+      <figure id="fig5">
+        <div class="portrait">
+          <span>portrait placeholder<br>aspect ratio 3 : 4<br>team/patrik.jpg</span>
+          <!-- <img src="team/patrik.jpg" alt="Patrik Jungmalm"> -->
+        </div>
+        <figcaption><b>Figure 5:</b> P. Jungmalm, Cheerleader.
+          <span class="bio">Placeholder bio, one or two sentences. Systems shipped, opinions held, and the one thing he does when the build is green.</span>
+        </figcaption>
+      </figure>
+      <figure id="fig6">
+        <div class="portrait">
+          <span>portrait placeholder<br>aspect ratio 3 : 4<br>team/viktor.jpg</span>
+          <!-- <img src="team/viktor.jpg" alt="Viktor Svirins"> -->
+        </div>
+        <figcaption><b>Figure 6:</b> V. Svirins, "Gift med en designer vi behöver".
+          <span class="bio">Placeholder bio, one or two sentences. What he has built, what he cannot stop measuring, and the dependency noted in Section 6.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <footer class="pagefoot">
+    <span>© 2026 Forward AB · Sweden</span>
+    <span>Typeset by humans, with a lot of help.</span>
+  </footer>
+</main>
+<script>
+document.querySelectorAll('a.cite, a.fn').forEach(function(a){
+  var target = document.querySelector(a.getAttribute('href'));
+  if (target) a.title = target.textContent.replace(/\s+/g, ' ').replace(/↩/g, '').trim();
+});
+document.getElementById('pdf').addEventListener('click', function(e){
+  e.preventDefault();
+  window.print();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward</title>
+<meta name="description" content="Forward. Three engineers who sit inside your company until the AI works. Forward deployed engineering for AI, Sweden.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ground: #fbfbf9;
+    --ink: #111110;
+    --ink-soft: #5c5b57;
+    --hair: rgba(17, 17, 16, 0.22);
+    --link: #1f3d9a;
+    --font: "Instrument Sans", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    --gutter: clamp(1.25rem, 5vw, 4rem);
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.35;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+
+  .mark {
+    position: fixed;
+    top: var(--gutter);
+    left: var(--gutter);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    z-index: 10;
+    text-decoration: none;
+  }
+
+  .progress {
+    position: fixed;
+    right: var(--gutter);
+    bottom: var(--gutter);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    z-index: 10;
+  }
+
+  section {
+    min-height: 100vh;
+    min-height: 100svh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: grid;
+    place-items: center;
+    padding: calc(var(--gutter) * 2) var(--gutter);
+  }
+
+  .frame {
+    width: 100%;
+    max-width: 62rem;
+  }
+
+  .line {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(1.55rem, 3.1vw, 2.75rem);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .line + .line { margin-top: 1.1em; }
+
+  .line.small {
+    font-size: clamp(1rem, 1.35vw, 1.2rem);
+    letter-spacing: 0;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 34rem;
+  }
+
+  .line em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero .line {
+    font-size: clamp(2rem, 4.6vw, 4.2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    animation: breathe 16s ease-in-out infinite;
+  }
+
+  .hero .line.small {
+    animation: none;
+    font-size: clamp(1rem, 1.35vw, 1.2rem);
+    letter-spacing: 0;
+    line-height: 1.45;
+    margin-top: 2.6em;
+    max-width: 40rem;
+  }
+
+  @keyframes breathe {
+    0%, 100% { letter-spacing: -0.02em; }
+    50% { letter-spacing: 0.005em; }
+  }
+
+  .list .line + .line { margin-top: 0.85em; }
+
+  .list .line {
+    font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  }
+
+  .list .line span {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 0.55em;
+  }
+
+  .team {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 3vw, 3rem);
+    margin-top: 3.5rem;
+  }
+
+  .person { margin: 0; }
+
+  .portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--hair);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .portrait img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .portrait .slot {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .person figcaption {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .person .name { font-weight: 500; }
+
+  .person .role {
+    color: var(--ink-soft);
+    display: block;
+  }
+
+  .person .bio {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    max-width: 26ch;
+  }
+
+  .contact .email {
+    display: inline-block;
+    font-size: clamp(1.7rem, 5.6vw, 5rem);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    text-decoration: none;
+    border-bottom: 1px solid var(--link);
+    padding-bottom: 0.08em;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .contact .email:hover,
+  .contact .email:focus-visible {
+    border-bottom-width: 2px;
+    outline: none;
+  }
+
+  .contact .colophon {
+    margin-top: 5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em 1.6em;
+  }
+
+  .js section:not(.hero) .line,
+  .js section:not(.hero) .person {
+    opacity: 0;
+    transform: translateY(0.35em);
+    transition: opacity 1.1s ease, transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .js section:not(.hero) .line:nth-child(2),
+  .js section:not(.hero) .person:nth-child(2) { transition-delay: 0.18s; }
+  .js section:not(.hero) .line:nth-child(3),
+  .js section:not(.hero) .person:nth-child(3) { transition-delay: 0.36s; }
+  .js section:not(.hero) .line:nth-child(4) { transition-delay: 0.54s; }
+  .js section:not(.hero) .line:nth-child(5) { transition-delay: 0.72s; }
+
+  .js section.in .line,
+  .js section.in .person {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 900px) {
+    html { scroll-snap-type: y proximity; }
+    .team {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+    }
+    .portrait { max-width: 14rem; }
+    .contact .colophon { flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; scroll-snap-type: none; }
+    .hero .line { animation: none; }
+    .js section:not(.hero) .line,
+    .js section:not(.hero) .person {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<a class="mark" href="#top">Forward</a>
+<div class="progress" aria-live="polite"><span id="n">1</span> / <span id="total">9</span></div>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="frame">
+      <h1 class="line">We sit inside your company until the AI works.</h1>
+      <p class="line small">Forward deployed engineering for AI. Three engineers, Sweden.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="frame">
+      <p class="line">Then we leave, and it keeps working.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="frame">
+      <p class="line">Forward deployed means we work from your desk, not ours.</p>
+      <p class="line small">Your data, your systems, your people. We find where AI actually pays, build it into production, and hand it over documented and owned by your team. No slide decks. Working software, in weeks.</p>
+    </div>
+  </section>
+
+  <section class="list">
+    <div class="frame">
+      <p class="line"><span>Mapping</span>We find the work where AI pays for itself, and the work where it does not.</p>
+      <p class="line"><span>Build and integrate</span>Agents, retrieval, copilots and automation, wired into the CRM, ERP, mail and documents you already run.</p>
+      <p class="line"><span>Private inference</span>Models on your own machines, for the data that cannot leave.</p>
+      <p class="line"><span>Enablement</span>Your team learns to run it, change it, and live without us.</p>
+    </div>
+  </section>
+
+  <section class="list">
+    <div class="frame">
+      <p class="line"><span>Week zero</span>We arrive.</p>
+      <p class="line"><span>Weeks one to two</span>A prototype on your real data.</p>
+      <p class="line"><span>Weeks three to eight</span>Evaluations, permissions, monitoring, a human in the loop.</p>
+      <p class="line"><span>Then</span>Handover. We stay on call.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="frame">
+      <p class="line">If AI is the wrong tool, we will say so. Early, in writing, before it costs you anything.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="frame">
+      <p class="line">The code is yours. Documented, tested, running inside your own accounts.</p>
+      <p class="line small">Built for Europe. GDPR is a constraint we design within, not around. No lock-in, no retainer you did not ask for.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="frame">
+      <p class="line">Three engineers.</p>
+      <div class="team">
+        <figure class="person">
+          <div class="portrait">
+            <span class="slot">Portrait<br>4 : 5</span>
+            <!-- <img src="team/jesper.jpg" alt="Jesper Lugner"> -->
+          </div>
+          <figcaption>
+            <span class="name">Jesper Lugner</span>
+            <span class="role">CEO &amp; God King</span>
+            <span class="bio">Short bio. What he has built, what he obsesses over, one human detail.</span>
+          </figcaption>
+        </figure>
+        <figure class="person">
+          <div class="portrait">
+            <span class="slot">Portrait<br>4 : 5</span>
+            <!-- <img src="team/patrik.jpg" alt="Patrik Jungmalm"> -->
+          </div>
+          <figcaption>
+            <span class="name">Patrik Jungmalm</span>
+            <span class="role">Cheerleader</span>
+            <span class="bio">Short bio. What he has built, what he obsesses over, one human detail.</span>
+          </figcaption>
+        </figure>
+        <figure class="person">
+          <div class="portrait">
+            <span class="slot">Portrait<br>4 : 5</span>
+            <!-- <img src="team/viktor.jpg" alt="Viktor Svirins"> -->
+          </div>
+          <figcaption>
+            <span class="name">Viktor Svirins</span>
+            <span class="role" lang="sv">"Gift med en designer vi behöver"</span>
+            <span class="bio">Short bio. What he has built, what he obsesses over, one human detail.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="frame">
+      <p class="line small">Write to us.</p>
+      <p class="line"><a class="email" href="mailto:hello@forward.example">hello@forward.example</a></p>
+      <p class="line colophon"><span>© 2026 Forward AB · Sweden</span><span>Built by humans, with a lot of help.</span></p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  document.documentElement.classList.add('js');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  var counter = document.getElementById('n');
+  document.getElementById('total').textContent = sections.length;
+  sections[0].classList.add('in');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          counter.textContent = sections.indexOf(e.target) + 1;
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(function (s) { io.observe(s); });
+  } else {
+    sections.forEach(function (s) { s.classList.add('in'); });
+  }
+</script>
+</body>
+</html>

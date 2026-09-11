@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward — Ingenjörer som flyttar in</title>
+<meta name="description" content="Forward är en svensk konsultbyrå för forward deployed engineering inom AI. Vi sitter hos er, bygger i produktion och lämnar över koden.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4f1ea;
+  --oat:#e9e3d6;
+  --oat-deep:#ddd5c4;
+  --rule:#cbc2b0;
+  --ink:#1d1f1e;
+  --ink-soft:#4a4d4a;
+  --ink-mute:#7a7c78;
+  --forest:#1f3f31;
+  --forest-soft:#3a5f4e;
+  --display:"Fraunces","Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;
+  --body:"Source Sans 3","Source Sans Pro","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --measure:36rem;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:1.125rem;
+  line-height:1.6;
+  font-feature-settings:"kern","liga","onum";
+  overflow-x:hidden;
+}
+a{color:var(--forest);text-decoration:none;border-bottom:1px solid var(--rule);transition:border-color .2s}
+a:hover{border-color:var(--forest)}
+img{max-width:100%;display:block}
+::selection{background:var(--forest);color:var(--paper)}
+
+.small-caps{
+  font-family:var(--body);
+  font-variant:all-small-caps;
+  font-weight:600;
+  letter-spacing:.12em;
+  font-size:.95rem;
+  color:var(--forest);
+}
+.rule{border:0;border-top:1px solid var(--rule)}
+.rule-strong{border:0;border-top:2px solid var(--ink)}
+
+.wrap{width:min(100% - 3rem, 1240px);margin-inline:auto}
+
+.masthead{
+  padding:1.6rem 0 1.1rem;
+  display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;
+  border-bottom:2px solid var(--ink);
+}
+.masthead .brand{
+  font-family:var(--display);
+  font-weight:500;
+  font-size:1.65rem;
+  letter-spacing:-.01em;
+  color:var(--ink);border:0;
+  font-variation-settings:"opsz" 144;
+}
+.masthead .issue{color:var(--ink-mute);font-size:.95rem}
+.masthead .issue .small-caps{color:var(--ink-soft)}
+.masthead-sub{
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  padding:.55rem 0;border-bottom:1px solid var(--rule);
+  font-size:.9rem;color:var(--ink-mute)
+}
+.masthead-sub a{color:var(--ink-soft);border:0}
+
+.hero{padding:clamp(3rem,7vw,6rem) 0 clamp(2.5rem,5vw,4rem)}
+.hero .kicker{display:flex;align-items:center;gap:1rem;margin-bottom:1.6rem}
+.hero .kicker::after{content:"";flex:1;height:1px;background:var(--rule);max-width:6rem}
+.hero h1{
+  font-family:var(--display);
+  font-weight:300;
+  font-size:clamp(2.5rem,5.6vw,4.9rem);
+  line-height:1.04;
+  letter-spacing:-.022em;
+  max-width:19ch;
+  font-variation-settings:"opsz" 144;
+  text-wrap:balance;
+}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--forest)}
+.hero .standfirst{
+  margin-top:2.2rem;
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(1.2rem,1.6vw,1.45rem);
+  line-height:1.45;
+  max-width:44rem;
+  color:var(--ink-soft);
+  font-variation-settings:"opsz" 30;
+}
+.hero-meta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1.4rem 2.5rem;
+  margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);
+  max-width:56rem;
+}
+.hero-meta div{font-size:1rem;color:var(--ink-soft);line-height:1.45}
+.hero-meta .small-caps{display:block;margin-bottom:.2rem}
+
+.page{
+  display:grid;
+  grid-template-columns:13.5rem minmax(0,1fr);
+  gap:0 clamp(2.5rem,5vw,5.5rem);
+  padding-top:.5rem;
+}
+.toc{
+  position:sticky;top:2rem;align-self:start;
+  padding:1.4rem 0;
+  border-top:1px solid var(--rule);
+}
+.toc .small-caps{display:block;margin-bottom:.9rem;color:var(--ink-soft)}
+.toc ol{list-style:none;counter-reset:toc}
+.toc li{counter-increment:toc;padding:.28rem 0;font-size:1rem;line-height:1.3}
+.toc li a{
+  display:grid;grid-template-columns:2rem 1fr;gap:.2rem;align-items:baseline;
+  color:var(--ink-soft);border:0;
+  transition:color .2s
+}
+.toc li a::before{
+  content:counter(toc,upper-roman) ".";
+  font-family:var(--display);font-weight:400;font-size:.95rem;color:var(--ink-mute);
+}
+.toc li a:hover{color:var(--ink)}
+.toc li.active a{color:var(--forest);font-weight:600}
+.toc li.active a::before{color:var(--forest)}
+.toc-note{margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--rule);font-size:.9rem;color:var(--ink-mute);line-height:1.5}
+
+main{min-width:0}
+section.article{padding:clamp(3rem,6vw,5rem) 0;border-top:1px solid var(--rule)}
+section.article:first-child{border-top:0;padding-top:1.4rem}
+.section-head{
+  display:grid;grid-template-columns:3.5rem 1fr;gap:1rem;align-items:baseline;
+  margin-bottom:2.2rem;
+}
+.section-head .num{
+  font-family:var(--display);font-weight:300;font-size:2.1rem;color:var(--ink-mute);line-height:1;
+  font-variation-settings:"opsz" 144;
+}
+.section-head h2{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(1.75rem,3vw,2.5rem);line-height:1.15;letter-spacing:-.015em;
+  font-variation-settings:"opsz" 144;
+  text-wrap:balance;
+}
+.section-head .small-caps{display:block;margin-bottom:.5rem}
+
+.prose{max-width:var(--measure)}
+.prose p{margin-bottom:1.25em;color:var(--ink);hanging-punctuation:first}
+.prose p:last-child{margin-bottom:0}
+.prose strong{font-weight:600}
+.prose .dropcap::first-letter{
+  font-family:var(--display);font-weight:400;
+  float:left;
+  font-size:4.3em;line-height:.78;
+  padding:.09em .08em 0 0;
+  color:var(--forest);
+  font-variation-settings:"opsz" 144;
+}
+
+.columns{
+  columns:2;column-gap:3rem;column-rule:1px solid var(--rule);
+  max-width:none;
+}
+.columns p{break-inside:avoid-column}
+
+blockquote.pull{
+  column-span:all;
+  margin:2rem 0 2.4rem;
+  padding:1.6rem 0 1.5rem;
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  font-family:var(--display);font-weight:300;font-style:italic;
+  font-size:clamp(1.55rem,2.6vw,2.2rem);line-height:1.25;letter-spacing:-.01em;
+  color:var(--forest);
+  font-variation-settings:"opsz" 144;
+  text-wrap:balance;
+}
+blockquote.pull cite{
+  display:block;margin-top:.9rem;
+  font-family:var(--body);font-style:normal;font-variant:all-small-caps;letter-spacing:.12em;
+  font-size:.95rem;color:var(--ink-mute);font-weight:600;
+}
+
+.aside-note{
+  margin-top:2.6rem;padding:1.2rem 1.4rem;
+  background:var(--oat);
+  max-width:var(--measure);
+  font-size:1rem;line-height:1.55;color:var(--ink-soft);
+}
+.aside-note .small-caps{display:block;margin-bottom:.4rem}
+
+.services{list-style:none;counter-reset:svc;border-top:2px solid var(--ink)}
+.services li{
+  counter-increment:svc;
+  display:grid;grid-template-columns:4rem minmax(0,15rem) minmax(0,1fr);gap:1rem 2rem;
+  padding:1.9rem 0;border-bottom:1px solid var(--rule);
+}
+.services li::before{
+  content:"0" counter(svc);
+  font-family:var(--display);font-weight:300;font-size:1.6rem;color:var(--ink-mute);line-height:1.1;
+  font-variation-settings:"opsz" 144;
+}
+.services h3{
+  font-family:var(--display);font-weight:500;font-size:1.35rem;line-height:1.25;letter-spacing:-.01em;
+  font-variation-settings:"opsz" 144;
+}
+.services h3 span{display:block;margin-top:.35rem;font-family:var(--body);font-variant:all-small-caps;letter-spacing:.12em;font-size:.9rem;font-weight:600;color:var(--ink-mute)}
+.services p{color:var(--ink-soft);font-size:1.05rem;line-height:1.55;max-width:34rem}
+.services p+p{margin-top:.7em}
+.services .teaser h3 span{color:var(--forest)}
+
+.arc{border-top:2px solid var(--ink)}
+.arc-row{
+  display:grid;grid-template-columns:8.5rem minmax(0,14rem) minmax(0,1fr);gap:1rem 2rem;
+  padding:1.6rem 0;border-bottom:1px solid var(--rule);
+}
+.arc-row .when{
+  font-family:var(--display);font-weight:400;font-size:1.25rem;line-height:1.25;color:var(--forest);
+  font-variation-settings:"opsz" 144;
+}
+.arc-row .when small{display:block;font-family:var(--body);font-variant:all-small-caps;letter-spacing:.12em;font-size:.9rem;font-weight:600;color:var(--ink-mute);margin-top:.2rem}
+.arc-row h3{font-family:var(--body);font-weight:600;font-size:1.1rem;line-height:1.35}
+.arc-row p{color:var(--ink-soft);font-size:1.05rem;line-height:1.55;max-width:34rem}
+.arc-foot{margin-top:1.6rem;font-size:1rem;color:var(--ink-mute);max-width:var(--measure);line-height:1.55}
+
+.team-intro{max-width:var(--measure);margin-bottom:2.6rem}
+.team{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem 2rem;
+}
+.portrait{
+  position:relative;
+  aspect-ratio:4/5;
+  background:var(--oat);
+  border:1px solid var(--rule);
+  overflow:hidden;
+}
+.portrait .ph{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;
+  color:var(--ink-mute);text-align:center;padding:1rem;
+  background:
+    linear-gradient(135deg,transparent 49.6%,var(--oat-deep) 49.6%,var(--oat-deep) 50.4%,transparent 50.4%),
+    linear-gradient(45deg,transparent 49.6%,var(--oat-deep) 49.6%,var(--oat-deep) 50.4%,transparent 50.4%);
+}
+.portrait .ph .small-caps{color:var(--ink-soft);background:var(--oat);padding:.2rem .6rem}
+.portrait .ph span:not(.small-caps){font-size:.9rem;background:var(--oat);padding:.1rem .5rem}
+.portrait img{width:100%;height:100%;object-fit:cover}
+.reveal{clip-path:inset(0 0 0 0)}
+.js .reveal{clip-path:inset(0 0 100% 0);transition:clip-path 1.6s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{clip-path:inset(0 0 0 0)}
+.caption{margin-top:1rem;border-top:1px solid var(--rule);padding-top:.8rem}
+.caption .name{
+  font-family:var(--display);font-weight:500;font-size:1.3rem;line-height:1.2;letter-spacing:-.01em;
+  font-variation-settings:"opsz" 144;
+}
+.caption .role{margin-top:.25rem;color:var(--forest);font-size:1rem;line-height:1.4}
+.caption .role.quote{font-family:var(--display);font-style:italic;font-weight:400;font-size:1.05rem}
+.caption .bio{margin-top:.8rem;color:var(--ink-soft);font-size:1rem;line-height:1.55}
+.caption .bio .ph-mark{color:var(--ink-mute);font-variant:all-small-caps;letter-spacing:.1em;font-weight:600}
+.team-foot{margin-top:2.6rem;font-size:1rem;color:var(--ink-mute);max-width:var(--measure);line-height:1.55}
+
+.contact{padding:clamp(3rem,6vw,5rem) 0;border-top:2px solid var(--ink)}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:2.5rem 4rem;align-items:start}
+.contact h2{
+  font-family:var(--display);font-weight:300;
+  font-size:clamp(2rem,4vw,3.4rem);line-height:1.08;letter-spacing:-.02em;
+  font-variation-settings:"opsz" 144;text-wrap:balance;
+}
+.contact h2 em{font-style:italic;color:var(--forest)}
+.contact .prose{margin-top:1.6rem}
+.contact .mail{
+  display:inline-block;margin-top:1.4rem;
+  font-family:var(--display);font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);
+  color:var(--ink);border-bottom:2px solid var(--forest);
+  font-variation-settings:"opsz" 144;
+}
+.contact .mail:hover{color:var(--forest)}
+.contact-side{
+  padding-top:.4rem;
+  font-size:1rem;color:var(--ink-soft);line-height:1.55;
+}
+.contact-side dl{display:grid;grid-template-columns:auto 1fr;gap:.6rem 1.4rem}
+.contact-side dt{font-variant:all-small-caps;letter-spacing:.12em;font-weight:600;color:var(--ink-mute);font-size:.95rem;white-space:nowrap}
+.contact-side dd{margin:0}
+
+footer{
+  border-top:1px solid var(--rule);
+  padding:1.6rem 0 3rem;
+  display:flex;justify-content:space-between;gap:1rem 2rem;flex-wrap:wrap;
+  font-size:.92rem;color:var(--ink-mute);
+}
+footer .colophon{font-style:italic;font-family:var(--display);font-weight:400;font-size:1rem}
+
+@media (max-width:900px){
+  body{font-size:1.06rem}
+  .page{grid-template-columns:1fr}
+  .toc{position:static;padding:1.2rem 0 .4rem;border-bottom:1px solid var(--rule);margin-bottom:.5rem}
+  .toc ol{display:flex;flex-wrap:wrap;gap:.2rem 1.4rem}
+  .toc li a{grid-template-columns:auto 1fr;gap:.4rem}
+  .toc-note{display:none}
+  .columns{columns:1;column-rule:0}
+  .section-head{grid-template-columns:1fr;gap:.4rem}
+  .section-head .num{font-size:1.6rem}
+  .services li{grid-template-columns:3rem 1fr;gap:.6rem 1rem}
+  .services li p{grid-column:2}
+  .arc-row{grid-template-columns:1fr;gap:.4rem}
+  .arc-row .when{font-size:1.15rem}
+  .team{grid-template-columns:1fr;gap:2.4rem}
+  .portrait{max-width:26rem}
+  .contact-grid{grid-template-columns:1fr}
+  .hero-meta{grid-template-columns:1fr 1fr}
+}
+@media (max-width:540px){
+  .hero-meta{grid-template-columns:1fr}
+  .services li{grid-template-columns:1fr}
+  .services li p{grid-column:1}
+  .services li::before{font-size:1.2rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .reveal{clip-path:inset(0 0 0 0);transition:none}
+  a{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <a class="brand" href="#top">Forward</a>
+    <div class="issue"><span class="small-caps">Nummer 01</span> &nbsp;·&nbsp; Hösten 2026 &nbsp;·&nbsp; Stockholm</div>
+  </header>
+  <div class="masthead-sub">
+    <span>En konsultbyrå för forward deployed engineering inom AI</span>
+    <span><a href="mailto:hello@forward.example">hello@forward.example</a></span>
+  </div>
+</div>
+
+<div class="wrap" id="top">
+  <section class="hero">
+    <div class="kicker"><span class="small-caps">Ledare</span></div>
+    <h1>Ingenjörer som flyttar in, bygger något som <em>fungerar</em> och sedan går hem.</h1>
+    <p class="standfirst">Forward är en ny svensk konsultbyrå startad av tre vänner som har byggt mjukvara länge nog att vara skeptiska. Vi arbetar på ett sätt som fått ett namn i branschen – forward deployed engineering – men som i grunden är enkelt: vi sitter hos er, vi bygger på riktig data, och vi lämnar över koden när vi är klara.</p>
+    <div class="hero-meta">
+      <div><span class="small-caps">Vad</span>AI i produktion: agenter, retrieval, copiloter, automatisering</div>
+      <div><span class="small-caps">Hur</span>Inbäddade i ert team, från första veckan till överlämning</div>
+      <div><span class="small-caps">När</span>Fungerande programvara inom veckor, inte kvartal</div>
+      <div><span class="small-caps">Var</span>Sverige och EU, under GDPR, på plats eller på distans</div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap page">
+  <aside class="toc" aria-label="Innehåll">
+    <span class="small-caps">Innehåll</span>
+    <ol>
+      <li><a href="#tes">Tesen</a></li>
+      <li><a href="#fde">Vad FDE betyder</a></li>
+      <li><a href="#tjanster">Tjänster</a></li>
+      <li><a href="#process">Så arbetar vi</a></li>
+      <li><a href="#team">Grundarna</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ol>
+    <p class="toc-note">Forward AB är ett nystartat bolag. Det här är vår första text om hur vi tänker arbeta. Den kommer att revideras.</p>
+  </aside>
+
+  <main>
+    <section class="article" id="tes">
+      <div class="section-head">
+        <span class="num">I.</span>
+        <div>
+          <span class="small-caps">Tesen</span>
+          <h2>Det mesta som sägs om AI är sant på fel ställen</h2>
+        </div>
+      </div>
+      <div class="prose">
+        <p class="dropcap">Det finns ett välkänt mönster i hur företag möter ny teknik. Först kommer föredragen. Sedan strategidokumentet. Sedan en pilot som aldrig riktigt lämnar pilotstadiet. Under tiden fortsätter det dagliga arbetet som förut, och de som gör det dagliga arbetet undrar vad allt handlade om.</p>
+        <p>Vi startade Forward för att vi tröttnat på det mönstret, och för att vi tror att generativ AI, använd med omdöme, kan göra faktisk skillnad i ganska vanliga verksamheter. Inte överallt. Men på fler ställen än många tror, och på färre ställen än leverantörerna påstår.</p>
+        <p>Det som saknas är sällan tekniken. Det som saknas är någon som sitter tillräckligt nära arbetet för att se var tiden faktiskt går, som kan bygga något som fungerar mot riktiga system och riktig data, och som är ärlig nog att säga när svaret är ett vanligt formulär och inte en språkmodell.</p>
+        <p>Det är det vi gör. Vi är ingenjörer, inte rådgivare. Vi har inga bildspel att sälja. Vi kommer med bärbara datorer, sätter oss där arbetet sker, och lämnar efter oss programvara som ert eget team äger, förstår och kan bygga vidare på.</p>
+      </div>
+    </section>
+
+    <section class="article" id="fde">
+      <div class="section-head">
+        <span class="num">II.</span>
+        <div>
+          <span class="small-caps">Begreppet</span>
+          <h2>Vad forward deployed engineering betyder, och varför vi använder det</h2>
+        </div>
+      </div>
+      <div class="prose columns">
+        <p class="dropcap">Begreppet kommer från amerikanska mjukvarubolag som upptäckte att den svåraste delen av att sälja komplex programvara inte var programvaran, utan att få den att fungera i kundens verklighet. Lösningen blev att skicka ut ingenjörer – inte säljare, inte projektledare – som satt hos kunden, förstod hur arbetet faktiskt gick till, och byggde det som saknades på plats. Det visade sig fungera. Det visade sig också vara det enda som fungerade.</p>
+        <p>För oss innebär det tre saker. Vi sitter i er organisation, fysiskt eller i era verktyg, tillräckligt länge för att förstå var tiden faktiskt går. Vi bygger i produktion, mot er riktiga data, inte i en demonstrationsmiljö med tillrättalagda exempel. Och vi lämnar ifrån oss något ni äger: koden, dokumentationen och kunskapen om hur den underhålls.</p>
+        <blockquote class="pull">
+          Vi kommer att säga till om AI är fel verktyg för problemet. Det är inte en brasklapp. Det är en del av jobbet.
+          <cite>Ur vårt första kundsamtal, ungefär</cite>
+        </blockquote>
+        <p>Det praktiska arbetet handlar oftast om ganska odramatiska saker. Agenter som hanterar ett ärende från början till slut och lämnar över till en människa när de är osäkra. Sökning och hämtning över era egna dokument och system – det som i branschen kallas retrieval, eller RAG. Assistenter inbyggda i de verktyg ni redan använder, i stället för ännu en flik. Automatisering av flöden mellan CRM, affärssystem, e-post och dokumenthantering, där en människa idag kopierar och klistrar.</p>
+        <p>Det som skiljer produktion från prototyp är det man inte ser i en demonstration: evalueringar som visar att systemet gör rätt, och fortsätter göra rätt när modellerna byts ut. Skyddsräcken för det som får och inte får hända. Behörigheter som följer era befintliga. Loggning och övervakning så att någon märker när det går fel. Och en människa i loopen exakt där det behövs, och inte överallt annars.</p>
+        <p>Allt detta gör vi inom EU, under GDPR, och vi väljer modeller, leverantörer och driftformer utifrån det. Ibland innebär det att data inte kan lämna era egna maskiner. Då bygger vi för det.</p>
+      </div>
+      <div class="aside-note">
+        <span class="small-caps">Ordförklaring</span>
+        <strong>Forward deployed engineer</strong> – en ingenjör som arbetar ute hos kunden i stället för hemma på byrån, och som ansvarar för att lösningen fungerar i kundens verklighet, inte bara i teorin. Ordet <em>deployed</em> är lånat från militär och fältarbete. Det låter mer dramatiskt än det är.
+      </div>
+    </section>
+
+    <section class="article" id="tjanster">
+      <div class="section-head">
+        <span class="num">III.</span>
+        <div>
+          <span class="small-caps">Tjänster</span>
+          <h2>Fyra saker vi gör, i ungefär den ordning de brukar behövas</h2>
+        </div>
+      </div>
+      <ol class="services">
+        <li>
+          <h3>Kartläggning<span>Två till tre veckor</span></h3>
+          <div>
+            <p>Vi går igenom hur arbetet faktiskt utförs – inte hur det står i processbeskrivningen – tillsammans med de som utför det. Vi tittar på ärenden, mejl, kalkylblad och systemloggar, och räknar på var tiden går.</p>
+            <p>Resultatet är en kort lista: var AI gör konkret nytta, vad det skulle kosta att bygga och drifta, vad det inte är värt, och vad vi avråder från. Om listan är tom säger vi det.</p>
+          </div>
+        </li>
+        <li>
+          <h3>Bygg och integration<span>Veckor, inte kvartal</span></h3>
+          <div>
+            <p>Agenter, retrieval över era dokument, copiloter i era befintliga verktyg och automatisering av flöden mellan CRM, affärssystem, e-post och dokument. Byggt mot er data och era behörigheter.</p>
+            <p>Evalueringar, skyddsräcken, loggning och övervakning från första dagen, inte som eftertanke. Människa i loopen där det gör skillnad.</p>
+          </div>
+        </li>
+        <li class="teaser">
+          <h3>Privat inferens<span>På egen hårdvara eller i egen miljö</span></h3>
+          <div>
+            <p>För verksamheter där data inte kan lämna huset: öppna modeller som körs på egna servrar, i egen molnmiljö eller på hårdvara vi hjälper er skaffa. Vi väljer, driftsätter och mäter, så att ni vet vad ni får och vad det kostar per svar.</p>
+            <p>Detta är ett område vi bygger ut under året. Fråga gärna.</p>
+          </div>
+        </li>
+        <li>
+          <h3>Överlämning och utbildning<span>Ert att äga</span></h3>
+          <div>
+            <p>Vi bygger inte beroenden. Koden är dokumenterad och ligger i era repositorier, evalueringarna körs i er pipeline, och ert team vet hur man ändrar, mäter och felsöker. Vi utbildar utvecklare, produktägare och de som ska använda systemet varje dag.</p>
+            <p>Sedan finns vi kvar i bakgrunden så länge det behövs, med ett telefonnummer som fungerar. Men det är ert.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="article" id="process">
+      <div class="section-head">
+        <span class="num">IV.</span>
+        <div>
+          <span class="small-caps">Så arbetar vi</span>
+          <h2>Ett typiskt uppdrag, från första veckan till den sista</h2>
+        </div>
+      </div>
+      <div class="arc">
+        <div class="arc-row">
+          <div class="when">Vecka 0<small>Flytta in</small></div>
+          <h3>Vi får tillgång till system, data och människor</h3>
+          <p>Konton, repositorier, ett skrivbord eller en kanal. Vi läser, lyssnar och ställer frågor. Den här veckan pratar vi mindre än ni förväntar er.</p>
+        </div>
+        <div class="arc-row">
+          <div class="when">Vecka 1–2<small>Prototyp</small></div>
+          <h3>Något som fungerar, mot era riktiga ärenden</h3>
+          <p>Inte en presentation av vad som skulle kunna byggas, utan ett system som kör i era verktyg på er data. Det är ofta fult. Det är alltid på riktigt, och det är här vi tillsammans avgör om det är värt att fortsätta.</p>
+        </div>
+        <div class="arc-row">
+          <div class="when">Vecka 3–8<small>Härda</small></div>
+          <h3>Evalueringar, behörigheter, övervakning, felhantering</h3>
+          <p>Det tråkiga arbetet som gör att det håller. Testsviter som mäter kvalitet över tid, behörigheter som speglar era, loggning så att någon ser när det går fel, och tydliga gränser för vad systemet får göra utan att fråga.</p>
+        </div>
+        <div class="arc-row">
+          <div class="when">Därefter<small>Lämna över</small></div>
+          <h3>Dokumentation, utbildning och ett nummer som svarar</h3>
+          <p>Ert team tar över driften med vår hjälp. Vi finns kvar på avrop, oftast med minskande behov. Målet är att ni inte behöver oss – och att ni ringer ändå, nästa gång det finns något att bygga.</p>
+        </div>
+      </div>
+      <p class="arc-foot">Tidsangivelserna är ungefärliga och gäller ett första uppdrag av normal storlek. Det kan gå snabbare. Det går sällan mycket långsammare, och om det gör det säger vi det tidigt.</p>
+    </section>
+
+    <section class="article" id="team">
+      <div class="section-head">
+        <span class="num">V.</span>
+        <div>
+          <span class="small-caps">Grundarna</span>
+          <h2>Tre personer som har arbetat tillsammans länge och fortfarande gör det frivilligt</h2>
+        </div>
+      </div>
+      <p class="team-intro prose">Forward grundades av tre seniora ingenjörer som byggt system i produktion i många år, och som under de senaste åren använt språkmodeller dagligen i sitt eget arbete. Vi är ett litet bolag och avser att förbli hanterbart stora. Den som ni träffar i första samtalet är samma person som skriver koden.</p>
+      <div class="team">
+        <figure>
+          <div class="portrait reveal">
+            <div class="ph"><span class="small-caps">Porträtt</span><span>Format 4:5 · team/jesper.jpg</span></div>
+            <!-- <img src="team/jesper.jpg" alt="Jesper Lugner"> -->
+          </div>
+          <figcaption class="caption">
+            <div class="name">Jesper Lugner</div>
+            <div class="role">CEO &amp; God King</div>
+            <p class="bio"><span class="ph-mark">Platshållare</span> – Kort presentation i en eller två meningar. Vad han har byggt, vad han inte kan låta vara, en mänsklig detalj.</p>
+          </figcaption>
+        </figure>
+        <figure>
+          <div class="portrait reveal">
+            <div class="ph"><span class="small-caps">Porträtt</span><span>Format 4:5 · team/patrik.jpg</span></div>
+            <!-- <img src="team/patrik.jpg" alt="Patrik Jungmalm"> -->
+          </div>
+          <figcaption class="caption">
+            <div class="name">Patrik Jungmalm</div>
+            <div class="role">Cheerleader</div>
+            <p class="bio"><span class="ph-mark">Platshållare</span> – Kort presentation i en eller två meningar. Vad han har byggt, vad han inte kan låta vara, en mänsklig detalj.</p>
+          </figcaption>
+        </figure>
+        <figure>
+          <div class="portrait reveal">
+            <div class="ph"><span class="small-caps">Porträtt</span><span>Format 4:5 · team/viktor.jpg</span></div>
+            <!-- <img src="team/viktor.jpg" alt="Viktor Svirins"> -->
+          </div>
+          <figcaption class="caption">
+            <div class="name">Viktor Svirins</div>
+            <div class="role quote">"Gift med en designer vi behöver"</div>
+            <p class="bio"><span class="ph-mark">Platshållare</span> – Kort presentation i en eller två meningar. Vad han har byggt, vad han inte kan låta vara, en mänsklig detalj.</p>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="team-foot">Rollbeteckningarna är våra egna. Vi har inte haft tid att ta dem på allvar, och det tänker vi inte heller göra.</p>
+    </section>
+  </main>
+</div>
+
+<div class="wrap">
+  <section class="contact" id="kontakt">
+    <div class="contact-grid">
+      <div>
+        <span class="small-caps">Kontakt</span>
+        <h2>Ett första samtal kostar ingenting och slutar ibland med att vi säger att ni <em>inte</em> behöver oss.</h2>
+        <div class="prose">
+          <p>Skriv några rader om vad ni gör och var det skaver. Vi svarar själva, oftast samma dag, och föreslår ett samtal på en timme. Efter det vet ni om vi är rätt för er, och vi vet om det finns något att bygga.</p>
+        </div>
+        <a class="mail" href="mailto:hello@forward.example">hello@forward.example</a>
+      </div>
+      <div class="contact-side">
+        <dl>
+          <dt>Bolag</dt><dd>Forward AB, Sverige. Arbetsnamn – det kan komma att ändras, men adressen fungerar.</dd>
+          <dt>Var</dt><dd>På plats i Stockholmsområdet, på distans i resten av Sverige och EU.</dd>
+          <dt>Data</dt><dd>Vi arbetar under GDPR och skriver biträdesavtal innan vi ser er data. Vid behov kör vi allt i er miljö.</dd>
+          <dt>Storlek</dt><dd>Tre grundare. Vi tar oss an ett fåtal uppdrag i taget och säger nej till resten.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <span>© 2026 Forward AB · Sverige</span>
+    <span class="colophon">Byggd av människor, med en hel del hjälp.</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  document.body.classList.add('js');
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var portraits=document.querySelectorAll('.reveal');
+  if(reduced||!('IntersectionObserver' in window)){
+    portraits.forEach(function(p){p.classList.add('in')});
+  }else{
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+      });
+    },{threshold:.2});
+    portraits.forEach(function(p){io.observe(p)});
+  }
+  var links=document.querySelectorAll('.toc li');
+  var byId={};
+  links.forEach(function(li){var a=li.querySelector('a');byId[a.getAttribute('href').slice(1)]=li});
+  var sections=document.querySelectorAll('section[id]');
+  if('IntersectionObserver' in window){
+    var current=null;
+    var so=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          if(current)current.classList.remove('active');
+          current=byId[e.target.id];
+          if(current)current.classList.add('active');
+        }
+      });
+    },{rootMargin:'-30% 0px -60% 0px'});
+    sections.forEach(function(s){so.observe(s)});
+  }
+})();
+</script>
+</body>
+</html>

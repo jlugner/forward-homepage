@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward — Forward Deployed Engineering for AI</title>
+<meta name="description" content="Forward. Three engineers embed in your company, find where AI pays off, ship it to production, hand you the keys.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f2f0ea;
+  --ink:#0a0a0a;
+  --red:#e3000f;
+  --rule:8px;
+  --pad:clamp(16px,4vw,64px);
+  --display:"Archivo Black","Arial Black",Impact,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --text:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html{background:var(--paper);color:var(--ink);-webkit-text-size-adjust:100%}
+body{font-family:var(--text);font-size:clamp(17px,1.15vw,20px);line-height:1.35;background:var(--paper);color:var(--ink);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--ink);color:var(--paper)}
+img{max-width:100%;display:block}
+
+.wrap{padding-left:var(--pad);padding-right:var(--pad)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);column-gap:clamp(12px,2vw,32px)}
+.display{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:-.03em;line-height:.88}
+.label{font-family:var(--text);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
+.num{font-family:var(--display);font-size:clamp(4rem,9vw,9.5rem);line-height:.85;letter-spacing:-.04em}
+section{border-top:var(--rule) solid var(--ink)}
+.inv{transition:background-color 120ms linear,color 120ms linear}
+.inv:hover,.inv:focus-visible{background:var(--ink);color:var(--paper);outline:none}
+
+header{display:flex;justify-content:space-between;align-items:stretch;border-bottom:var(--rule) solid var(--ink)}
+.mark{display:flex;align-items:center;gap:14px;padding:18px 0;font-family:var(--display);font-size:1.5rem;letter-spacing:-.02em;text-transform:uppercase}
+.mark i{display:block;width:22px;height:22px;background:var(--red)}
+nav{display:flex;flex-wrap:wrap}
+nav a{display:flex;align-items:center;padding:0 22px;border-left:4px solid var(--ink);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase}
+
+.hero{padding-top:clamp(40px,6vw,96px);padding-bottom:clamp(40px,6vw,96px);border-top:0}
+.hero .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:0 32px;margin-bottom:clamp(24px,4vw,64px)}
+.hero h1{grid-column:1/-1;font-size:clamp(3.4rem,13.6vw,15rem);overflow-wrap:anywhere}
+.hero h1 span{display:block}
+.draw{grid-column:1/-1;height:var(--rule);background:var(--ink);width:0;margin:clamp(24px,3vw,48px) 0;animation:draw 900ms cubic-bezier(.2,.8,.2,1) 250ms forwards}
+@keyframes draw{to{width:100%}}
+.hero .lede{grid-column:6/-1;font-size:clamp(1.25rem,2vw,2rem);line-height:1.2;font-weight:500;max-width:34ch}
+.hero .side{grid-column:1/5;align-self:end}
+.hero .side p{max-width:26ch;font-size:.95rem;font-weight:500}
+.hero .side a{display:inline-block;margin-top:14px;border:4px solid var(--ink);padding:10px 18px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.85rem}
+
+.sec{padding-top:clamp(40px,5vw,80px);padding-bottom:clamp(48px,6vw,96px)}
+.sec-head{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(28px,4vw,64px);gap:24px;flex-wrap:wrap}
+.sec-head .display{font-size:clamp(2.6rem,7vw,7.5rem)}
+.sec-head .label{white-space:nowrap}
+
+.fde .big{grid-column:1/8;font-size:clamp(2rem,4.4vw,4.6rem);font-family:var(--display);text-transform:uppercase;letter-spacing:-.03em;line-height:.92}
+.fde .body{grid-column:8/-1;font-size:clamp(1.05rem,1.35vw,1.4rem);line-height:1.3}
+.fde .body p+p{margin-top:1em}
+.rules{grid-column:1/-1;margin-top:clamp(40px,5vw,80px);border-top:4px solid var(--ink)}
+.rules div{display:grid;grid-template-columns:5ch 1fr;gap:24px;padding:20px 0;border-bottom:4px solid var(--ink);font-family:var(--display);text-transform:uppercase;font-size:clamp(1.3rem,2.6vw,2.6rem);letter-spacing:-.02em;line-height:1}
+.rules div .label{align-self:start;padding-top:.35em}
+.rules div.inv{padding-left:12px;padding-right:12px;margin-left:-12px;margin-right:-12px}
+
+.services{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--ink);border:4px solid var(--ink)}
+.svc{background:var(--paper);padding:clamp(20px,2.4vw,36px);min-height:clamp(260px,26vw,380px);display:flex;flex-direction:column;justify-content:space-between;gap:28px;position:relative}
+.svc .top{display:flex;justify-content:space-between;align-items:flex-start}
+.svc .idx{font-family:var(--display);font-size:clamp(2.6rem,5vw,5rem);line-height:.85;letter-spacing:-.04em}
+.svc .soon{background:var(--red);color:#fff;padding:6px 10px}
+.svc h3{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.6rem,3vw,3rem);letter-spacing:-.03em;line-height:.92;margin-bottom:14px}
+.svc p{max-width:40ch;font-size:clamp(.95rem,1.1vw,1.15rem)}
+
+.steps{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,32px)}
+.step{border-top:var(--rule) solid var(--ink);padding-top:16px}
+.step .wk{font-family:var(--display);font-size:clamp(3rem,6.4vw,6.8rem);line-height:.85;letter-spacing:-.05em;white-space:nowrap}
+.step h3{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.3rem,1.9vw,2rem);letter-spacing:-.02em;margin:20px 0 12px}
+.step p{font-size:clamp(.95rem,1.05vw,1.1rem);max-width:30ch}
+
+.stats{background:var(--ink);color:var(--paper);border-top:0}
+.stats .grid{grid-template-columns:repeat(4,1fr);column-gap:4px}
+.stats div{padding:clamp(28px,3.5vw,56px) clamp(16px,2vw,32px) clamp(28px,3.5vw,56px) 0;border-left:4px solid var(--paper);padding-left:clamp(16px,2vw,32px)}
+.stats div:first-child{border-left:0;padding-left:0}
+.stats .n{font-family:var(--display);font-size:clamp(3.6rem,8vw,9rem);line-height:.85;letter-spacing:-.05em}
+.stats .label{margin-top:14px;display:block}
+
+.team{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.5vw,40px)}
+.person{border-top:var(--rule) solid var(--ink);padding-top:16px}
+.portrait{position:relative;aspect-ratio:4/5;border:4px solid var(--ink);background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(10,10,10,.12) 14px 16px);display:flex;align-items:flex-end;padding:14px}
+.portrait span{background:var(--ink);color:var(--paper);padding:6px 10px}
+.person h3{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.5rem,2.2vw,2.3rem);letter-spacing:-.03em;line-height:.95;margin-top:20px}
+.person .role{font-family:var(--display);text-transform:uppercase;font-size:clamp(1rem,1.3vw,1.3rem);letter-spacing:-.01em;line-height:1.05;margin:10px 0 14px;padding:8px 0;border-top:4px solid var(--ink);border-bottom:4px solid var(--ink);min-height:calc(2.1em + 16px)}
+.person p{font-size:clamp(.95rem,1.05vw,1.1rem);max-width:34ch}
+
+.contact{padding-bottom:0}
+.contact .big{grid-column:1/-1;font-size:clamp(2.6rem,7vw,7.5rem)}
+.contact .mail{grid-column:1/-1;display:block;margin-top:clamp(24px,3vw,48px);border:var(--rule) solid var(--ink);padding:clamp(18px,2.5vw,40px) var(--pad);font-family:var(--display);font-size:clamp(1.5rem,5.2vw,5.6rem);letter-spacing:-.04em;line-height:.9;overflow-wrap:anywhere;text-transform:lowercase}
+.contact .mail{margin-left:calc(var(--pad) * -1);margin-right:calc(var(--pad) * -1);border-left:0;border-right:0;border-bottom:0}
+.contact .note{grid-column:7/-1;margin:clamp(24px,3vw,48px) 0 clamp(40px,5vw,80px);font-size:clamp(1.05rem,1.35vw,1.4rem);max-width:34ch}
+.contact .addr{grid-column:1/6;margin:clamp(24px,3vw,48px) 0 clamp(40px,5vw,80px);font-weight:500;font-size:.95rem}
+.contact .addr b{display:block;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;margin-bottom:10px}
+
+footer{border-top:var(--rule) solid var(--ink);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 32px;padding-top:22px;padding-bottom:22px;font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
+
+@media (max-width:900px){
+  .grid{column-gap:16px}
+  .hero .lede,.hero .side,.fde .big,.fde .body,.contact .note,.contact .addr{grid-column:1/-1}
+  .hero .side{margin-top:32px}
+  .fde .body{margin-top:28px}
+  .services{grid-template-columns:1fr}
+  .svc{min-height:0}
+  .steps{grid-template-columns:1fr;gap:32px}
+  .stats .grid{grid-template-columns:1fr 1fr;row-gap:4px}
+  .stats div{border-left:0;padding-left:0;border-top:4px solid var(--paper);padding-top:24px;padding-bottom:24px}
+  .stats div:nth-child(-n+2){border-top:0}
+  .team{grid-template-columns:1fr}
+  .person .role{min-height:0}
+  .rules div{grid-template-columns:4ch 1fr;gap:12px}
+  nav a{padding:14px 12px;font-size:.75rem}
+  .contact .addr{margin-bottom:0}
+}
+@media (max-width:560px){
+  header{flex-direction:column}
+  nav{border-top:4px solid var(--ink)}
+  nav a:first-child{border-left:0}
+  .stats .grid{grid-template-columns:1fr}
+  .stats div:nth-child(-n+2){border-top:4px solid var(--paper)}
+  .stats div:first-child{border-top:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .draw{width:100%}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <a class="mark" href="#top"><i></i>Forward</a>
+  <nav>
+    <a class="inv" href="#fde">FDE</a>
+    <a class="inv" href="#services">Services</a>
+    <a class="inv" href="#process">Process</a>
+    <a class="inv" href="#team">Team</a>
+    <a class="inv" href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<section class="hero wrap grid">
+  <div class="meta label">
+    <span>Forward Deployed Engineering</span>
+    <span>AI in production</span>
+    <span>Sweden</span>
+    <span>2026</span>
+  </div>
+  <h1 class="display"><span>We build.</span><span>You own it.</span></h1>
+  <div class="draw" aria-hidden="true"></div>
+  <div class="side">
+    <p>Three senior engineers. We sit inside your company until the AI works. Then we leave you the code.</p>
+    <a class="inv" href="#contact">Talk to an engineer</a>
+  </div>
+  <p class="lede">We embed in your operation. We find the workflows where AI actually pays off. We ship them to production. Weeks, not quarters. No decks.</p>
+</section>
+
+<section class="sec wrap grid fde" id="fde">
+  <div class="sec-head">
+    <h2 class="display">What FDE means</h2>
+    <span class="label">01 / Forward deployed</span>
+  </div>
+  <p class="big">Forward deployed. Not remote-advised. An engineer sits with your team. Reads your data. Builds the thing.</p>
+  <div class="body">
+    <p>In your stack. In your repo. Under your rules. Agents, retrieval, copilots, automation. Wired into the systems you already run. With evals, guardrails, monitoring and a human in the loop from day one.</p>
+    <p>When it works, we hand it over. Documented. Your team trained. We stay on call. That is the whole model.</p>
+  </div>
+  <div class="rules">
+    <div class="inv"><span class="label">01</span><span>No decks. Working software.</span></div>
+    <div class="inv"><span class="label">02</span><span>Engineers first. Sales never.</span></div>
+    <div class="inv"><span class="label">03</span><span>We tell you if AI is the wrong tool.</span></div>
+    <div class="inv"><span class="label">04</span><span>Handover. Not lock-in.</span></div>
+    <div class="inv"><span class="label">05</span><span>GDPR is a requirement. Not a footnote.</span></div>
+  </div>
+</section>
+
+<section class="sec wrap grid" id="services">
+  <div class="sec-head">
+    <h2 class="display">Services</h2>
+    <span class="label">02 / Four things we do</span>
+  </div>
+  <div class="services">
+    <article class="svc inv">
+      <div class="top"><span class="idx">01</span><span class="label">2 weeks</span></div>
+      <div>
+        <h3>Mapping</h3>
+        <p>Two weeks inside your operation. We find the workflows where AI pays and the ones where it does not. You get a ranked list and a build plan. Not a deck.</p>
+      </div>
+    </article>
+    <article class="svc inv">
+      <div class="top"><span class="idx">02</span><span class="label">Core</span></div>
+      <div>
+        <h3>Build &amp; integrate</h3>
+        <p>Agents. Retrieval. Copilots. Automation. Wired into CRM, ERP, mail, documents. Evals, guardrails, observability, human in the loop. Production. Not demo.</p>
+      </div>
+    </article>
+    <article class="svc inv">
+      <div class="top"><span class="idx">03</span><span class="label soon">Soon</span></div>
+      <div>
+        <h3>Private inference</h3>
+        <p>Models on your hardware. In your building. On your terms. Data that never leaves. Our own boxes, when they are ready.</p>
+      </div>
+    </article>
+    <article class="svc inv">
+      <div class="top"><span class="idx">04</span><span class="label">Handover</span></div>
+      <div>
+        <h3>Enablement</h3>
+        <p>Your team runs it after we leave. Documentation. Pairing. Training. Then we are on call. Not on retainer.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="sec wrap grid" id="process">
+  <div class="sec-head">
+    <h2 class="display">Process</h2>
+    <span class="label">03 / Eight weeks</span>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="wk">W0</div>
+      <h3>Embed</h3>
+      <p>We sit down with you. Access. Context. People. We read before we write.</p>
+    </div>
+    <div class="step">
+      <div class="wk">W1–2</div>
+      <h3>Prototype</h3>
+      <p>Real data. Real users. A working thing on the table in two weeks or we say why not.</p>
+    </div>
+    <div class="step">
+      <div class="wk">W3–8</div>
+      <h3>Harden</h3>
+      <p>Evals. Permissions. Monitoring. Failure modes. The boring part that makes it production.</p>
+    </div>
+    <div class="step">
+      <div class="wk">W8+</div>
+      <h3>Hand over</h3>
+      <p>Your code. Your repo. Your team trained. We stay on call.</p>
+    </div>
+  </div>
+</section>
+
+<section class="stats wrap">
+  <div class="grid">
+    <div><div class="n">3</div><span class="label">Engineers</span></div>
+    <div><div class="n">0</div><span class="label">Slide decks</span></div>
+    <div><div class="n">8</div><span class="label">Weeks to production</span></div>
+    <div><div class="n">100%</div><span class="label">Yours</span></div>
+  </div>
+</section>
+
+<section class="sec wrap grid" id="team">
+  <div class="sec-head">
+    <h2 class="display">Team</h2>
+    <span class="label">04 / Three founders</span>
+  </div>
+  <div class="team">
+    <article class="person">
+      <div class="portrait">
+        <!-- <img src="team/jesper.jpg" alt="Jesper Lugner"> -->
+        <span class="label">Portrait 4:5</span>
+      </div>
+      <h3>Jesper Lugner</h3>
+      <div class="role">CEO &amp; God King</div>
+      <p>Short bio. What he has built, what he obsesses over, one human detail. Two sentences. No adjectives.</p>
+    </article>
+    <article class="person">
+      <div class="portrait">
+        <!-- <img src="team/patrik.jpg" alt="Patrik Jungmalm"> -->
+        <span class="label">Portrait 4:5</span>
+      </div>
+      <h3>Patrik Jungmalm</h3>
+      <div class="role">Cheerleader</div>
+      <p>Short bio. What he has built, what he obsesses over, one human detail. Two sentences. No adjectives.</p>
+    </article>
+    <article class="person">
+      <div class="portrait">
+        <!-- <img src="team/viktor.jpg" alt="Viktor Svirins"> -->
+        <span class="label">Portrait 4:5</span>
+      </div>
+      <h3>Viktor Svirins</h3>
+      <div class="role">"Gift med en designer vi behöver"</div>
+      <p>Short bio. What he has built, what he obsesses over, one human detail. Two sentences. No adjectives.</p>
+    </article>
+  </div>
+</section>
+
+<section class="sec wrap grid contact" id="contact">
+  <div class="sec-head">
+    <h2 class="display">Contact</h2>
+    <span class="label">05 / One address</span>
+  </div>
+  <p class="big display">Say hello. Or say what is broken.</p>
+  <div class="addr">
+    <b>Forward AB</b>
+    Sweden. Swedish or English. We answer within a working day. An engineer, not a form.
+  </div>
+  <p class="note">Tell us what your people do by hand that they should not. We will tell you whether AI fixes it. If it does not, we say so and you keep your money.</p>
+  <a class="mail inv" href="mailto:hello@forward.example">hello@forward.example</a>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <span>© 2026 Forward AB · Sweden</span>
+  <span>Built by humans. With a lot of help.</span>
+</footer>
+
+</body>
+</html>

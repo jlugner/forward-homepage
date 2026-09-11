@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward — three engineers who like shipping things</title>
+<meta name="description" content="Forward is a small Swedish consultancy doing forward deployed AI engineering. We embed in your team, build AI into production, and hand over the keys.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF8F0;
+  --ink:#2B2340;
+  --ink-soft:#5B5470;
+  --mint:#D6F2E4;
+  --lavender:#E6E0FA;
+  --peach:#FFE0CC;
+  --butter:#FFF0B8;
+  --sky:#D9ECFB;
+  --pop:#FF5C38;
+  --pop-dark:#E2431F;
+  --white:#FFFFFF;
+  --display:"Fredoka","Baloo 2","Nunito","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI","Helvetica Neue",Arial,system-ui,sans-serif;
+  --radius:28px;
+  --shadow:0 12px 30px rgba(43,35,64,.08);
+  --hard:4px 4px 0 var(--ink);
+  --max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--body);
+  font-size:18px;
+  line-height:1.6;
+  color:var(--ink);
+  background:var(--cream);
+  overflow-x:hidden;
+}
+h1,h2,h3,.display{font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(2.6rem,5.6vw,4.4rem)}
+h2{font-size:clamp(2rem,4.2vw,3.2rem)}
+h3{font-size:1.45rem;font-weight:600}
+p{margin:0 0 1em}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+section{position:relative;padding:clamp(72px,9vw,128px) 0}
+.eyebrow{font-family:var(--display);font-weight:600;font-size:1rem;letter-spacing:.04em;text-transform:uppercase;color:var(--pop);margin-bottom:14px}
+.lead{font-size:clamp(1.15rem,1.6vw,1.35rem);color:var(--ink-soft);max-width:38em}
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--display);font-weight:600;font-size:1.1rem;
+  padding:16px 28px;border-radius:999px;text-decoration:none;
+  border:3px solid var(--ink);transition:transform .18s ease,box-shadow .18s ease;
+  box-shadow:var(--hard);
+}
+.btn:hover{transform:translate(-2px,-2px) rotate(-1deg);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn-pop{background:var(--pop);color:var(--white)}
+.btn-ghost{background:var(--white);color:var(--ink)}
+.btn svg{width:22px;height:22px}
+
+.sticker{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.95rem;
+  padding:8px 16px;border-radius:999px;border:2.5px solid var(--ink);
+  background:var(--butter);box-shadow:3px 3px 0 var(--ink);white-space:nowrap;
+}
+.sticker.mint{background:var(--mint)}
+.sticker.lav{background:var(--lavender)}
+.sticker.peach{background:var(--peach)}
+.sticker.sky{background:var(--sky)}
+.sticker.pop{background:var(--pop);color:var(--white)}
+
+.blob{
+  position:absolute;z-index:0;pointer-events:none;
+  border-radius:60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation:drift 22s ease-in-out infinite alternate;
+  opacity:.9;
+}
+.blob.b2{animation-duration:27s;animation-delay:-8s}
+.blob.b3{animation-duration:31s;animation-delay:-15s}
+@keyframes drift{
+  0%{transform:translate(0,0) rotate(0deg);border-radius:60% 40% 30% 70% / 60% 30% 70% 40%}
+  50%{transform:translate(28px,-36px) rotate(14deg);border-radius:40% 60% 70% 30% / 50% 60% 30% 60%}
+  100%{transform:translate(-22px,26px) rotate(-10deg);border-radius:55% 45% 40% 60% / 45% 55% 45% 55%}
+}
+
+nav{
+  position:relative;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:26px 0;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700;font-size:1.7rem}
+.logo svg{width:44px;height:44px}
+nav ul{list-style:none;display:flex;gap:6px;margin:0;padding:0}
+nav ul a{
+  text-decoration:none;font-family:var(--display);font-weight:600;font-size:1.02rem;
+  padding:10px 16px;border-radius:999px;transition:background .15s ease,transform .15s ease;
+}
+nav ul a:hover{background:var(--lavender);transform:rotate(-2deg)}
+nav ul a.cta{background:var(--ink);color:var(--white)}
+nav ul a.cta:hover{background:var(--pop)}
+.nav-toggle{display:none}
+
+.hero{padding:clamp(40px,6vw,90px) 0 clamp(80px,9vw,130px);overflow:hidden}
+.hero .wrap{position:relative;z-index:1}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero h1{margin:0 0 26px}
+.hero h1 .squig{position:relative;display:inline-block;white-space:nowrap}
+.hero h1 .squig svg{position:absolute;left:-2%;right:-2%;bottom:-.12em;width:104%;height:.38em;overflow:visible}
+.hero h1 .squig path{fill:none;stroke:var(--pop);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.hero-actions{display:flex;flex-wrap:wrap;gap:16px;margin-top:34px}
+.hero-art{position:relative;min-height:440px}
+.hero-art .stick{position:absolute;transform:rotate(var(--r,-4deg))}
+.hero-art .stick:nth-child(1){top:6%;left:8%;--r:-7deg}
+.hero-art .stick:nth-child(2){top:28%;right:2%;--r:5deg}
+.hero-art .stick:nth-child(3){top:52%;left:0;--r:-3deg}
+.hero-art .stick:nth-child(4){top:74%;right:8%;--r:6deg;max-width:90%;white-space:normal;text-align:center}
+.hero-art .stick{animation:bob 4s ease-in-out infinite alternate}
+.hero-art .stick:nth-child(2){animation-delay:-1.2s}
+.hero-art .stick:nth-child(3){animation-delay:-2.3s}
+.hero-art .stick:nth-child(4){animation-delay:-3.1s}
+@keyframes bob{from{translate:0 0}to{translate:0 -10px}}
+.hero-art .arrow{position:absolute;width:150px;left:36%;top:38%;transform:rotate(18deg)}
+.hero-art .arrow path{fill:none;stroke:var(--ink);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.hero .blob.b1{width:520px;height:480px;background:var(--peach);right:-160px;top:-60px}
+.hero .blob.b2{width:360px;height:340px;background:var(--mint);left:-140px;bottom:-120px}
+.hero .blob.b3{width:220px;height:210px;background:var(--lavender);right:22%;bottom:-40px}
+
+.marquee{
+  position:relative;z-index:2;
+  background:var(--pop);color:var(--white);
+  transform:rotate(-1.4deg);margin:-30px -40px 0;
+  padding:16px 0;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);
+  overflow:hidden;
+}
+.marquee .track{display:flex;width:max-content;animation:scroll 36s linear infinite}
+.marquee span{
+  font-family:var(--display);font-weight:600;font-size:1.25rem;
+  padding:0 18px;display:inline-flex;align-items:center;gap:18px;
+  animation:bob 2.4s ease-in-out infinite alternate;
+}
+.marquee span:nth-child(odd){animation-delay:-1.2s}
+.marquee span i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--butter);border:2px solid var(--ink)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.fde{overflow:hidden}
+.fde .blob.b1{width:420px;height:400px;background:var(--sky);left:-180px;top:20%}
+.fde-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start}
+.fde-grid .lead{margin-bottom:1.2em}
+.fde p{font-size:1.1rem}
+.eqcard{
+  background:var(--white);border:3px solid var(--ink);border-radius:var(--radius);
+  padding:34px 34px 30px;box-shadow:var(--hard);position:relative;transform:rotate(1.5deg);
+}
+.eqcard .sticker{position:absolute;top:-20px;left:26px;transform:rotate(-4deg)}
+.eq{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.eq li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.eq .k{font-family:var(--display);font-weight:700;font-size:1.15rem;padding:6px 14px;border-radius:14px;background:var(--lavender);border:2px solid var(--ink);white-space:nowrap}
+.eq li:nth-child(2) .k{background:var(--mint)}
+.eq li:nth-child(3) .k{background:var(--peach)}
+.eq p{margin:4px 0 0;font-size:1.02rem;color:var(--ink-soft)}
+.eqcard .sum{margin-top:22px;padding-top:20px;border-top:3px dashed var(--ink);font-family:var(--display);font-weight:600;font-size:1.25rem}
+
+.services{background:var(--lavender);overflow:hidden;border-radius:60px 60px 0 0}
+.services .blob.b1{width:380px;height:360px;background:var(--white);opacity:.6;right:-140px;top:-80px}
+.services .blob.b2{width:300px;height:280px;background:var(--butter);left:-120px;bottom:-100px}
+.sec-head{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:56px}
+.cards{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.card{
+  background:var(--white);border:3px solid var(--ink);border-radius:var(--radius);
+  padding:34px;box-shadow:var(--hard);position:relative;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1.2),box-shadow .25s ease;
+}
+.card:hover{transform:rotate(-1.4deg) translateY(-8px);box-shadow:8px 10px 0 var(--ink)}
+.card:nth-child(even):hover{transform:rotate(1.4deg) translateY(-8px)}
+.card .sticker{position:absolute;top:-18px;right:24px;transform:rotate(4deg)}
+.card .icon{width:64px;height:64px;border-radius:20px;border:3px solid var(--ink);display:grid;place-items:center;margin-bottom:22px}
+.card .icon svg{width:34px;height:34px;fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.card h3{margin-bottom:10px}
+.card p{color:var(--ink-soft);margin:0;font-size:1.05rem}
+.card.c1 .icon{background:var(--mint)}
+.card.c2 .icon{background:var(--peach)}
+.card.c3 .icon{background:var(--sky)}
+.card.c4 .icon{background:var(--butter)}
+.card ul{margin:14px 0 0;padding:0 0 0 1.2em;color:var(--ink-soft);font-size:1rem}
+.card ul li{margin-bottom:4px}
+
+.process{background:var(--cream);overflow:hidden}
+.process .blob.b1{width:340px;height:320px;background:var(--mint);right:-120px;bottom:-80px}
+.steps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:70px}
+.steps-path{position:absolute;left:4%;right:4%;top:-44px;height:60px;width:92%;z-index:0;pointer-events:none}
+.steps-path path{fill:none;stroke:var(--ink);stroke-width:3;stroke-dasharray:9 11;stroke-linecap:round}
+.step{position:relative;z-index:1;background:var(--white);border:3px solid var(--ink);border-radius:var(--radius);padding:30px 26px 26px;box-shadow:var(--hard);transition:transform .25s ease}
+.step:hover{transform:translateY(-6px) rotate(-1deg)}
+.step:nth-child(even):hover{transform:translateY(-6px) rotate(1deg)}
+.step .num{
+  position:absolute;top:-26px;left:22px;width:52px;height:52px;border-radius:50%;
+  background:var(--pop);color:var(--white);border:3px solid var(--ink);
+  font-family:var(--display);font-weight:700;font-size:1.3rem;display:grid;place-items:center;
+  box-shadow:3px 3px 0 var(--ink);transform:rotate(-6deg);
+}
+.step .when{font-family:var(--display);font-weight:600;color:var(--pop);font-size:.95rem;text-transform:uppercase;letter-spacing:.05em;margin:8px 0 6px}
+.step h3{font-size:1.3rem;margin-bottom:8px}
+.step p{margin:0;color:var(--ink-soft);font-size:1rem}
+.step:nth-child(1){background:var(--mint)}
+.step:nth-child(2){background:var(--peach)}
+.step:nth-child(3){background:var(--sky)}
+.step:nth-child(4){background:var(--butter)}
+
+.honest{background:var(--ink);color:var(--cream);overflow:hidden;border-radius:60px}
+.honest .blob{opacity:.18}
+.honest .blob.b1{width:460px;height:440px;background:var(--pop);left:-200px;top:-140px}
+.honest .blob.b2{width:360px;height:340px;background:var(--lavender);right:-140px;bottom:-140px}
+.honest .eyebrow{color:var(--butter)}
+.honest .lead{color:#C9C2DA}
+.quotes{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:18px;margin-top:44px}
+.quote{
+  font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,1.5vw,1.3rem);
+  padding:16px 26px;border-radius:26px 26px 26px 6px;
+  border:3px solid var(--cream);background:transparent;color:var(--cream);
+  transform:rotate(var(--r,0deg));transition:transform .2s ease,background .2s ease,color .2s ease;
+}
+.quote:hover{background:var(--cream);color:var(--ink);transform:rotate(0) scale(1.03)}
+.quote:nth-child(1){--r:-1.5deg}
+.quote:nth-child(2){--r:1deg}
+.quote:nth-child(3){--r:-.6deg}
+.quote:nth-child(4){--r:1.8deg;background:var(--pop);border-color:var(--pop)}
+.quote:nth-child(5){--r:-1.2deg}
+.quote:nth-child(6){--r:.8deg}
+
+.team{overflow:hidden}
+.team .blob.b1{width:400px;height:380px;background:var(--peach);right:-160px;top:10%}
+.team .blob.b2{width:260px;height:240px;background:var(--sky);left:-100px;bottom:0}
+.people{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:60px}
+.person{
+  background:var(--white);border:3px solid var(--ink);border-radius:36px;padding:0 28px 30px;
+  box-shadow:var(--hard);text-align:center;position:relative;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1.2),box-shadow .3s ease;
+  transform-style:preserve-3d;
+}
+.person:hover{transform:rotate(-1.6deg) translateY(-8px);box-shadow:8px 10px 0 var(--ink)}
+.person:nth-child(2):hover{transform:rotate(1.4deg) translateY(-8px)}
+.avatar{
+  width:180px;height:180px;margin:-46px auto 22px;border-radius:50%;
+  border:3px solid var(--ink);overflow:hidden;position:relative;
+  display:grid;place-items:center;box-shadow:4px 4px 0 var(--ink);
+}
+.person:nth-child(1) .avatar{background:repeating-linear-gradient(45deg,var(--mint) 0 10px,#c3ead6 10px 20px)}
+.person:nth-child(2) .avatar{background:repeating-linear-gradient(45deg,var(--peach) 0 10px,#ffd0b3 10px 20px)}
+.person:nth-child(3) .avatar{background:repeating-linear-gradient(45deg,var(--lavender) 0 10px,#d6cdf5 10px 20px)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar-ph{
+  font-family:var(--display);font-weight:600;font-size:.9rem;line-height:1.3;
+  background:var(--white);border:2px dashed var(--ink);border-radius:14px;padding:8px 12px;
+  color:var(--ink-soft);
+}
+.person h3{font-size:1.5rem;margin-bottom:4px}
+.person .role{font-family:var(--display);font-weight:600;color:var(--pop);font-size:1.05rem;margin-bottom:14px}
+.person .bio{color:var(--ink-soft);font-size:1rem;margin-bottom:18px}
+.person .fact{display:inline-block;text-align:left;font-size:.95rem;background:var(--butter);border:2px solid var(--ink);border-radius:16px 16px 16px 4px;padding:10px 14px;line-height:1.4;transform:rotate(-1deg)}
+.person .fact b{font-family:var(--display);font-weight:600;display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+.person:nth-child(2) .fact{background:var(--sky);transform:rotate(1deg)}
+.person:nth-child(3) .fact{background:var(--mint)}
+
+.contact{padding-top:0}
+.contact-card{
+  position:relative;z-index:1;overflow:hidden;
+  background:var(--pop);color:var(--white);border:3px solid var(--ink);border-radius:48px;
+  padding:clamp(44px,6vw,80px);box-shadow:8px 8px 0 var(--ink);
+  display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
+}
+.contact-card .blob{opacity:.25;background:var(--white)}
+.contact-card .blob.b1{width:380px;height:360px;right:-120px;top:-140px}
+.contact-card .blob.b2{width:240px;height:220px;left:30%;bottom:-140px}
+.contact-card .eyebrow{color:var(--butter)}
+.contact-card h2{color:var(--white)}
+.contact-card p{color:#FFE7DE;font-size:1.15rem;max-width:34em}
+.contact-side{position:relative;z-index:1;display:grid;gap:18px;justify-items:start}
+.mail{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--display);font-weight:700;font-size:clamp(1rem,1.5vw,1.35rem);
+  background:var(--white);color:var(--ink);text-decoration:none;
+  padding:18px 28px;border-radius:999px;border:3px solid var(--ink);box-shadow:var(--hard);
+  transition:transform .18s ease,box-shadow .18s ease;word-break:break-all;
+}
+.mail:hover{transform:translate(-2px,-2px) rotate(-1.5deg);box-shadow:6px 6px 0 var(--ink)}
+.mail svg{width:26px;height:26px;flex:none}
+.contact-side small{font-family:var(--display);font-weight:600;font-size:1rem;color:var(--butter)}
+
+footer{padding:40px 0 48px;position:relative}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:.98rem;color:var(--ink-soft)}
+footer .wink{font-family:var(--display);font-weight:600}
+footer .wink em{font-style:normal;background:var(--butter);padding:2px 8px;border-radius:8px;border:2px solid var(--ink);color:var(--ink)}
+
+@media (max-width:900px){
+  body{font-size:17px}
+  .hero-grid,.fde-grid,.sec-head,.contact-card{grid-template-columns:1fr}
+  .hero-art{min-height:300px;order:2}
+  .hero-art .stick:nth-child(1){top:4%;left:2%}
+  .hero-art .stick:nth-child(2){top:30%;right:0}
+  .hero-art .stick:nth-child(3){top:56%;left:0}
+  .hero-art .stick:nth-child(4){top:80%;right:0;max-width:100%}
+  .hero-art .arrow{left:42%;top:34%;width:110px}
+  .cards{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr;gap:44px}
+  .steps-path{display:none}
+  .people{grid-template-columns:1fr;gap:64px}
+  .eqcard{transform:rotate(0)}
+  .marquee{margin:-20px -20px 0}
+  nav ul{display:none}
+  nav ul.open{display:grid;position:absolute;right:0;top:80px;background:var(--white);border:3px solid var(--ink);border-radius:24px;padding:12px;gap:4px;box-shadow:var(--hard)}
+  .nav-toggle{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--white);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);cursor:pointer}
+  .nav-toggle svg{width:24px;height:24px;stroke:var(--ink);stroke-width:3;stroke-linecap:round;fill:none}
+  .services,.honest{border-radius:36px 36px 0 0}
+  .honest{border-radius:36px}
+}
+@media (max-width:520px){
+  .hero-art{min-height:260px}
+  .hero-art .stick{font-size:.85rem}
+  .contact-card{border-radius:32px}
+  .avatar{width:150px;height:150px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .blob,.hero-art .stick,.marquee .track,.marquee span{animation:none!important}
+  .card,.step,.person,.btn,.quote,.mail,nav ul a{transition:none!important}
+  .card:hover,.step:hover,.person:hover,.btn:hover,.mail:hover{transform:none}
+  .card:nth-child(even):hover,.step:nth-child(even):hover,.person:nth-child(2):hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#top" aria-label="Forward home">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M6 24c0-10 8-18 18-18s18 8 18 18-8 18-18 18S6 34 6 24z" fill="#FF5C38" stroke="#2B2340" stroke-width="3"/>
+          <path d="M15 24h17M26 17l7 7-7 7" fill="none" stroke="#FFF8F0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Forward
+      </a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <ul id="menu">
+        <li><a href="#fde">What we do</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">How it goes</a></li>
+        <li><a href="#team">Us</a></li>
+        <li><a class="cta" href="#contact">Say hi</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-grid" id="top">
+      <div>
+        <div class="eyebrow">Forward · AI engineering, embedded in your team</div>
+        <h1>Hi. We're three engineers who like
+          <span class="squig">shipping things.
+            <svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M4 14 C 40 4, 70 22, 110 12 S 180 4, 220 14 S 270 18, 296 8"/>
+            </svg>
+          </span>
+        </h1>
+        <p class="lead">Forward is a small Swedish consultancy. We move in with your company for a few weeks, find the spots where AI actually earns its keep, build them into production, and then hand you the keys. No slide decks. We promise.</p>
+        <div class="hero-actions">
+          <a class="btn btn-pop" href="#contact">Say hello
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#process">How it works</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <span class="stick sticker mint">no slide decks</span>
+        <span class="stick sticker peach">working software in weeks</span>
+        <span class="stick sticker lav">GDPR-safe by default</span>
+        <span class="stick sticker">we'll tell you if AI is the wrong tool</span>
+        <svg class="arrow" viewBox="0 0 150 90">
+          <path d="M8 78 C 30 20, 80 10, 128 30"/>
+          <path d="M112 16 L 130 30 L 112 42"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>agents <i></i></span><span>retrieval over your docs <i></i></span><span>copilots <i></i></span><span>automation <i></i></span><span>CRM, ERP, mail &amp; docs <i></i></span><span>evals <i></i></span><span>guardrails <i></i></span><span>human in the loop <i></i></span><span>handover, not lock-in <i></i></span><span>private inference <i></i></span>
+    <span>agents <i></i></span><span>retrieval over your docs <i></i></span><span>copilots <i></i></span><span>automation <i></i></span><span>CRM, ERP, mail &amp; docs <i></i></span><span>evals <i></i></span><span>guardrails <i></i></span><span>human in the loop <i></i></span><span>handover, not lock-in <i></i></span><span>private inference <i></i></span>
+  </div>
+</div>
+
+<section class="fde" id="fde">
+  <div class="blob b1"></div>
+  <div class="wrap">
+    <div class="fde-grid">
+      <div>
+        <div class="eyebrow">The jargon, explained</div>
+        <h2>Okay, but what's a "forward deployed engineer"?</h2>
+        <p class="lead" style="margin-top:22px">Imagine you hired a really good engineer, but instead of sitting somewhere else writing a report about your business, they pulled up a chair next to your team.</p>
+        <p>They watch how the work actually happens. They notice that someone in finance spends every Thursday afternoon copying things from email into the ERP, and that support answers the same eleven questions by hand. Then they build the thing that does that, plug it into your systems, and make sure it doesn't break at three in the morning.</p>
+        <p>That's it. That's the job. We do it for AI specifically, because right now that's where the gap between "cool demo" and "actually running" is widest, and we happen to like closing that gap.</p>
+        <p>You get working software in weeks, not a roadmap. And when we leave, it's yours: the code, the docs, and a team that knows how it works.</p>
+      </div>
+      <div class="eqcard">
+        <span class="sticker pop">the maths</span>
+        <ul class="eq">
+          <li><span class="k">forward</span><p>We come to you. Your office, your Slack, your messy data. Not a meeting room across town.</p></li>
+          <li><span class="k">deployed</span><p>We're there for the whole arc, not a kickoff and a PDF. Weeks, in the thick of it.</p></li>
+          <li><span class="k">engineer</span><p>We write the code ourselves. Senior people, no hand-off to a junior bench.</p></li>
+        </ul>
+        <div class="sum">= things actually ship, and keep working after we're gone.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">What we do</div>
+        <h2>Four things, done properly.</h2>
+      </div>
+      <p class="lead">Most engagements are some mix of these. We'll tell you up front which ones you actually need, and which ones you don't.</p>
+    </div>
+    <div class="cards">
+      <article class="card c1">
+        <span class="sticker mint">week 0–1</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/><path d="M8 10.5h5M10.5 8v5"/></svg></div>
+        <h3>Mapping</h3>
+        <p>Where does AI actually pay off here? We spend the first days shadowing your team, reading your data and being politely nosy. Then we come back with a short list: the workflows worth automating, the ones that aren't, and what each one would take.</p>
+      </article>
+      <article class="card c2">
+        <span class="sticker peach">the main event</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 8h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/><path d="M9 13h6M12 13v4"/></svg></div>
+        <h3>Build &amp; integrate</h3>
+        <p>Agents, retrieval over your documents, copilots for your team, automations between CRM, ERP, mail and docs. Built on your real data, and built to be trusted:</p>
+        <ul>
+          <li>evals from day one, so we know when it gets worse</li>
+          <li>permissions that respect who may see what</li>
+          <li>observability, so you know what it's doing</li>
+          <li>a human in the loop wherever the stakes say so</li>
+        </ul>
+      </article>
+      <article class="card c3">
+        <span class="sticker sky">coming along</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01M11 7.5h3M11 16.5h3"/></svg></div>
+        <h3>Private / on-prem inference</h3>
+        <p>Some data shouldn't leave the building. We can run models on hardware you control, in Sweden, in your rack or ours, so nothing sensitive touches a third-party API. This one's newer for us, so we'll be honest about what's ready and what's still cooking.</p>
+      </article>
+      <article class="card c4">
+        <span class="sticker">handover, not lock-in</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div>
+        <h3>Enablement</h3>
+        <p>We don't want to be your AI team forever. Documented code, a handover that actually hands things over, and training so your own engineers can keep it running and build the next thing themselves. Then we stay on call in case something gets weird.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="blob b1"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">How it goes</div>
+        <h2>Eight weeks, give or take.</h2>
+      </div>
+      <p class="lead">Every company is different, but the shape of an engagement is pretty consistent. Here's the arc.</p>
+    </div>
+    <div class="steps">
+      <svg class="steps-path" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 40 C 120 10, 200 55, 330 30 S 560 10, 670 38 S 880 55, 1000 22"/>
+      </svg>
+      <article class="step">
+        <span class="num">1</span>
+        <div class="when">Week 0</div>
+        <h3>Embed</h3>
+        <p>We show up, get accounts, sit with your team and ask a lot of slightly annoying questions. We read your data before we form opinions about it.</p>
+      </article>
+      <article class="step">
+        <span class="num">2</span>
+        <div class="when">Week 1–2</div>
+        <h3>Prototype on real data</h3>
+        <p>Not a slide. A rough thing, running on your actual documents and systems. You poke at it, it breaks in interesting ways, we learn what matters.</p>
+      </article>
+      <article class="step">
+        <span class="num">3</span>
+        <div class="when">Week 3–8</div>
+        <h3>Harden</h3>
+        <p>Evals, permissions, monitoring, guardrails. The unglamorous part that turns a demo into something you'd let near a customer.</p>
+      </article>
+      <article class="step">
+        <span class="num">4</span>
+        <div class="when">After</div>
+        <h3>Hand over, stay on call</h3>
+        <p>Your team owns it: code, docs, dashboards, the lot. We're one message away if something gets weird, and we'll say so if it's time for round two.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="honest">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="wrap">
+    <div class="eyebrow">Honesty policy</div>
+    <h2>Things we will actually say out loud.</h2>
+    <p class="lead" style="margin-top:20px">We're engineers, and we'd like to still be friends with you in a year. So we say the awkward thing early.</p>
+    <div class="quotes">
+      <div class="quote">"AI is the wrong tool for this. Here's a cheaper fix."</div>
+      <div class="quote">"That demo will fall apart on your real data. Let's test first."</div>
+      <div class="quote">"We don't know yet. Give us three days."</div>
+      <div class="quote">"That data can't go to that API. Here's what we do instead."</div>
+      <div class="quote">"You can run this without us now."</div>
+      <div class="quote">"Honestly? A spreadsheet would do."</div>
+    </div>
+  </div>
+</section>
+
+<section class="team" id="team">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">The three of us</div>
+        <h2>Friends first, company second.</h2>
+      </div>
+      <p class="lead">We've built a lot of things together over the years, and argued about most of them. This is the bit where we tell you who's who.</p>
+    </div>
+    <div class="people">
+      <article class="person">
+        <div class="avatar">
+          <span class="avatar-ph">Photo of Jesper<br>square, 1:1<br>(800×800 is plenty)</span>
+          <!-- <img src="team/jesper.jpg" alt="Jesper Lugner"> -->
+        </div>
+        <h3>Jesper Lugner</h3>
+        <div class="role">CEO &amp; God King</div>
+        <p class="bio">Short bio, written like a friend would. What Jesper has built, what he obsesses over, and one human detail that has nothing to do with computers.</p>
+        <div class="fact"><b>Fun fact</b>Placeholder: something surprising and slightly embarrassing.</div>
+      </article>
+      <article class="person">
+        <div class="avatar">
+          <span class="avatar-ph">Photo of Patrik<br>square, 1:1<br>(800×800 is plenty)</span>
+          <!-- <img src="team/patrik.jpg" alt="Patrik Jungmalm"> -->
+        </div>
+        <h3>Patrik Jungmalm</h3>
+        <div class="role">Cheerleader</div>
+        <p class="bio">Short bio, written like a friend would. What Patrik has built, what he obsesses over, and one human detail that has nothing to do with computers.</p>
+        <div class="fact"><b>Fun fact</b>Placeholder: a hobby, a record, a strong opinion about coffee.</div>
+      </article>
+      <article class="person">
+        <div class="avatar">
+          <span class="avatar-ph">Photo of Viktor<br>square, 1:1<br>(800×800 is plenty)</span>
+          <!-- <img src="team/viktor.jpg" alt="Viktor Svirins"> -->
+        </div>
+        <h3>Viktor Svirins</h3>
+        <div class="role">"Gift med en designer vi behöver"</div>
+        <p class="bio">Short bio, written like a friend would. What Viktor has built, what he obsesses over, and one human detail that has nothing to do with computers.</p>
+        <div class="fact"><b>Fun fact</b>Placeholder: the story behind that role title, probably.</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-card">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div style="position:relative;z-index:1">
+        <div class="eyebrow">Say hi</div>
+        <h2>Tell us what your team spends too much time on.</h2>
+        <p style="margin-top:20px">We'll tell you honestly whether AI can help, roughly what it would take, and whether we're the right people. No sales call, no deck. Just an email back from one of us, usually the same day.</p>
+      </div>
+      <div class="contact-side">
+        <a class="mail" href="mailto:hello@forward.example">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7.5 12 13l8.5-5.5"/></svg>
+          hello@forward.example
+        </a>
+        <small>We read every one ourselves. Swedish or English, whatever you prefer.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Forward AB · Sweden</span>
+    <span class="wink">Built by <em>humans</em>, with a lot of help.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var toggle=document.querySelector('.nav-toggle');
+  var menu=document.getElementById('menu');
+  if(toggle&&menu){
+    toggle.addEventListener('click',function(){
+      var open=menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded',String(open));
+    });
+    menu.addEventListener('click',function(e){
+      if(e.target.tagName==='A'){menu.classList.remove('open');toggle.setAttribute('aria-expanded','false');}
+    });
+  }
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine=window.matchMedia('(pointer: fine)').matches;
+  if(reduce||!fine)return;
+
+  document.querySelectorAll('.person').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-.5;
+      var y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform='translateY(-8px) rotateX('+(-y*6)+'deg) rotateY('+(x*8)+'deg)';
+      card.style.boxShadow=(4-x*8)+'px '+(8+y*4)+'px 0 var(--ink)';
+    });
+    card.addEventListener('mouseleave',function(){
+      card.style.transform='';
+      card.style.boxShadow='';
+    });
+  });
+})();
+</script>
+</body>
+</html>

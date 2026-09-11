@@ -43,13 +43,13 @@ p{margin:0 0 1rem}
 .btn.ghost:hover{box-shadow:0 0 24px rgba(25,230,255,.6)}
 .nav .btn{padding:.6rem 1rem;font-size:.66rem}
 
-.hero{position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:18vh 1.5rem 34vh;
-  background:linear-gradient(180deg,#07020f 0%,#1d0640 22%,#5a1170 40%,#b8177e 54%,#ff4f5e 60%,#ff8a3c 62%,#1a0533 62%,#0a0318 100%)}
-.sun{position:absolute;left:50%;bottom:38%;width:min(46vw,420px);height:min(46vw,420px);transform:translate(-50%,50%);border-radius:50%;
-  background:linear-gradient(180deg,#fff4a3 0%,#ffe14d 30%,#ff7a18 60%,#ff2bd6 100%);box-shadow:0 0 80px rgba(255,122,24,.6),0 0 160px rgba(255,43,214,.35);z-index:1}
-.sun::after{content:'';position:absolute;left:0;right:0;top:45%;bottom:0;background:repeating-linear-gradient(180deg,transparent 0 22px,#3a0a5e 22px 30px);border-radius:0 0 999px 999px}
-.mountains{position:absolute;left:0;right:0;bottom:38%;width:100%;height:16vh;z-index:2;fill:#1a0533}
-.floor{position:absolute;left:0;right:0;bottom:0;height:38%;z-index:3;background:linear-gradient(180deg,#1a0533,#0a0318)}
+.hero{position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;padding:13vh 1.5rem 38vh;
+  background:linear-gradient(180deg,#07020f 0%,#1d0640 24%,#5a1170 44%,#b8177e 58%,#ff4f5e 64%,#ff8a3c 66%,#1a0533 66%,#0a0318 100%)}
+.sun{position:absolute;left:50%;bottom:34%;width:min(40vw,400px);height:min(40vw,400px);transform:translate(-50%,66%);border-radius:50%;
+  background:linear-gradient(180deg,#ffd166 0%,#ff9a2e 30%,#ff5f3a 60%,#ff2bd6 100%);box-shadow:0 0 80px rgba(255,122,24,.6),0 0 160px rgba(255,43,214,.35);z-index:1}
+.sun::after{content:'';position:absolute;left:0;right:0;top:18%;bottom:0;background:repeating-linear-gradient(180deg,transparent 0 22px,#3a0a5e 22px 30px);border-radius:0 0 999px 999px}
+.mountains{position:absolute;left:0;right:0;bottom:34%;width:100%;height:16vh;z-index:2;fill:#1a0533}
+.floor{position:absolute;left:0;right:0;bottom:0;height:34%;z-index:3;background:linear-gradient(180deg,#1a0533,#0a0318)}
 .floor canvas{width:100%;height:100%;display:block}
 .floor::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,138,60,.35) 0,rgba(26,5,51,0) 25%,rgba(10,3,24,0) 70%,rgba(10,3,24,.95) 100%)}
 .hero-inner{position:relative;z-index:5;max-width:960px}
@@ -57,9 +57,9 @@ p{margin:0 0 1rem}
 .wordmark{font-family:var(--neon);font-weight:400;font-size:clamp(3.4rem,13vw,10.5rem);line-height:.95;color:#fff;letter-spacing:.02em;
   text-shadow:0 0 6px #fff,0 0 18px var(--magenta),0 0 42px var(--magenta),0 0 90px rgba(255,43,214,.6)}
 .tagline{font-family:var(--display);font-weight:700;font-size:clamp(.8rem,1.8vw,1.15rem);letter-spacing:.34em;text-transform:uppercase;margin:1.4rem 0 1.6rem;color:var(--yellow);text-shadow:0 0 12px rgba(255,225,77,.7)}
-.trailer-line{font-family:var(--display);font-weight:500;font-size:clamp(1.05rem,2.4vw,1.5rem);line-height:1.4;letter-spacing:.04em;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.6);margin:0 auto 1.25rem;max-width:760px}
+.trailer-line{font-family:var(--display);font-weight:500;font-size:clamp(1.05rem,2.4vw,1.5rem);line-height:1.4;letter-spacing:.04em;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.85),0 0 28px rgba(0,0,0,.7);margin:0 auto 1.25rem;max-width:760px}
 .trailer-line em{font-style:normal;color:var(--cyan)}
-.hero-lede{color:#fff;max-width:600px;margin:0 auto 2rem;font-size:1.05rem;text-shadow:0 1px 14px rgba(0,0,0,.7)}
+.hero-lede{color:#fff;max-width:600px;margin:0 auto 2rem;font-size:1.05rem;font-weight:500;text-shadow:0 1px 4px rgba(0,0,0,.9),0 0 22px rgba(0,0,0,.8)}
 .cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 
 .ticker{position:absolute;left:0;right:0;bottom:0;z-index:6;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(10,3,24,.75);overflow:hidden;white-space:nowrap;padding:.6rem 0}
@@ -153,8 +153,8 @@ footer .wink{text-transform:none;letter-spacing:.04em;font-family:var(--body);fo
 
 @media (max-width:900px){
   .nav-links{display:none}
-  .hero{padding:16vh 1.25rem 30vh}
-  .sun{bottom:38%;width:60vw;height:60vw}
+  .hero{padding:14vh 1.25rem 36vh}
+  .sun{width:60vw;height:60vw}
   .tape{grid-template-columns:1fr;padding:1.6rem}
   .missions{grid-template-columns:1fr}
   .tracks{grid-template-columns:1fr;gap:2rem}

@@ -86,6 +86,7 @@ a:hover,a:focus-visible{background:var(--amber);color:var(--screen);outline:none
 #cmd{position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0}
 
 section{margin:0 0 1.4em;max-width:84ch}
+section[data-cmd="team"]{max-width:none}
 section h2{
   font:inherit;font-weight:600;text-transform:uppercase;color:var(--bright);
   margin:1.1em 0 .15em;letter-spacing:.02em;
@@ -474,6 +475,8 @@ section h2:first-of-type{margin-top:.5em}
      .then(function(){
        html('<p class="dim">type '+link('help')+' for commands. or just click things.</p>');
        busy=false;
+       var deep=location.hash.slice(1);
+       if(deep&&deep!=='about'&&sections[deep])submit(deep);
        input.focus({preventScroll:true});
        scroll();
      });

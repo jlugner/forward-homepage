@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FORWARD — Forward Deployed Engineering for AI</title>
+<meta name="description" content="Forward is a Swedish consultancy of three senior engineers doing Forward Deployed Engineering for AI: we embed in your company, build AI into production in weeks, and hand it over.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b1e;
+  --bg2:#1d2b53;
+  --panel:#12123a;
+  --ink:#fff1e8;
+  --dim:#c2c3c7;
+  --mute:#83769c;
+  --green:#00e756;
+  --yellow:#ffec27;
+  --red:#ff004d;
+  --blue:#29adff;
+  --orange:#ffa300;
+  --pink:#ff77a8;
+  --px:4px;
+  --head:"Press Start 2P","Courier New",Courier,monospace;
+  --ui:"VT323","Lucida Console",Monaco,monospace;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --sp-bot1: 5em 0em #ffec27, 6em 0em #ffec27, 5em 1em #ffec27, 6em 1em #ffec27, 2em 2em #1d2b53, 3em 2em #1d2b53, 4em 2em #1d2b53, 5em 2em #1d2b53, 6em 2em #1d2b53, 7em 2em #1d2b53, 8em 2em #1d2b53, 9em 2em #1d2b53, 1em 3em #1d2b53, 2em 3em #00e756, 3em 3em #00e756, 4em 3em #00e756, 5em 3em #00e756, 6em 3em #00e756, 7em 3em #00e756, 8em 3em #00e756, 9em 3em #00e756, 10em 3em #1d2b53, 1em 4em #1d2b53, 2em 4em #00e756, 3em 4em #fff1e8, 4em 4em #fff1e8, 5em 4em #00e756, 6em 4em #00e756, 7em 4em #fff1e8, 8em 4em #fff1e8, 9em 4em #00e756, 10em 4em #1d2b53, 1em 5em #1d2b53, 2em 5em #00e756, 3em 5em #fff1e8, 4em 5em #0b0b1e, 5em 5em #00e756, 6em 5em #00e756, 7em 5em #fff1e8, 8em 5em #0b0b1e, 9em 5em #00e756, 10em 5em #1d2b53, 1em 6em #1d2b53, 2em 6em #00e756, 3em 6em #00e756, 4em 6em #00e756, 5em 6em #00e756, 6em 6em #00e756, 7em 6em #00e756, 8em 6em #00e756, 9em 6em #00e756, 10em 6em #1d2b53, 1em 7em #1d2b53, 2em 7em #00e756, 3em 7em #00e756, 4em 7em #0b0b1e, 5em 7em #0b0b1e, 6em 7em #0b0b1e, 7em 7em #0b0b1e, 8em 7em #00e756, 9em 7em #00e756, 10em 7em #1d2b53, 2em 8em #1d2b53, 3em 8em #1d2b53, 4em 8em #1d2b53, 5em 8em #1d2b53, 6em 8em #1d2b53, 7em 8em #1d2b53, 8em 8em #1d2b53, 9em 8em #1d2b53, 1em 9em #1d2b53, 2em 9em #1d2b53, 3em 9em #1d2b53, 4em 9em #00e756, 5em 9em #00e756, 6em 9em #00e756, 7em 9em #00e756, 8em 9em #1d2b53, 9em 9em #1d2b53, 10em 9em #1d2b53, 0em 10em #1d2b53, 1em 10em #00e756, 2em 10em #1d2b53, 3em 10em #1d2b53, 4em 10em #00e756, 5em 10em #29adff, 6em 10em #29adff, 7em 10em #00e756, 8em 10em #1d2b53, 9em 10em #1d2b53, 10em 10em #00e756, 11em 10em #1d2b53, 0em 11em #1d2b53, 1em 11em #00e756, 2em 11em #1d2b53, 4em 11em #00e756, 5em 11em #29adff, 6em 11em #29adff, 7em 11em #00e756, 9em 11em #1d2b53, 10em 11em #00e756, 11em 11em #1d2b53, 4em 12em #1d2b53, 5em 12em #00e756, 6em 12em #00e756, 7em 12em #1d2b53, 4em 13em #1d2b53, 5em 13em #00e756, 6em 13em #00e756, 7em 13em #1d2b53, 3em 14em #1d2b53, 4em 14em #1d2b53, 5em 14em #1d2b53, 6em 14em #1d2b53, 7em 14em #1d2b53, 8em 14em #1d2b53, 3em 15em #1d2b53, 4em 15em #0b0b1e, 7em 15em #0b0b1e, 8em 15em #1d2b53;
+  --sp-bot2: 5em 1em #ffec27, 6em 1em #ffec27, 2em 2em #1d2b53, 3em 2em #1d2b53, 4em 2em #1d2b53, 5em 2em #1d2b53, 6em 2em #1d2b53, 7em 2em #1d2b53, 8em 2em #1d2b53, 9em 2em #1d2b53, 1em 3em #1d2b53, 2em 3em #00e756, 3em 3em #00e756, 4em 3em #00e756, 5em 3em #00e756, 6em 3em #00e756, 7em 3em #00e756, 8em 3em #00e756, 9em 3em #00e756, 10em 3em #1d2b53, 1em 4em #1d2b53, 2em 4em #00e756, 3em 4em #fff1e8, 4em 4em #fff1e8, 5em 4em #00e756, 6em 4em #00e756, 7em 4em #fff1e8, 8em 4em #fff1e8, 9em 4em #00e756, 10em 4em #1d2b53, 1em 5em #1d2b53, 2em 5em #00e756, 3em 5em #0b0b1e, 4em 5em #fff1e8, 5em 5em #00e756, 6em 5em #00e756, 7em 5em #0b0b1e, 8em 5em #fff1e8, 9em 5em #00e756, 10em 5em #1d2b53, 1em 6em #1d2b53, 2em 6em #00e756, 3em 6em #00e756, 4em 6em #00e756, 5em 6em #00e756, 6em 6em #00e756, 7em 6em #00e756, 8em 6em #00e756, 9em 6em #00e756, 10em 6em #1d2b53, 1em 7em #1d2b53, 2em 7em #00e756, 3em 7em #00e756, 4em 7em #0b0b1e, 5em 7em #0b0b1e, 6em 7em #0b0b1e, 7em 7em #0b0b1e, 8em 7em #00e756, 9em 7em #00e756, 10em 7em #1d2b53, 2em 8em #1d2b53, 3em 8em #1d2b53, 4em 8em #1d2b53, 5em 8em #1d2b53, 6em 8em #1d2b53, 7em 8em #1d2b53, 8em 8em #1d2b53, 9em 8em #1d2b53, 0em 9em #1d2b53, 1em 9em #00e756, 2em 9em #1d2b53, 3em 9em #1d2b53, 4em 9em #00e756, 5em 9em #00e756, 6em 9em #00e756, 7em 9em #00e756, 8em 9em #1d2b53, 9em 9em #1d2b53, 10em 9em #00e756, 11em 9em #1d2b53, 0em 10em #1d2b53, 1em 10em #00e756, 2em 10em #1d2b53, 4em 10em #00e756, 5em 10em #29adff, 6em 10em #29adff, 7em 10em #00e756, 9em 10em #1d2b53, 10em 10em #00e756, 11em 10em #1d2b53, 0em 11em #1d2b53, 1em 11em #1d2b53, 2em 11em #1d2b53, 4em 11em #00e756, 5em 11em #29adff, 6em 11em #29adff, 7em 11em #00e756, 9em 11em #1d2b53, 10em 11em #1d2b53, 11em 11em #1d2b53, 4em 12em #1d2b53, 5em 12em #00e756, 6em 12em #00e756, 7em 12em #1d2b53, 4em 13em #1d2b53, 5em 13em #00e756, 6em 13em #00e756, 7em 13em #1d2b53, 3em 14em #1d2b53, 4em 14em #1d2b53, 5em 14em #1d2b53, 7em 14em #1d2b53, 8em 14em #1d2b53, 9em 14em #1d2b53, 3em 15em #1d2b53, 4em 15em #0b0b1e, 7em 15em #0b0b1e, 8em 15em #1d2b53;
+  --sp-coin: 2em 0em #ffec27, 3em 0em #ffec27, 4em 0em #ffec27, 5em 0em #ffec27, 1em 1em #ffec27, 2em 1em #ffec27, 3em 1em #ffa300, 4em 1em #ffa300, 5em 1em #ffec27, 6em 1em #ffec27, 0em 2em #ffec27, 1em 2em #ffec27, 2em 2em #ffa300, 3em 2em #ffec27, 4em 2em #ffec27, 5em 2em #ffa300, 6em 2em #ffec27, 7em 2em #ffec27, 0em 3em #ffec27, 1em 3em #ffa300, 2em 3em #ffec27, 3em 3em #ffec27, 4em 3em #ffec27, 5em 3em #ffec27, 6em 3em #ffa300, 7em 3em #ffec27, 0em 4em #ffec27, 1em 4em #ffa300, 2em 4em #ffec27, 3em 4em #ffec27, 4em 4em #ffec27, 5em 4em #ffec27, 6em 4em #ffa300, 7em 4em #ffec27, 0em 5em #ffec27, 1em 5em #ffec27, 2em 5em #ffa300, 3em 5em #ffec27, 4em 5em #ffec27, 5em 5em #ffa300, 6em 5em #ffec27, 7em 5em #ffec27, 1em 6em #ffec27, 2em 6em #ffec27, 3em 6em #ffa300, 4em 6em #ffa300, 5em 6em #ffec27, 6em 6em #ffec27, 2em 7em #ffec27, 3em 7em #ffec27, 4em 7em #ffec27, 5em 7em #ffec27;
+  --sp-scroll: 1em 0em #ab5236, 2em 0em #ab5236, 3em 0em #ab5236, 4em 0em #ab5236, 5em 0em #ab5236, 6em 0em #ab5236, 7em 0em #ab5236, 8em 0em #ab5236, 0em 1em #ab5236, 1em 1em #fff1e8, 2em 1em #fff1e8, 3em 1em #fff1e8, 4em 1em #fff1e8, 5em 1em #fff1e8, 6em 1em #fff1e8, 7em 1em #fff1e8, 8em 1em #fff1e8, 9em 1em #ab5236, 0em 2em #ab5236, 1em 2em #fff1e8, 2em 2em #29adff, 3em 2em #29adff, 4em 2em #29adff, 5em 2em #fff1e8, 6em 2em #fff1e8, 7em 2em #fff1e8, 8em 2em #fff1e8, 9em 2em #ab5236, 0em 3em #ab5236, 1em 3em #fff1e8, 2em 3em #fff1e8, 3em 3em #fff1e8, 4em 3em #29adff, 5em 3em #29adff, 6em 3em #29adff, 7em 3em #fff1e8, 8em 3em #fff1e8, 9em 3em #ab5236, 0em 4em #ab5236, 1em 4em #fff1e8, 2em 4em #fff1e8, 3em 4em #fff1e8, 4em 4em #fff1e8, 5em 4em #fff1e8, 6em 4em #29adff, 7em 4em #29adff, 8em 4em #fff1e8, 9em 4em #ab5236, 0em 5em #ab5236, 1em 5em #fff1e8, 2em 5em #fff1e8, 3em 5em #ff004d, 4em 5em #fff1e8, 5em 5em #fff1e8, 6em 5em #fff1e8, 7em 5em #fff1e8, 8em 5em #fff1e8, 9em 5em #ab5236, 0em 6em #ab5236, 1em 6em #fff1e8, 2em 6em #ff004d, 3em 6em #ff004d, 4em 6em #ff004d, 5em 6em #fff1e8, 6em 6em #fff1e8, 7em 6em #fff1e8, 8em 6em #fff1e8, 9em 6em #ab5236, 0em 7em #ab5236, 1em 7em #fff1e8, 2em 7em #fff1e8, 3em 7em #ff004d, 4em 7em #fff1e8, 5em 7em #fff1e8, 6em 7em #fff1e8, 7em 7em #fff1e8, 8em 7em #fff1e8, 9em 7em #ab5236, 0em 8em #ab5236, 1em 8em #fff1e8, 2em 8em #fff1e8, 3em 8em #fff1e8, 4em 8em #fff1e8, 5em 8em #fff1e8, 6em 8em #fff1e8, 7em 8em #fff1e8, 8em 8em #fff1e8, 9em 8em #ab5236, 1em 9em #ab5236, 2em 9em #ab5236, 3em 9em #ab5236, 4em 9em #ab5236, 5em 9em #ab5236, 6em 9em #ab5236, 7em 9em #ab5236, 8em 9em #ab5236;
+  --sp-hammer: 3em 0em #c2c3c7, 4em 0em #c2c3c7, 5em 0em #c2c3c7, 6em 0em #c2c3c7, 7em 0em #c2c3c7, 8em 0em #c2c3c7, 2em 1em #c2c3c7, 3em 1em #c2c3c7, 4em 1em #83769c, 5em 1em #83769c, 6em 1em #83769c, 7em 1em #83769c, 8em 1em #c2c3c7, 9em 1em #c2c3c7, 2em 2em #c2c3c7, 3em 2em #c2c3c7, 4em 2em #83769c, 5em 2em #83769c, 6em 2em #83769c, 7em 2em #83769c, 8em 2em #c2c3c7, 9em 2em #c2c3c7, 3em 3em #c2c3c7, 4em 3em #c2c3c7, 5em 3em #c2c3c7, 6em 3em #c2c3c7, 7em 3em #c2c3c7, 8em 3em #c2c3c7, 5em 4em #ab5236, 6em 4em #ab5236, 5em 5em #ab5236, 6em 5em #ab5236, 4em 6em #ab5236, 5em 6em #ab5236, 6em 6em #ab5236, 4em 7em #ab5236, 5em 7em #ab5236, 3em 8em #ab5236, 4em 8em #ab5236, 3em 9em #ab5236, 4em 9em #ab5236;
+  --sp-vault: 3em 0em #83769c, 4em 0em #83769c, 5em 0em #83769c, 6em 0em #83769c, 2em 1em #83769c, 3em 1em #c2c3c7, 4em 1em #c2c3c7, 5em 1em #c2c3c7, 6em 1em #c2c3c7, 7em 1em #83769c, 2em 2em #83769c, 3em 2em #c2c3c7, 6em 2em #c2c3c7, 7em 2em #83769c, 2em 3em #83769c, 3em 3em #c2c3c7, 6em 3em #c2c3c7, 7em 3em #83769c, 0em 4em #1d2b53, 1em 4em #1d2b53, 2em 4em #1d2b53, 3em 4em #1d2b53, 4em 4em #1d2b53, 5em 4em #1d2b53, 6em 4em #1d2b53, 7em 4em #1d2b53, 8em 4em #1d2b53, 9em 4em #1d2b53, 0em 5em #1d2b53, 1em 5em #29adff, 2em 5em #29adff, 3em 5em #29adff, 4em 5em #29adff, 5em 5em #29adff, 6em 5em #29adff, 7em 5em #29adff, 8em 5em #29adff, 9em 5em #1d2b53, 0em 6em #1d2b53, 1em 6em #29adff, 2em 6em #29adff, 3em 6em #29adff, 4em 6em #ffec27, 5em 6em #ffec27, 6em 6em #29adff, 7em 6em #29adff, 8em 6em #29adff, 9em 6em #1d2b53, 0em 7em #1d2b53, 1em 7em #29adff, 2em 7em #29adff, 3em 7em #29adff, 4em 7em #ffec27, 5em 7em #ffec27, 6em 7em #29adff, 7em 7em #29adff, 8em 7em #29adff, 9em 7em #1d2b53, 0em 8em #1d2b53, 1em 8em #29adff, 2em 8em #29adff, 3em 8em #29adff, 4em 8em #29adff, 5em 8em #29adff, 6em 8em #29adff, 7em 8em #29adff, 8em 8em #29adff, 9em 8em #1d2b53, 0em 9em #1d2b53, 1em 9em #1d2b53, 2em 9em #1d2b53, 3em 9em #1d2b53, 4em 9em #1d2b53, 5em 9em #1d2b53, 6em 9em #1d2b53, 7em 9em #1d2b53, 8em 9em #1d2b53, 9em 9em #1d2b53;
+  --sp-book: 1em 0em #ff004d, 2em 0em #ff004d, 3em 0em #ff004d, 4em 0em #ff004d, 5em 0em #ff004d, 6em 0em #ff004d, 7em 0em #ff004d, 8em 0em #ff004d, 0em 1em #ff004d, 1em 1em #ff004d, 2em 1em #fff1e8, 3em 1em #fff1e8, 4em 1em #fff1e8, 5em 1em #fff1e8, 6em 1em #fff1e8, 7em 1em #fff1e8, 8em 1em #ff004d, 9em 1em #ff004d, 0em 2em #ff004d, 1em 2em #ff004d, 2em 2em #fff1e8, 3em 2em #1d2b53, 4em 2em #1d2b53, 5em 2em #1d2b53, 6em 2em #1d2b53, 7em 2em #fff1e8, 8em 2em #ff004d, 9em 2em #ff004d, 0em 3em #ff004d, 1em 3em #ff004d, 2em 3em #fff1e8, 3em 3em #fff1e8, 4em 3em #fff1e8, 5em 3em #fff1e8, 6em 3em #fff1e8, 7em 3em #fff1e8, 8em 3em #ff004d, 9em 3em #ff004d, 0em 4em #ff004d, 1em 4em #ff004d, 2em 4em #fff1e8, 3em 4em #1d2b53, 4em 4em #1d2b53, 5em 4em #1d2b53, 6em 4em #fff1e8, 7em 4em #fff1e8, 8em 4em #ff004d, 9em 4em #ff004d, 0em 5em #ff004d, 1em 5em #ff004d, 2em 5em #fff1e8, 3em 5em #fff1e8, 4em 5em #fff1e8, 5em 5em #fff1e8, 6em 5em #fff1e8, 7em 5em #fff1e8, 8em 5em #ff004d, 9em 5em #ff004d, 0em 6em #ff004d, 1em 6em #ff004d, 2em 6em #fff1e8, 3em 6em #1d2b53, 4em 6em #1d2b53, 5em 6em #1d2b53, 6em 6em #1d2b53, 7em 6em #fff1e8, 8em 6em #ff004d, 9em 6em #ff004d, 0em 7em #ff004d, 1em 7em #ff004d, 2em 7em #fff1e8, 3em 7em #fff1e8, 4em 7em #fff1e8, 5em 7em #fff1e8, 6em 7em #fff1e8, 7em 7em #fff1e8, 8em 7em #ff004d, 9em 7em #ff004d, 0em 8em #ff004d, 1em 8em #ff004d, 2em 8em #ff004d, 3em 8em #ff004d, 4em 8em #ff004d, 5em 8em #ff004d, 6em 8em #ff004d, 7em 8em #ff004d, 8em 8em #ff004d, 9em 8em #ff004d, 1em 9em #c2c3c7, 2em 9em #c2c3c7, 3em 9em #c2c3c7, 4em 9em #c2c3c7, 5em 9em #c2c3c7, 6em 9em #c2c3c7, 7em 9em #c2c3c7, 8em 9em #c2c3c7;
+  --sp-flag: 0em 0em #c2c3c7, 1em 0em #ff004d, 2em 0em #ff004d, 3em 0em #ff004d, 4em 0em #ff004d, 5em 0em #ff004d, 0em 1em #c2c3c7, 1em 1em #ff004d, 2em 1em #ff004d, 3em 1em #ff004d, 4em 1em #ff004d, 5em 1em #ff004d, 6em 1em #ff004d, 7em 1em #ff004d, 0em 2em #c2c3c7, 1em 2em #ff004d, 2em 2em #ff004d, 3em 2em #fff1e8, 4em 2em #fff1e8, 5em 2em #ff004d, 6em 2em #ff004d, 7em 2em #ff004d, 0em 3em #c2c3c7, 1em 3em #ff004d, 2em 3em #ff004d, 3em 3em #fff1e8, 4em 3em #fff1e8, 5em 3em #ff004d, 6em 3em #ff004d, 7em 3em #ff004d, 0em 4em #c2c3c7, 1em 4em #ff004d, 2em 4em #ff004d, 3em 4em #ff004d, 4em 4em #ff004d, 5em 4em #ff004d, 6em 4em #ff004d, 7em 4em #ff004d, 0em 5em #c2c3c7, 1em 5em #ff004d, 2em 5em #ff004d, 3em 5em #ff004d, 4em 5em #ff004d, 5em 5em #ff004d, 0em 6em #c2c3c7, 0em 7em #c2c3c7, 0em 8em #c2c3c7, 0em 9em #c2c3c7, 1em 9em #c2c3c7, 2em 9em #c2c3c7;
+  --sp-castle: 0em 0em #83769c, 2em 0em #83769c, 4em 0em #83769c, 6em 0em #83769c, 8em 0em #83769c, 0em 1em #83769c, 1em 1em #83769c, 2em 1em #83769c, 3em 1em #83769c, 4em 1em #83769c, 5em 1em #83769c, 6em 1em #83769c, 7em 1em #83769c, 8em 1em #83769c, 9em 1em #83769c, 0em 2em #83769c, 1em 2em #c2c3c7, 2em 2em #c2c3c7, 3em 2em #c2c3c7, 4em 2em #c2c3c7, 5em 2em #c2c3c7, 6em 2em #c2c3c7, 7em 2em #c2c3c7, 8em 2em #c2c3c7, 9em 2em #83769c, 0em 3em #83769c, 1em 3em #c2c3c7, 2em 3em #83769c, 3em 3em #83769c, 4em 3em #c2c3c7, 5em 3em #c2c3c7, 6em 3em #83769c, 7em 3em #83769c, 8em 3em #c2c3c7, 9em 3em #83769c, 0em 4em #83769c, 1em 4em #c2c3c7, 2em 4em #c2c3c7, 3em 4em #c2c3c7, 4em 4em #c2c3c7, 5em 4em #c2c3c7, 6em 4em #c2c3c7, 7em 4em #c2c3c7, 8em 4em #c2c3c7, 9em 4em #83769c, 0em 5em #83769c, 1em 5em #c2c3c7, 2em 5em #c2c3c7, 3em 5em #c2c3c7, 4em 5em #83769c, 5em 5em #83769c, 6em 5em #c2c3c7, 7em 5em #c2c3c7, 8em 5em #c2c3c7, 9em 5em #83769c, 0em 6em #83769c, 1em 6em #c2c3c7, 2em 6em #c2c3c7, 3em 6em #c2c3c7, 4em 6em #83769c, 5em 6em #83769c, 6em 6em #c2c3c7, 7em 6em #c2c3c7, 8em 6em #c2c3c7, 9em 6em #83769c, 0em 7em #83769c, 1em 7em #c2c3c7, 2em 7em #c2c3c7, 3em 7em #c2c3c7, 4em 7em #83769c, 5em 7em #83769c, 6em 7em #c2c3c7, 7em 7em #c2c3c7, 8em 7em #c2c3c7, 9em 7em #83769c, 0em 8em #83769c, 1em 8em #c2c3c7, 2em 8em #c2c3c7, 3em 8em #c2c3c7, 4em 8em #83769c, 5em 8em #83769c, 6em 8em #c2c3c7, 7em 8em #c2c3c7, 8em 8em #c2c3c7, 9em 8em #83769c, 0em 9em #83769c, 1em 9em #83769c, 2em 9em #83769c, 3em 9em #83769c, 4em 9em #83769c, 5em 9em #83769c, 6em 9em #83769c, 7em 9em #83769c, 8em 9em #83769c, 9em 9em #83769c;
+  --sp-heart: 1em 0em #ff004d, 2em 0em #ff004d, 4em 0em #ff004d, 5em 0em #ff004d, 0em 1em #ff004d, 1em 1em #ff004d, 2em 1em #ff004d, 3em 1em #ff004d, 4em 1em #ff004d, 5em 1em #ff004d, 6em 1em #ff004d, 0em 2em #ff004d, 1em 2em #ff004d, 2em 2em #ff004d, 3em 2em #ff004d, 4em 2em #ff004d, 5em 2em #ff004d, 6em 2em #ff004d, 1em 3em #ff004d, 2em 3em #ff004d, 3em 3em #ff004d, 4em 3em #ff004d, 5em 3em #ff004d, 2em 4em #ff004d, 3em 4em #ff004d, 4em 4em #ff004d, 3em 5em #ff004d;
+  --sp-cloud: 4em 0em #fff1e8, 5em 0em #fff1e8, 6em 0em #fff1e8, 7em 0em #fff1e8, 2em 1em #fff1e8, 3em 1em #fff1e8, 4em 1em #fff1e8, 5em 1em #fff1e8, 6em 1em #fff1e8, 7em 1em #fff1e8, 8em 1em #fff1e8, 9em 1em #fff1e8, 1em 2em #fff1e8, 2em 2em #fff1e8, 3em 2em #fff1e8, 4em 2em #fff1e8, 5em 2em #fff1e8, 6em 2em #fff1e8, 7em 2em #fff1e8, 8em 2em #fff1e8, 9em 2em #fff1e8, 10em 2em #fff1e8, 11em 2em #fff1e8, 12em 2em #fff1e8, 0em 3em #fff1e8, 1em 3em #fff1e8, 2em 3em #fff1e8, 3em 3em #fff1e8, 4em 3em #fff1e8, 5em 3em #fff1e8, 6em 3em #fff1e8, 7em 3em #fff1e8, 8em 3em #fff1e8, 9em 3em #fff1e8, 10em 3em #fff1e8, 11em 3em #fff1e8, 12em 3em #fff1e8, 13em 3em #fff1e8, 1em 4em #fff1e8, 2em 4em #fff1e8, 3em 4em #fff1e8, 4em 4em #fff1e8, 5em 4em #fff1e8, 6em 4em #fff1e8, 7em 4em #fff1e8, 8em 4em #fff1e8, 9em 4em #fff1e8, 10em 4em #fff1e8, 11em 4em #fff1e8, 12em 4em #fff1e8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--body);font-size:17px;line-height:1.6;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{font-family:var(--head);font-weight:400;line-height:1.5;margin:0;text-transform:uppercase;letter-spacing:0}
+h2{font-size:clamp(1.05rem,2.4vw,1.6rem);color:var(--yellow);text-shadow:4px 4px 0 #000}
+h3{font-size:.8rem;color:var(--ink)}
+p{margin:0 0 1rem}
+a{color:var(--blue)}
+.ui{font-family:var(--ui);font-size:1.35rem;line-height:1.2;letter-spacing:.02em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.crt{
+  pointer-events:none;position:fixed;inset:0;z-index:50;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,0) 0 2px,rgba(0,0,0,.18) 2px 4px);
+  mix-blend-mode:multiply;
+}
+.crt::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,0) 55%,rgba(0,0,0,.55) 100%);
+}
+
+.pxbox{
+  position:relative;background:var(--panel);
+  box-shadow:0 calc(-1*var(--px)) 0 0 var(--ink),0 var(--px) 0 0 var(--ink),calc(-1*var(--px)) 0 0 0 var(--ink),var(--px) 0 0 0 var(--ink),
+             inset calc(-1*var(--px)) calc(-1*var(--px)) 0 0 rgba(0,0,0,.45),inset var(--px) var(--px) 0 0 rgba(255,255,255,.06);
+  padding:1.5rem;
+}
+.pxbox--thick{
+  box-shadow:0 calc(-1*var(--px)) 0 0 var(--ink),0 var(--px) 0 0 var(--ink),calc(-1*var(--px)) 0 0 0 var(--ink),var(--px) 0 0 0 var(--ink),
+             0 calc(-2*var(--px)) 0 0 var(--bg),0 calc(2*var(--px)) 0 0 var(--bg),calc(-2*var(--px)) 0 0 0 var(--bg),calc(2*var(--px)) 0 0 0 var(--bg),
+             0 calc(-3*var(--px)) 0 0 var(--ink),0 calc(3*var(--px)) 0 0 var(--ink),calc(-3*var(--px)) 0 0 0 var(--ink),calc(3*var(--px)) 0 0 0 var(--ink),
+             calc(-2*var(--px)) calc(-2*var(--px)) 0 0 var(--ink),calc(2*var(--px)) calc(-2*var(--px)) 0 0 var(--ink),calc(-2*var(--px)) calc(2*var(--px)) 0 0 var(--ink),calc(2*var(--px)) calc(2*var(--px)) 0 0 var(--ink),
+             inset calc(-1*var(--px)) calc(-1*var(--px)) 0 0 rgba(0,0,0,.45);
+}
+.pxbox--green{--ink:var(--green)}
+.pxbox--yellow{--ink:var(--yellow)}
+.pxbox--blue{--ink:var(--blue)}
+.pxbox--pink{--ink:var(--pink)}
+
+.sprite{display:block;width:1em;height:1em;position:relative;font-size:var(--s,6px);image-rendering:pixelated}
+.sprite::before{content:"";position:absolute;left:0;top:0;width:1em;height:1em;box-shadow:var(--sp)}
+
+.wrap{width:min(1120px,100% - 2.5rem);margin:0 auto}
+section{padding:5rem 0;position:relative}
+.kicker{font-family:var(--head);font-size:.65rem;color:var(--green);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
+.kicker::before{content:"";width:12px;height:12px;background:var(--green);box-shadow:4px 0 0 var(--bg),-4px 0 0 var(--bg);display:inline-block}
+.lead{font-size:1.15rem;color:var(--dim);max-width:62ch}
+
+.hud{
+  position:sticky;top:0;z-index:40;background:#000;color:var(--ink);
+  border-bottom:4px solid var(--ink);
+  font-family:var(--head);font-size:.6rem;text-transform:uppercase;
+}
+.hud__row{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.75rem;padding:.8rem 0;}
+.hud__brand{color:var(--yellow);text-decoration:none;font-size:.75rem;display:flex;align-items:center;gap:.6rem}
+.hud__brand .sprite{--s:3px;--sp:var(--sp-coin);width:8em;height:8em}
+.hud__brand .sprite::before{box-shadow:var(--sp)}
+.hud__stat{display:flex;gap:.6rem;align-items:center;white-space:nowrap}
+.hud__stat b{font-weight:400;color:var(--green)}
+.hud__lives{display:inline-flex;gap:6px}
+.hud__lives .sprite{--s:2px;--sp:var(--sp-heart);width:7em;height:6em}
+.hud nav{margin-left:auto;display:flex;flex-wrap:wrap;gap:.25rem 1.1rem}
+.hud nav a{color:var(--dim);text-decoration:none;position:relative;padding-left:1em}
+.hud nav a::before{content:"▶";position:absolute;left:0;top:0;opacity:0;color:var(--yellow)}
+.hud nav a:hover,.hud nav a:focus-visible{color:var(--ink);outline:none}
+.hud nav a:hover::before,.hud nav a:focus-visible::before{opacity:1}
+
+.hero{
+  min-height:calc(100vh - 3.5rem);display:flex;flex-direction:column;justify-content:center;
+  padding:4rem 0 0;overflow:hidden;
+  background:
+    linear-gradient(to bottom,#0b0b1e 0%,#1d2b53 70%,#1d2b53 100%);
+}
+.hero__inner{display:grid;grid-template-columns:1.2fr .8fr;gap:3rem;align-items:center;position:relative;z-index:2}
+.hero__title{font-size:clamp(2.2rem,7vw,5rem);line-height:1.1;color:var(--ink);text-shadow:6px 6px 0 var(--red),12px 12px 0 #000;margin:.5rem 0 1rem}
+.hero__title span{display:block;font-size:.35em;color:var(--yellow);text-shadow:4px 4px 0 #000;margin-top:1rem;line-height:1.6}
+.hero__tag{font-family:var(--ui);font-size:clamp(1.3rem,2.5vw,1.75rem);color:var(--dim);max-width:44ch;margin-bottom:2rem}
+.hero__tag em{font-style:normal;color:var(--green)}
+.press{font-family:var(--head);font-size:clamp(.8rem,1.6vw,1.1rem);color:var(--ink);text-decoration:none;display:inline-block;padding:1rem 1.5rem;background:#000}
+.press.pxbox{padding:1rem 1.5rem}
+.press:hover,.press:focus-visible{background:var(--red);color:#000;outline:none}
+.blink{animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.hero__stage{position:relative;height:340px;display:flex;align-items:flex-end;justify-content:center}
+.bot{--s:9px;--sp:var(--sp-bot1);width:12em;height:16em;position:relative;z-index:3;margin-bottom:56px}
+.bot::before{box-shadow:var(--sp)}
+@keyframes walk{50%{box-shadow:var(--sp-bot2)}}
+.bot::before{animation:walk .6s steps(1) infinite}
+.hero__ground{
+  position:absolute;left:-10vw;right:-10vw;bottom:0;height:56px;
+  background:
+    linear-gradient(to bottom,var(--ink) 0 4px,transparent 4px),
+    repeating-linear-gradient(90deg,#ab5236 0 24px,#7a3a22 24px 28px),
+    repeating-linear-gradient(0deg,#ab5236 0 24px,#7a3a22 24px 28px);
+  background-blend-mode:normal,multiply,normal;
+  box-shadow:inset 0 -12px 0 #000;
+}
+.hero__ground::before{content:"";position:absolute;left:0;right:0;top:4px;height:10px;background:var(--green);box-shadow:inset 0 -4px 0 #00a83f}
+.cloud{position:absolute;--s:6px;--sp:var(--sp-cloud);width:14em;height:5em;opacity:.9}
+.cloud::before{box-shadow:var(--sp)}
+.cloud--a{left:5%;top:8%;animation:drift 32s linear infinite}
+.cloud--b{right:8%;top:24%;--s:4px;animation:drift 48s linear infinite reverse}
+@keyframes drift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
+.coins{position:absolute;top:18%;left:50%;display:flex;gap:2rem;transform:translateX(-50%)}
+.coins .sprite{--s:5px;--sp:var(--sp-coin);width:8em;height:8em;animation:bob 1.2s steps(2) infinite}
+.coins .sprite:nth-child(2){animation-delay:.3s}
+.coins .sprite:nth-child(3){animation-delay:.6s}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.block{position:absolute;bottom:56px;width:48px;height:48px;background:var(--orange);box-shadow:inset -8px -8px 0 #ab5236,inset 8px 8px 0 #ffec27,0 -4px 0 #000,0 4px 0 #000,-4px 0 0 #000,4px 0 0 #000}
+.block::after{content:"?";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--head);font-size:1.2rem;color:#000}
+.block--a{left:8%;bottom:160px}
+.block--b{left:calc(8% + 56px);bottom:160px}
+
+.hero__stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;position:relative;z-index:2;padding-bottom:3rem}
+.stat{padding:1.1rem 1.25rem;background:#000}
+.stat__label{font-family:var(--head);font-size:.55rem;color:var(--mute);text-transform:uppercase;margin-bottom:.5rem}
+.stat__num{font-family:var(--head);font-size:1.6rem;color:var(--yellow);line-height:1}
+.stat__num small{font-size:.5em;color:var(--dim);margin-left:.3rem}
+
+.quest{background:var(--bg)}
+.quest__grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+.log{background:#000;padding:1.75rem}
+.log h3{color:var(--green);margin-bottom:1.25rem;font-size:.7rem}
+.log dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.6rem 1.25rem;font-family:var(--ui);font-size:1.3rem;line-height:1.25}
+.log dt{color:var(--yellow);text-transform:uppercase}
+.log dd{margin:0;color:var(--ink)}
+.log dd.no{color:var(--red)}
+.log dd.yes{color:var(--green)}
+.type::after{content:"█";animation:blink .9s steps(1) infinite;color:var(--green)}
+
+.skills{background:linear-gradient(to bottom,var(--bg),#0f1030)}
+.bars{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 3rem;margin-top:2rem}
+.bar{display:grid;grid-template-columns:150px 1fr auto;gap:1rem;align-items:center;font-family:var(--head);font-size:.6rem;text-transform:uppercase}
+.bar__name{color:var(--ink)}
+.bar__track{height:22px;background:#000;position:relative;box-shadow:0 -4px 0 0 var(--mute),0 4px 0 0 var(--mute),-4px 0 0 0 var(--mute),4px 0 0 0 var(--mute)}
+.bar__fill{position:absolute;left:4px;top:4px;bottom:4px;width:calc(var(--w) - 8px);background:repeating-linear-gradient(90deg,var(--c,var(--green)) 0 12px,transparent 12px 16px);animation:fill 1.4s steps(12) both}
+@keyframes fill{from{width:0}}
+.bar__val{color:var(--dim);min-width:5.5ch;text-align:right}
+.bar--hp .bar__fill{--c:var(--red)}
+.bar--xp .bar__fill{--c:var(--blue)}
+.bar--mp .bar__fill{--c:var(--pink)}
+.bar--zero .bar__val{color:var(--red)}
+
+.shop__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem 2rem;margin-top:2.5rem}
+.item{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;padding:1.75rem}
+.item__icon{--s:6px;width:10em;height:10em;background:#000;padding:1em;box-sizing:content-box;box-shadow:0 -4px 0 0 var(--mute),0 4px 0 0 var(--mute),-4px 0 0 0 var(--mute),4px 0 0 0 var(--mute)}
+.item__icon::before{left:1em;top:1em;box-shadow:var(--sp)}
+.item h3{font-size:.75rem;color:var(--yellow);margin-bottom:.25rem}
+.item__type{font-family:var(--ui);font-size:1.15rem;color:var(--mute);text-transform:uppercase;margin-bottom:.75rem}
+.item p{color:var(--dim);font-size:1rem;margin-bottom:.9rem}
+.item__price{font-family:var(--head);font-size:.55rem;color:var(--green);display:flex;align-items:center;gap:.6rem;text-transform:uppercase}
+.item__price .sprite{--s:2px;--sp:var(--sp-coin);width:8em;height:8em}
+.item__price .sprite::before{box-shadow:var(--sp)}
+.item--soon{opacity:.85}
+.item--soon .item__price{color:var(--orange)}
+.shop__keeper{margin-top:2.5rem;background:#000;padding:1.5rem 1.75rem;font-family:var(--ui);font-size:1.35rem;color:var(--dim);display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:center}
+.shop__keeper .sprite{--s:4px;--sp:var(--sp-bot1);width:12em;height:16em}
+.shop__keeper .sprite::before{box-shadow:var(--sp)}
+.shop__keeper b{color:var(--yellow);font-weight:400}
+
+.map{background:linear-gradient(to bottom,#0f1030,var(--bg2))}
+.map__scroll{overflow-x:auto;padding:2rem 0 1rem;margin-top:1.5rem}
+.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem;position:relative;min-width:0}
+.levels::before{content:"";position:absolute;left:12%;right:12%;top:36px;border-top:8px dotted var(--yellow);z-index:0}
+.level{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center}
+.level__node{width:80px;height:80px;background:#000;display:grid;place-items:center;box-shadow:0 -4px 0 0 var(--ink),0 4px 0 0 var(--ink),-4px 0 0 0 var(--ink),4px 0 0 0 var(--ink);margin-bottom:1.5rem}
+.level__node .sprite{--s:6px;width:10em;height:10em}
+.level__node .sprite::before{box-shadow:var(--sp)}
+.level__node--flag .sprite{--sp:var(--sp-flag);width:8em;height:10em}
+.level__node--castle .sprite{--sp:var(--sp-castle)}
+.level__num{font-family:var(--head);font-size:.6rem;color:var(--green);margin-bottom:.5rem}
+.level h3{font-size:.8rem;color:var(--yellow);margin-bottom:.35rem}
+.level__time{font-family:var(--ui);font-size:1.2rem;color:var(--mute);text-transform:uppercase;margin-bottom:.75rem}
+.level p{color:var(--dim);font-size:.95rem;max-width:26ch}
+.level--done .level__node{--ink:var(--green)}
+.level--boss .level__node{--ink:var(--red)}
+
+.team{background:var(--bg2)}
+.team__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-top:2.5rem}
+.char{padding:1.5rem;display:flex;flex-direction:column;gap:1.1rem;transition:transform .15s steps(3)}
+.char:hover{transform:translateY(-6px)}
+.char__p{font-family:var(--head);font-size:.55rem;color:var(--mute);display:flex;justify-content:space-between;text-transform:uppercase}
+.char:hover .char__p::before,.char:focus-within .char__p::before{content:"▶ ";color:var(--yellow)}
+.portrait{aspect-ratio:1/1;background:#000;position:relative;overflow:hidden;box-shadow:0 -4px 0 0 var(--ink),0 4px 0 0 var(--ink),-4px 0 0 0 var(--ink),4px 0 0 0 var(--ink);image-rendering:pixelated;display:grid;place-items:center;text-align:center}
+.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:pixelated}
+.portrait__ph{font-family:var(--head);font-size:.55rem;color:var(--mute);line-height:2;padding:1rem}
+.portrait__ph b{display:block;font-size:3rem;color:var(--bg2);text-shadow:4px 4px 0 #000;line-height:1;margin-bottom:.75rem;font-weight:400}
+.portrait::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.25) 0 2px,transparent 2px 4px);pointer-events:none}
+.char h3{font-size:.85rem;color:var(--ink)}
+.char__role{font-family:var(--ui);font-size:1.3rem;color:var(--yellow);text-transform:uppercase;line-height:1.2}
+.char__role--sv{text-transform:none}
+.char__bio{color:var(--dim);font-size:.95rem;margin:0}
+.stats{display:grid;gap:.55rem;margin-top:.25rem}
+.stats .bar{grid-template-columns:70px 1fr auto;font-size:.5rem;gap:.7rem}
+.stats .bar__track{height:16px}
+.stats .bar__val{min-width:4ch}
+.stats .max .bar__val{color:var(--yellow)}
+.stats .max .bar__fill{--c:var(--yellow)}
+.char__select{margin-top:auto;font-family:var(--head);font-size:.55rem;text-transform:uppercase;color:var(--green);text-decoration:none;display:inline-block;padding:.6rem 0}
+.char__select:hover{color:var(--yellow)}
+
+.cont{background:#000;text-align:center;padding:6rem 0}
+.cont h2{font-size:clamp(1.6rem,4vw,2.6rem);color:var(--ink);text-shadow:6px 6px 0 var(--red)}
+.cont__count{font-family:var(--head);font-size:clamp(4rem,12vw,8rem);color:var(--yellow);line-height:1;margin:1.5rem 0;text-shadow:8px 8px 0 var(--red)}
+.cont__insert{font-family:var(--head);font-size:clamp(.7rem,1.5vw,1rem);color:var(--dim);margin-bottom:2rem}
+.cont__lead{color:var(--dim);max-width:48ch;margin:0 auto 2.5rem;font-family:var(--ui);font-size:1.4rem}
+.cont__btns{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap}
+.cont__btns .press{background:var(--panel)}
+.cont__btns .press--no{color:var(--mute)}
+.cont__btns .press--no:hover{background:var(--panel);color:var(--red)}
+.cont__note{margin-top:2rem;font-family:var(--ui);font-size:1.25rem;color:var(--mute);min-height:1.6em}
+.cont__mail{display:block;margin-top:2.5rem;font-family:var(--ui);font-size:1.5rem;color:var(--blue);text-decoration:none}
+.cont__mail:hover{color:var(--yellow)}
+
+footer{background:#000;border-top:4px solid var(--bg2);padding:2.5rem 0 3rem;font-family:var(--head);font-size:.5rem;color:var(--mute);text-transform:uppercase;line-height:2.4}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem}
+footer span:last-child{color:var(--dim)}
+
+@media (max-width:900px){
+  section{padding:3.5rem 0}
+  .hero{min-height:0;padding-top:3rem}
+  .hero__inner{grid-template-columns:1fr;gap:2rem}
+  .hero__stage{height:260px;order:-1}
+  .bot{--s:7px}
+  .block--a,.block--b{bottom:120px}
+  .hero__stats{grid-template-columns:1fr}
+  .quest__grid,.bars,.shop__grid,.team__grid{grid-template-columns:1fr}
+  .levels{grid-template-columns:1fr;gap:3rem}
+  .levels::before{left:36px;right:auto;top:0;bottom:0;border-top:0;border-left:8px dotted var(--yellow)}
+  .level{flex-direction:row;text-align:left;align-items:flex-start;gap:1.5rem}
+  .level__node{flex:none;margin:0}
+  .level p{max-width:none}
+  .item{grid-template-columns:1fr}
+  .shop__keeper{grid-template-columns:1fr}
+  .hud nav{margin-left:0;width:100%}
+  .bar{grid-template-columns:110px 1fr auto}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .blink,.type::after,.bot,.bot::before,.cloud--a,.cloud--b,.coins .sprite,.bar__fill{animation:none}
+  .char{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="crt" aria-hidden="true"></div>
+
+<header class="hud">
+  <div class="wrap hud__row">
+    <a class="hud__brand" href="#start"><span class="sprite" aria-hidden="true"></span>FORWARD</a>
+    <div class="hud__stat">SCORE <b id="score" data-target="002026">000000</b></div>
+    <div class="hud__stat">COINS <b>x<span id="coins">00</span></b></div>
+    <div class="hud__stat">LIVES <span class="hud__lives" aria-label="3 lives"><span class="sprite" aria-hidden="true"></span><span class="sprite" aria-hidden="true"></span><span class="sprite" aria-hidden="true"></span></span></div>
+    <nav aria-label="Stage select">
+      <a href="#quest" data-coin>Quest</a>
+      <a href="#skills" data-coin>Stats</a>
+      <a href="#shop" data-coin>Shop</a>
+      <a href="#map" data-coin>World map</a>
+      <a href="#team" data-coin>Select player</a>
+      <a href="#continue" data-coin>Continue?</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="start">
+  <div class="wrap hero__inner">
+    <div>
+      <div class="kicker">Player 1 · Forward Deployed Engineering for AI</div>
+      <h1 class="hero__title">Forward<span>We ship AI into your company. Then we leave.</span></h1>
+      <p class="hero__tag">Three senior engineers who embed inside your team, find the workflows where AI actually pays off, and build them into production in <em>weeks</em>. No slide decks. Working software, evals, monitoring, handover.</p>
+      <a class="press pxbox pxbox--yellow blink" href="#continue">▶ Press start</a>
+    </div>
+    <div class="hero__stage" aria-hidden="true">
+      <span class="cloud cloud--a"></span>
+      <span class="cloud cloud--b"></span>
+      <div class="coins"><span class="sprite"></span><span class="sprite"></span><span class="sprite"></span></div>
+      <span class="block block--a"></span>
+      <span class="block block--b"></span>
+      <span class="sprite bot"></span>
+      <div class="hero__ground"></div>
+    </div>
+  </div>
+  <div class="wrap hero__stats">
+    <div class="stat pxbox pxbox--green">
+      <div class="stat__label">Time to first prototype</div>
+      <div class="stat__num"><span data-count="2" data-pad="2">00</span><small>weeks</small></div>
+    </div>
+    <div class="stat pxbox pxbox--green">
+      <div class="stat__label">Slide decks delivered</div>
+      <div class="stat__num"><span data-count="0" data-pad="3">000</span><small>ever</small></div>
+    </div>
+    <div class="stat pxbox pxbox--green">
+      <div class="stat__label">Code handed over</div>
+      <div class="stat__num"><span data-count="100" data-pad="3">000</span><small>%</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="quest" id="quest">
+  <div class="wrap">
+    <div class="kicker">Quest log · New quest unlocked</div>
+    <h2>What is Forward Deployed Engineering?</h2>
+    <div class="quest__grid" style="margin-top:2rem">
+      <div>
+        <p class="lead">A forward deployed engineer is not a consultant who writes a report and disappears. An FDE moves into your company, sits with the people doing the work, and builds the thing with them, on your real data, inside your real systems.</p>
+        <p>For AI this matters more than usual. The demos are easy. The hard part is the boring part: which of your fifty workflows actually gets better with a model in the loop, how the agent gets permission to touch your CRM without wrecking it, what happens when it is wrong, and who gets paged. That is engineering work, and it only gets done well from the inside.</p>
+        <p>So that is what we sell. We embed, we prototype on your data in the first two weeks, we harden it with evals, guardrails, observability and a human in the loop, and then we hand over the code, documented, and train your team to own it. If we discover that AI is the wrong tool for your problem, we will say so before you have paid for the wrong thing.</p>
+      </div>
+      <div class="log pxbox pxbox--green">
+        <h3>Quest: deploy AI that survives contact with Monday</h3>
+        <dl>
+          <dt>Party</dt><dd>3 senior engineers, on site</dd>
+          <dt>Objective</dt><dd>Find the workflows where AI pays off. Ship them.</dd>
+          <dt>Loot</dt><dd>Agents, RAG, copilots, automations, integrations</dd>
+          <dt>Difficulty</dt><dd>Production. Not demo.</dd>
+          <dt>Slide decks</dt><dd class="no">None</dd>
+          <dt>Lock-in</dt><dd class="no">None. Code is yours.</dd>
+          <dt>GDPR</dt><dd class="yes">Respected. EU data stays EU data.</dd>
+          <dt>Honesty</dt><dd class="yes">We tell you if AI is the wrong tool.</dd>
+          <dt>Reward</dt><dd class="type">Working software in weeks</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="skills" id="skills">
+  <div class="wrap">
+    <div class="kicker">Party stats</div>
+    <h2>Skill tree</h2>
+    <p class="lead" style="margin-top:1rem">Things we have built for real and will build for you. Numbers are jokes; the skills are not.</p>
+    <div class="bars">
+      <div class="bar bar--hp"><span class="bar__name">Agents</span><span class="bar__track"><span class="bar__fill" style="--w:92%"></span></span><span class="bar__val">92/99</span></div>
+      <div class="bar bar--hp"><span class="bar__name">Retrieval / RAG</span><span class="bar__track"><span class="bar__fill" style="--w:95%"></span></span><span class="bar__val">95/99</span></div>
+      <div class="bar bar--xp"><span class="bar__name">Evals</span><span class="bar__track"><span class="bar__fill" style="--w:90%"></span></span><span class="bar__val">90/99</span></div>
+      <div class="bar bar--xp"><span class="bar__name">Guardrails</span><span class="bar__track"><span class="bar__fill" style="--w:88%"></span></span><span class="bar__val">88/99</span></div>
+      <div class="bar"><span class="bar__name">Integrations</span><span class="bar__track"><span class="bar__fill" style="--w:96%"></span></span><span class="bar__val">96/99</span></div>
+      <div class="bar"><span class="bar__name">Observability</span><span class="bar__track"><span class="bar__fill" style="--w:89%"></span></span><span class="bar__val">89/99</span></div>
+      <div class="bar bar--mp"><span class="bar__name">Human in loop</span><span class="bar__track"><span class="bar__fill" style="--w:94%"></span></span><span class="bar__val">94/99</span></div>
+      <div class="bar bar--mp"><span class="bar__name">GDPR</span><span class="bar__track"><span class="bar__fill" style="--w:99%"></span></span><span class="bar__val">99/99</span></div>
+      <div class="bar bar--zero"><span class="bar__name">Powerpoint</span><span class="bar__track"><span class="bar__fill" style="--w:0%"></span></span><span class="bar__val">0/99</span></div>
+      <div class="bar bar--zero"><span class="bar__name">Vendor lock-in</span><span class="bar__track"><span class="bar__fill" style="--w:0%"></span></span><span class="bar__val">0/99</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="kicker">Item shop · Welcome, traveller</div>
+    <h2>Services</h2>
+    <p class="lead" style="margin-top:1rem">Four items on the shelf. Most engagements start with the map and end with the manual.</p>
+    <div class="shop__grid">
+      <article class="item pxbox">
+        <span class="sprite item__icon" style="--sp:var(--sp-scroll)" aria-hidden="true"></span>
+        <div>
+          <h3>Map of your workflows</h3>
+          <div class="item__type">Consumable · 1–2 weeks</div>
+          <p>We sit with your teams, trace how work actually flows through mail, docs, CRM and ERP, and mark the spots where a model would save real hours or real errors. You get a ranked list with effort, risk and a go/no-go per item. Sometimes the honest answer is "none of these, buy a spreadsheet".</p>
+          <div class="item__price"><span class="sprite" aria-hidden="true"></span>Fixed price · Buy separately or bundled</div>
+        </div>
+      </article>
+      <article class="item pxbox">
+        <span class="sprite item__icon" style="--sp:var(--sp-hammer)" aria-hidden="true"></span>
+        <div>
+          <h3>Build &amp; integrate</h3>
+          <div class="item__type">Weapon · Weeks, not quarters</div>
+          <p>Agents, retrieval over your documents, copilots for your staff, automations that talk to your CRM, ERP, mail and document systems. Built into production with evals, permissions, guardrails, observability and a human in the loop where the stakes demand one.</p>
+          <div class="item__price"><span class="sprite" aria-hidden="true"></span>Per week, embedded · Your repo, your cloud</div>
+        </div>
+      </article>
+      <article class="item pxbox item--soon">
+        <span class="sprite item__icon" style="--sp:var(--sp-vault)" aria-hidden="true"></span>
+        <div>
+          <h3>Private / on-prem inference</h3>
+          <div class="item__type">Armor · Coming to the shelf</div>
+          <p>For data that cannot leave the building: open-weight models on hardware you own or we host in Sweden. Same agents, same evals, no third-party API in the loop. We are building the boxes for this now. Ask, and we will show you what is ready.</p>
+          <div class="item__price"><span class="sprite" aria-hidden="true"></span>Coming soon · Ask the shopkeeper</div>
+        </div>
+      </article>
+      <article class="item pxbox">
+        <span class="sprite item__icon" style="--sp:var(--sp-book)" aria-hidden="true"></span>
+        <div>
+          <h3>Enablement manual</h3>
+          <div class="item__type">Key item · Included in every handover</div>
+          <p>Documentation your team will actually read, pairing sessions with your engineers, and training for the people who will use the thing daily. When we leave, you can run it, change it and extend it without calling us. Calling us is still allowed.</p>
+          <div class="item__price"><span class="sprite" aria-hidden="true"></span>Bundled with Build · Also sold as workshops</div>
+        </div>
+      </article>
+    </div>
+    <div class="shop__keeper pxbox pxbox--yellow">
+      <span class="sprite" aria-hidden="true"></span>
+      <div><b>SHOPKEEPER:</b> Prices depend on how deep the dungeon goes. The first conversation is free, and we will tell you which items you do not need. That is not a sales technique, it is just faster for everybody.</div>
+    </div>
+  </div>
+</section>
+
+<section class="map" id="map">
+  <div class="wrap">
+    <div class="kicker">World 1 · Overworld</div>
+    <h2>How an engagement plays</h2>
+    <p class="lead" style="margin-top:1rem">Four levels. Every one ends with something running, not a document about something that might run.</p>
+    <div class="map__scroll">
+      <ol class="levels" style="list-style:none;padding:0;margin:0">
+        <li class="level level--done">
+          <div class="level__node level__node--flag"><span class="sprite" aria-hidden="true"></span></div>
+          <div>
+            <div class="level__num">World 1-1</div>
+            <h3>Embed</h3>
+            <div class="level__time">Week 0</div>
+            <p>We get badges, accounts and a desk near the people who do the work. We read your systems, not your strategy deck.</p>
+          </div>
+        </li>
+        <li class="level">
+          <div class="level__node level__node--flag"><span class="sprite" aria-hidden="true"></span></div>
+          <div>
+            <div class="level__num">World 1-2</div>
+            <h3>Prototype</h3>
+            <div class="level__time">Week 1–2</div>
+            <p>A working version on your real data, used by real colleagues. Ugly is fine. Fake is not.</p>
+          </div>
+        </li>
+        <li class="level level--boss">
+          <div class="level__node level__node--flag"><span class="sprite" aria-hidden="true"></span></div>
+          <div>
+            <div class="level__num">World 1-3 · Boss stage</div>
+            <h3>Harden</h3>
+            <div class="level__time">Week 3–8</div>
+            <p>Evals against real cases, permissions and guardrails, monitoring, fallbacks, a human in the loop where it counts. This is where most AI projects die. Ours do not.</p>
+          </div>
+        </li>
+        <li class="level">
+          <div class="level__node level__node--castle"><span class="sprite" aria-hidden="true"></span></div>
+          <div>
+            <div class="level__num">World 1-4 · Castle</div>
+            <h3>Hand over</h3>
+            <div class="level__time">Then onwards</div>
+            <p>Code, docs and training go to your team. We stay on call. The princess is in this castle.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="team" id="team">
+  <div class="wrap">
+    <div class="kicker">Choose your engineer</div>
+    <h2>Select player</h2>
+    <p class="lead" style="margin-top:1rem">Three founders, all senior engineers, all deeply AI-literate, all available for co-op. Stats are not peer reviewed.</p>
+    <div class="team__grid">
+      <article class="char pxbox pxbox--blue">
+        <div class="char__p"><span>P1</span><span>Lv. 42</span></div>
+        <div class="portrait">
+          <div class="portrait__ph"><b>?</b>No portrait loaded<br>1:1 · min 600×600</div>
+          <!-- <img src="team/jesper.jpg" alt="Jesper Lugner"> -->
+        </div>
+        <h3>Jesper Lugner</h3>
+        <div class="char__role">CEO &amp; God King</div>
+        <p class="char__bio">Short bio. What he has built, what he obsesses over, one human detail. Placeholder text until the God King writes his own.</p>
+        <div class="stats">
+          <div class="bar"><span class="bar__name">STR</span><span class="bar__track"><span class="bar__fill" style="--w:70%"></span></span><span class="bar__val">7</span></div>
+          <div class="bar bar--xp"><span class="bar__name">INT</span><span class="bar__track"><span class="bar__fill" style="--w:90%"></span></span><span class="bar__val">9</span></div>
+          <div class="bar bar--mp"><span class="bar__name">CHA</span><span class="bar__track"><span class="bar__fill" style="--w:60%"></span></span><span class="bar__val">6</span></div>
+          <div class="bar max"><span class="bar__name">EGO</span><span class="bar__track"><span class="bar__fill" style="--w:100%"></span></span><span class="bar__val">MAX</span></div>
+        </div>
+        <a class="char__select" href="mailto:hello@forward.example?subject=P1%20selected%3A%20Jesper">▶ Select</a>
+      </article>
+      <article class="char pxbox pxbox--pink">
+        <div class="char__p"><span>P2</span><span>Lv. 42</span></div>
+        <div class="portrait">
+          <div class="portrait__ph"><b>?</b>No portrait loaded<br>1:1 · min 600×600</div>
+          <!-- <img src="team/patrik.jpg" alt="Patrik Jungmalm"> -->
+        </div>
+        <h3>Patrik Jungmalm</h3>
+        <div class="char__role">Cheerleader</div>
+        <p class="char__bio">Short bio. What he has built, what he obsesses over, one human detail. Placeholder text until the pom-poms are put down.</p>
+        <div class="stats">
+          <div class="bar max"><span class="bar__name">MORALE</span><span class="bar__track"><span class="bar__fill" style="--w:100%"></span></span><span class="bar__val">MAX</span></div>
+          <div class="bar bar--xp"><span class="bar__name">INT</span><span class="bar__track"><span class="bar__fill" style="--w:90%"></span></span><span class="bar__val">9</span></div>
+          <div class="bar bar--hp"><span class="bar__name">HYPE</span><span class="bar__track"><span class="bar__fill" style="--w:90%"></span></span><span class="bar__val">9</span></div>
+          <div class="bar bar--mp"><span class="bar__name">VOLUME</span><span class="bar__track"><span class="bar__fill" style="--w:80%"></span></span><span class="bar__val">8</span></div>
+        </div>
+        <a class="char__select" href="mailto:hello@forward.example?subject=P2%20selected%3A%20Patrik">▶ Select</a>
+      </article>
+      <article class="char pxbox pxbox--green">
+        <div class="char__p"><span>P3</span><span>Lv. 42</span></div>
+        <div class="portrait">
+          <div class="portrait__ph"><b>?</b>No portrait loaded<br>1:1 · min 600×600</div>
+          <!-- <img src="team/viktor.jpg" alt="Viktor Svirins"> -->
+        </div>
+        <h3>Viktor Svirins</h3>
+        <div class="char__role char__role--sv">"Gift med en designer vi behöver"</div>
+        <p class="char__bio">Short bio. What he has built, what he obsesses over, one human detail. Placeholder text, pending approval from the designer.</p>
+        <div class="stats">
+          <div class="bar bar--xp"><span class="bar__name">INT</span><span class="bar__track"><span class="bar__fill" style="--w:90%"></span></span><span class="bar__val">9</span></div>
+          <div class="bar bar--hp"><span class="bar__name">PATIENCE</span><span class="bar__track"><span class="bar__fill" style="--w:80%"></span></span><span class="bar__val">8</span></div>
+          <div class="bar bar--mp"><span class="bar__name">TASTE</span><span class="bar__track"><span class="bar__fill" style="--w:40%"></span></span><span class="bar__val">4</span></div>
+          <div class="bar max"><span class="bar__name">DESIGN</span><span class="bar__track"><span class="bar__fill" style="--w:100%"></span></span><span class="bar__val">MAX*</span></div>
+        </div>
+        <p class="char__bio" style="font-family:var(--ui);font-size:1.1rem;color:var(--mute)">*Borrowed stat. Applies while married.</p>
+        <a class="char__select" href="mailto:hello@forward.example?subject=P3%20selected%3A%20Viktor">▶ Select</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cont" id="continue">
+  <div class="wrap">
+    <h2>Continue?</h2>
+    <div class="cont__count" id="countdown" aria-hidden="true">9</div>
+    <div class="cont__insert blink">Insert coin</div>
+    <p class="cont__lead">One email. Tell us what you do and where the work piles up. We come by, look at the real thing, and tell you honestly whether AI helps. If it does, we start in weeks.</p>
+    <div class="cont__btns">
+      <a class="press pxbox pxbox--green" href="mailto:hello@forward.example?subject=Continue%3F%20Yes.">▶ Yes</a>
+      <button class="press pxbox press--no" type="button" id="no">No</button>
+    </div>
+    <div class="cont__note" id="note" aria-live="polite"></div>
+    <a class="cont__mail" href="mailto:hello@forward.example">hello@forward.example</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Forward AB · Sweden</span>
+    <span>Built by humans, with a lot of help · No cheat codes were harmed</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pad = function(n,w){ n=String(n); while(n.length<w) n='0'+n; return n; };
+
+  var score = document.getElementById('score');
+  var scoreTarget = parseInt(score.dataset.target,10);
+  var scoreNow = 0;
+  var drawScore = function(){ score.textContent = pad(scoreNow,6); };
+
+  var counters = Array.prototype.slice.call(document.querySelectorAll('[data-count]'));
+  if (reduce) {
+    scoreNow = scoreTarget; drawScore();
+    counters.forEach(function(el){ el.textContent = pad(el.dataset.count, el.dataset.pad|0); });
+  } else {
+    var start = null;
+    var tick = function(t){
+      if (start===null) start=t;
+      var k = Math.min(1,(t-start)/1400);
+      var e = 1-Math.pow(1-k,3);
+      scoreNow = Math.round(scoreTarget*e); drawScore();
+      counters.forEach(function(el){ el.textContent = pad(Math.round((el.dataset.count|0)*e), el.dataset.pad|0); });
+      if (k<1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  var coins = document.getElementById('coins'), coinN = 0;
+  document.querySelectorAll('[data-coin]').forEach(function(a){
+    a.addEventListener('click', function(){
+      coinN = Math.min(99, coinN+1); coins.textContent = pad(coinN,2);
+      scoreNow += 100; drawScore();
+    });
+  });
+
+  var cd = document.getElementById('countdown'), n = 9;
+  if (!reduce) {
+    setInterval(function(){ n = n===0 ? 9 : n-1; cd.textContent = n; }, 1000);
+  }
+
+  var no = document.getElementById('no'), note = document.getElementById('note');
+  var lines = [
+    'Are you sure?',
+    'Really sure? The email is free.',
+    'The shopkeeper looks sad.',
+    'Fine. hello@forward.example is here whenever you change your mind.'
+  ];
+  var i = 0;
+  no.addEventListener('click', function(){
+    note.textContent = lines[Math.min(i, lines.length-1)];
+    if (i===0) no.textContent = 'Still no';
+    if (i===1) no.textContent = 'No, honestly';
+    if (i>=2) no.textContent = 'No';
+    i++;
+  });
+})();
+</script>
+</body>
+</html>

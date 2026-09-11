@@ -254,8 +254,8 @@ blockquote.pull cite{
 .portrait .ph span:not(.small-caps){font-size:.9rem;background:var(--oat);padding:.1rem .5rem}
 .portrait img{width:100%;height:100%;object-fit:cover}
 .reveal{clip-path:inset(0 0 0 0)}
-.js .reveal{clip-path:inset(0 0 100% 0);transition:clip-path 1.6s cubic-bezier(.2,.7,.2,1)}
-.js .reveal.in{clip-path:inset(0 0 0 0)}
+.js .reveal{clip-path:inset(0 0 35% 0);opacity:.55;transition:clip-path 1.6s cubic-bezier(.2,.7,.2,1),opacity 1.2s ease}
+.js .reveal.in{clip-path:inset(0 0 0 0);opacity:1}
 .caption{margin-top:1rem;border-top:1px solid var(--rule);padding-top:.8rem}
 .caption .name{
   font-family:var(--display);font-weight:500;font-size:1.3rem;line-height:1.2;letter-spacing:-.01em;
@@ -327,7 +327,7 @@ footer .colophon{font-style:italic;font-family:var(--display);font-weight:400;fo
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .js .reveal{clip-path:inset(0 0 0 0);transition:none}
+  .js .reveal{clip-path:inset(0 0 0 0);opacity:1;transition:none}
   a{transition:none}
 }
 </style>
@@ -576,8 +576,9 @@ footer .colophon{font-style:italic;font-family:var(--display);font-weight:400;fo
       entries.forEach(function(e){
         if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
       });
-    },{threshold:.2});
+    },{threshold:.05});
     portraits.forEach(function(p){io.observe(p)});
+    setTimeout(function(){portraits.forEach(function(p){p.classList.add('in')})},1500);
   }
   var links=document.querySelectorAll('.toc li');
   var byId={};

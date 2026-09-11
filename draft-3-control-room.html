@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FORWARD // Forward Deployed AI Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090d;--panel:#0c1016;--fg:#dfe6ee;--muted:#6f7c8c;--line:rgba(120,160,200,.14);
+  --amber:#ffb347;--green:#3ddc97;--red:#ff5d5d;--cyan:#4cc9f0;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'Space Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%)}
+body::after{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);opacity:.5}
+.wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 32px}
+
+.topbar{position:sticky;top:0;z-index:20;background:rgba(7,9,13,.8);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:24px}
+.brand{font-weight:600;letter-spacing:.18em;display:flex;align-items:center;gap:12px}
+.brand .led{width:8px;height:8px;background:var(--green);border-radius:1px;box-shadow:0 0 12px var(--green);animation:blink 1.4s steps(2) infinite}
+@keyframes blink{50%{opacity:.35}}
+.status{display:flex;gap:28px;color:var(--muted)}
+.status b{color:var(--fg);font-weight:500}
+.status .ok{color:var(--green)}
+.topbar nav{display:flex;gap:24px;color:var(--muted)}
+.topbar nav a:hover{color:var(--amber)}
+.clock{color:var(--amber)}
+
+.hero{padding:96px 0 64px;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;min-height:calc(100vh - 56px)}
+.kicker{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.kicker::before{content:"";width:10px;height:10px;border:1px solid var(--amber);transform:rotate(45deg)}
+h1{font-size:clamp(44px,6.5vw,92px);font-weight:700;line-height:.95;letter-spacing:-.03em;text-transform:uppercase}
+h1 .o{color:transparent;-webkit-text-stroke:1px var(--fg)}
+h1 .g{position:relative;display:inline-block}
+h1 .g::before,h1 .g::after{content:attr(data-t);position:absolute;left:0;top:0;opacity:0;pointer-events:none}
+h1 .g:hover::before{opacity:.8;color:var(--cyan);animation:g1 .4s steps(3) infinite}
+h1 .g:hover::after{opacity:.8;color:var(--red);animation:g2 .4s steps(3) infinite}
+@keyframes g1{0%{transform:translate(2px,-1px);clip-path:inset(0 0 60% 0)}50%{transform:translate(-2px,1px);clip-path:inset(40% 0 20% 0)}100%{transform:translate(1px,2px);clip-path:inset(70% 0 0 0)}}
+@keyframes g2{0%{transform:translate(-2px,1px);clip-path:inset(50% 0 0 0)}50%{transform:translate(2px,-1px);clip-path:inset(0 0 70% 0)}100%{transform:translate(-1px,-2px);clip-path:inset(30% 0 40% 0)}}
+.lead{margin-top:28px;font-size:19px;color:var(--muted);max-width:52ch}
+.cta{margin-top:40px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:14px 22px;border:1px solid var(--amber);color:var(--amber);position:relative;transition:.2s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.btn:hover{background:var(--amber);color:#000;box-shadow:0 0 30px rgba(255,179,71,.3)}
+.btn.alt{border-color:var(--line);color:var(--fg)}
+.btn.alt:hover{background:rgba(255,255,255,.06);color:var(--fg);box-shadow:none}
+
+.panel{background:var(--panel);border:1px solid var(--line);position:relative;font-family:var(--mono);font-size:12px}
+.panel .hd{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.panel .hd .dots{display:flex;gap:6px}.panel .hd .dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.panel .hd .dots i:first-child{background:var(--red)}.panel .hd .dots i:nth-child(2){background:var(--amber)}.panel .hd .dots i:nth-child(3){background:var(--green)}
+.brk{position:absolute;width:16px;height:16px;border:1px solid var(--amber)}
+.brk.tl{top:-1px;left:-1px;border-right:0;border-bottom:0}.brk.tr{top:-1px;right:-1px;border-left:0;border-bottom:0}
+.brk.bl{bottom:-1px;left:-1px;border-right:0;border-top:0}.brk.br{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.log{height:380px;overflow:hidden;padding:14px;line-height:1.75;color:var(--muted);display:flex;flex-direction:column;justify-content:flex-end;mask-image:linear-gradient(transparent,#000 25%)}
+.log div{white-space:pre;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}}
+.log .t{color:#4a5563}.log .ok{color:var(--green)}.log .w{color:var(--amber)}.log .i{color:var(--cyan)}.log .fg{color:var(--fg)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.metrics div{padding:12px 14px;border-right:1px solid var(--line)}
+.metrics div:last-child{border-right:0}
+.metrics b{display:block;font-size:20px;font-weight:500;color:var(--fg)}
+.metrics span{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.bar{height:3px;background:var(--line);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);width:var(--w);animation:load 1.6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes load{from{width:0}}
+
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;padding:14px 0;position:relative;z-index:1}
+.ticker .t{display:flex;gap:48px;width:max-content;animation:tk 45s linear infinite}
+.ticker span::before{content:"//";color:var(--amber);margin-right:48px}
+@keyframes tk{to{transform:translateX(-50%)}}
+
+section{padding:120px 0;position:relative;z-index:1}
+.sec{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.sec b{color:var(--amber);font-weight:500}
+.sec::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font-size:clamp(32px,4.5vw,60px);font-weight:700;letter-spacing:-.03em;line-height:1;text-transform:uppercase;max-width:20ch}
+h2 .o{color:transparent;-webkit-text-stroke:1px var(--fg)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.two p{color:var(--muted);font-size:17px}.two p+p{margin-top:16px}
+
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.mod{background:var(--panel);border:1px solid var(--line);padding:32px 28px;position:relative;transition:.3s}
+.mod:hover{border-color:var(--amber);transform:translateY(-3px)}
+.mod:hover .brk{opacity:1}.mod .brk{opacity:0;transition:.3s}
+.mod .id{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.15em;display:flex;justify-content:space-between;margin-bottom:28px}
+.mod .id i{color:var(--green);font-style:normal}
+.mod h3{font-size:22px;font-weight:700;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:12px}
+.mod p{color:var(--muted);font-size:15px}
+.mod .tags{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px;font-family:var(--mono);font-size:11px;color:var(--cyan)}
+.mod .tags span{border:1px solid rgba(76,201,240,.25);padding:3px 8px}
+
+.timeline{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.ph{background:var(--panel);border:1px solid var(--line);padding:24px;position:relative;overflow:hidden}
+.ph::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--line)}
+.ph.on::before{background:var(--amber);box-shadow:0 0 14px var(--amber)}
+.ph small{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--amber);text-transform:uppercase}
+.ph h4{margin:12px 0 8px;font-size:20px;text-transform:uppercase;font-weight:700}
+.ph p{color:var(--muted);font-size:14px}
+.ph .pct{position:absolute;right:20px;top:22px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+.ops{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.op{background:var(--panel);border:1px solid var(--line);position:relative}
+.op .img{aspect-ratio:1;position:relative;overflow:hidden;background:#0a0e14;display:grid;place-items:center;border-bottom:1px solid var(--line)}
+.op .img img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15);transition:.4s}
+.op:hover .img img{filter:grayscale(0)}
+.op .img::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:24px 24px;opacity:.6}
+.op .img::after{content:"";position:absolute;left:0;right:0;height:1px;background:var(--amber);box-shadow:0 0 12px var(--amber);opacity:0;animation:sweep 3.2s linear infinite}
+.op:hover .img::after{opacity:.8}
+@keyframes sweep{from{top:0}to{top:100%}}
+.op .img .p{position:relative;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.15em;text-align:center;line-height:2}
+.op .img .p b{display:block;font-size:56px;font-weight:400;color:var(--line);letter-spacing:0;line-height:1}
+.op .meta{padding:20px 22px;font-family:var(--mono);font-size:12px}
+.op .meta .row{display:flex;justify-content:space-between;color:var(--muted);padding:4px 0}
+.op .meta .row b{color:var(--fg);font-weight:500}
+.op .meta .row .ok{color:var(--green)}
+.op h4{font-family:var(--sans);font-size:20px;font-weight:700;text-transform:uppercase;padding:18px 22px 0}
+.op .bio{padding:0 22px 22px;color:var(--muted);font-size:14px;margin-top:10px}
+
+.contact{padding:140px 0}
+.term{background:var(--panel);border:1px solid var(--line);padding:48px;position:relative;font-family:var(--mono)}
+.term .ln{color:var(--muted);font-size:14px;line-height:2}
+.term .ln .pr{color:var(--green)}
+.term .ln .cm{color:var(--fg)}
+.term h2{font-family:var(--sans);margin:24px 0}
+.term .mail{display:inline-block;margin-top:24px;font-size:clamp(18px,2.6vw,30px);color:var(--amber);border-bottom:1px solid var(--amber)}
+.term .cur{display:inline-block;width:.6em;height:1em;background:var(--green);vertical-align:-.15em;animation:blink 1s steps(1) infinite}
+
+footer{border-top:1px solid var(--line);padding:28px 0;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;position:relative;z-index:1}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+.rv{opacity:0;transform:translateY(20px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+@media(max-width:960px){
+  .hero,.two,.mods,.timeline,.ops{grid-template-columns:1fr}
+  .status,.topbar nav{display:none}
+  section{padding:80px 0}
+  .term{padding:28px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#"><span class="led"></span>FORWARD</a>
+    <div class="status">
+      <span>SYS <b class="ok">ONLINE</b></span>
+      <span>ENGINEERS <b>3/3</b></span>
+      <span>DEPLOYS <b id="deploys">0</b></span>
+      <span class="clock" id="clock">00:00:00</span>
+    </div>
+    <nav>
+      <a href="#mission">mission</a><a href="#modules">modules</a><a href="#ops">operators</a><a href="#contact">contact</a>
+    </nav>
+  </div>
+</div>
+
+<header class="wrap hero">
+  <div>
+    <div class="kicker">Forward Deployed Engineers · AI Division</div>
+    <h1><span class="g" data-t="Deploy">Deploy</span><br><span class="o">intelligence</span><br>where the work is.</h1>
+    <p class="lead">Three senior engineers who embed inside your company, find the workflows where AI pays off, and ship them to production. Working software, not workshops.</p>
+    <div class="cta">
+      <a class="btn" href="#contact">Initiate contact</a>
+      <a class="btn alt" href="#modules">View modules</a>
+    </div>
+  </div>
+  <div class="panel">
+    <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+    <div class="hd"><span class="dots"><i></i><i></i><i></i></span><span>forward-agent · live</span><span>▮▮▮▯</span></div>
+    <div class="log" id="log"></div>
+    <div class="metrics">
+      <div><b>99.2%</b><span>eval pass rate</span><div class="bar"><i style="--w:99%"></i></div></div>
+      <div><b>412ms</b><span>p50 latency</span><div class="bar"><i style="--w:41%;background:var(--cyan)"></i></div></div>
+      <div><b>0</b><span>data left building</span><div class="bar"><i style="--w:100%;background:var(--amber)"></i></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker"><div class="t" id="tk">
+  <span>agents in production</span><span>retrieval that works</span><span>evals &amp; guardrails</span><span>local inference</span><span>workflow automation</span><span>gdpr-safe by design</span><span>handover, not lock-in</span><span>no slide decks</span>
+</div></div>
+
+<section id="mission">
+  <div class="wrap two">
+    <div class="rv">
+      <div class="sec"><b>01</b>Mission</div>
+      <h2>Forward deployed <span class="o">means embedded.</span></h2>
+    </div>
+    <div class="rv">
+      <p>Most AI initiatives die between the demo and the daily grind. We close that gap. We come into your organisation, sit with the people doing the work, and build AI tooling around how things actually run.</p>
+      <p>We are engineers first. We write the integrations, the evals, the guardrails and the boring glue. When we leave, your team owns the code and understands every line.</p>
+    </div>
+  </div>
+</section>
+
+<section id="modules" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec rv"><b>02</b>Modules</div>
+    <h2 class="rv">Discover. Build. <span class="o">Run.</span></h2>
+    <div class="mods">
+      <div class="mod rv">
+        <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+        <div class="id"><span>MOD-01</span><i>● READY</i></div>
+        <h3>Opportunity mapping</h3>
+        <p>Two days on your floor. We map workflows, rank them by leverage, and hand you a costed roadmap. If AI is the wrong tool, we say so.</p>
+        <div class="tags"><span>process audit</span><span>roi ranking</span><span>data readiness</span></div>
+      </div>
+      <div class="mod rv">
+        <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+        <div class="id"><span>MOD-02</span><i>● READY</i></div>
+        <h3>Build &amp; integrate</h3>
+        <p>Agents, retrieval, copilots and automations wired into your CRM, ERP, docs and inboxes. Evals and observability included, always.</p>
+        <div class="tags"><span>agents</span><span>rag</span><span>evals</span><span>integrations</span></div>
+      </div>
+      <div class="mod rv">
+        <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+        <div class="id"><span>MOD-03</span><i>● READY</i></div>
+        <h3>Private inference</h3>
+        <p>Data that cannot leave the building stays in the building. We design and run on-prem or private-cloud inference on open models.</p>
+        <div class="tags"><span>on-prem</span><span>open models</span><span>gdpr</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec rv"><b>03</b>Deployment sequence</div>
+    <h2 class="rv">Weeks. <span class="o">Not quarters.</span></h2>
+    <div class="timeline">
+      <div class="ph on rv"><span class="pct">T+0</span><small>Phase 1</small><h4>Embed</h4><p>We join your Slack, your standups, your floor. Mostly we listen.</p></div>
+      <div class="ph rv"><span class="pct">T+2w</span><small>Phase 2</small><h4>Prototype</h4><p>Working version on real data, in front of real users, before any requirements doc.</p></div>
+      <div class="ph rv"><span class="pct">T+8w</span><small>Phase 3</small><h4>Harden</h4><p>Evals, permissions, monitoring, edge cases. The part that makes it trustworthy.</p></div>
+      <div class="ph rv"><span class="pct">∞</span><small>Phase 4</small><h4>Hand over</h4><p>Your team owns it and can evolve it. We stay on call if you want.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="ops" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec rv"><b>04</b>Operators</div>
+    <h2 class="rv">Three engineers. <span class="o">Zero account managers.</span></h2>
+    <div class="ops">
+      <div class="op rv">
+        <div class="img"><!-- <img src="team/name-1.jpg" alt=""> --><div class="p"><b>01</b>portrait · 1:1</div></div>
+        <h4>Jesper Lugner</h4>
+        <div class="meta">
+          <div class="row"><span>role</span><b>CEO &amp; God King</b></div>
+          <div class="row"><span>status</span><b class="ok">● deployed</b></div>
+          <div class="row"><span>stack</span><b>ts · py · llm</b></div>
+        </div>
+        <p class="bio">Short bio. What they have built, what they obsess over, one human detail.</p>
+      </div>
+      <div class="op rv">
+        <div class="img"><div class="p"><b>02</b>portrait · 1:1</div></div>
+        <h4>Patrik Jungmalm</h4>
+        <div class="meta">
+          <div class="row"><span>role</span><b>Cheerleader</b></div>
+          <div class="row"><span>status</span><b class="ok">● deployed</b></div>
+          <div class="row"><span>stack</span><b>k8s · cuda · vllm</b></div>
+        </div>
+        <p class="bio">Short bio. What they have built, what they obsess over, one human detail.</p>
+      </div>
+      <div class="op rv">
+        <div class="img"><div class="p"><b>03</b>portrait · 1:1</div></div>
+        <h4>Viktor Svirins</h4>
+        <div class="meta">
+          <div class="row"><span>role</span><b>"Gift med en designer vi behöver"</b></div>
+          <div class="row"><span>status</span><b class="ok">● deployed</b></div>
+          <div class="row"><span>stack</span><b>sql · evals · ux</b></div>
+        </div>
+        <p class="bio">Short bio. What they have built, what they obsess over, one human detail.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="term rv">
+      <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+      <div class="ln"><span class="pr">you@company</span> $ <span class="cm">forward --help</span></div>
+      <h2>Got a workflow that <span class="o">should be smarter?</span></h2>
+      <div class="ln">First conversation is free. We will tell you honestly if AI is the wrong tool.</div>
+      <a class="mail" href="mailto:hello@forward.example">hello@forward.example</a>
+      <div class="ln" style="margin-top:20px"><span class="pr">you@company</span> $ <span class="cur"></span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Forward AB · Sweden</span>
+    <span>built by humans · with a lot of help</span>
+  </div>
+</footer>
+
+<script>
+const clock=document.getElementById('clock');
+setInterval(()=>{clock.textContent=new Date().toLocaleTimeString('sv-SE')},1000);
+
+const tk=document.getElementById('tk');tk.innerHTML+=tk.innerHTML;
+
+const lines=[
+  ['i','embed     ','joining #ops-team … <span class="ok">ok</span>'],
+  ['fg','discover  ','shadowing support desk, 14 workflows mapped'],
+  ['w','rank      ','invoice-matching: leverage=HIGH data=READY'],
+  ['fg','build     ','scaffolding agent <span class="i">invoice-matcher</span>'],
+  ['fg','integrate ','connecting erp.readonly, mail.inbox'],
+  ['fg','eval      ','running 312 cases … <span class="ok">309 pass</span> 3 flagged'],
+  ['w','guardrail ','human-in-loop enabled for amounts > 50k'],
+  ['fg','deploy    ','v0.1 → staging <span class="ok">ok</span>'],
+  ['i','users     ','4 humans testing on real data'],
+  ['fg','harden    ','permissions, audit log, rate limits'],
+  ['fg','deploy    ','v1.0 → production <span class="ok">ok</span>'],
+  ['ok','handover  ','docs written, team trained, keys rotated'],
+  ['i','sleep     ','on call. see you next quarter.'],
+];
+const log=document.getElementById('log'),dep=document.getElementById('deploys');
+let li=0,deploys=0;
+function ts(){const d=new Date();return d.toTimeString().slice(0,8)}
+function push(){const [c,k,m]=lines[li%lines.length];li++;
+  const d=document.createElement('div');d.innerHTML=`<span class="t">${ts()}</span>  <span class="${c}">${k}</span>${m}`;log.appendChild(d);
+  if(k.startsWith('deploy')){deploys++;dep.textContent=deploys}
+  while(log.children.length>14)log.removeChild(log.firstChild);
+  setTimeout(push,700+Math.random()*1300)}
+push();
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*90+'ms';io.observe(el)});
+</script>
+</body>
+</html>
